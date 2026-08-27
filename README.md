@@ -14,13 +14,16 @@ Solo entry for the [micro1 Frontier Engineering Challenge 2026](https://www.hack
 
 ## What's pre-built vs. built during the window
 
-Everything up to the `pre-kickoff` git tag is scaffolding written *before* the problem
-was released: environment, standard commands, the deploy-confirmation hook, the shape
-of the scoring harness, the CI workflow, and the agent Workflows that drive the actual
-build. None of it solves the actual problem — it couldn't, since the problem wasn't
-known yet. Everything after that tag, under `baseline/` and `advanced/`, was written
-during the 3-day window. This split is what the Rule Book asks for ("make clear what
-existed before and what you added").
+Everything up to and including commit `5aa5839` (tagged `pre-kickoff`) is scaffolding
+written *before* the problem was released: environment, standard commands, the
+deploy-confirmation hook, the shape of the scoring harness, the CI workflow, and the
+agent Workflows that drive the actual build. None of it solves the actual problem — it
+couldn't, since the problem wasn't known yet. Everything after that commit, under
+`baseline/` and `advanced/`, was written during the 3-day window. This split is what
+the Rule Book asks for ("make clear what existed before and what you added"). Verify it
+yourself with `git diff 5aa5839..HEAD` or `git diff pre-kickoff..HEAD` (the tag was
+created locally at that commit; push it to your fork with `git push origin pre-kickoff`
+if it isn't already on the remote).
 
 ## Structure
 
