@@ -9,7 +9,7 @@ it's released — the agent workflows below read it from there by default.
 
 ## Working mode
 - Direction and the calls that matter come from me; you drive ~99% of the execution.
-  Default to acting, not asking — except at the one gate below.
+  Default to acting, not asking — except at the gates below.
 - Every solution exists in two versions: `baseline/` (first correct pass) and
   `advanced/` (measurable improvement, not a cosmetic diff). Don't collapse them
   into a single implementation.
@@ -18,10 +18,17 @@ it's released — the agent workflows below read it from there by default.
 - Log each baseline→advanced decision in CHANGELOG.md as it's made, not
   reconstructed from memory at the end.
 
-## The one hard gate
-`.claude/settings.json` runs a PreToolUse hook that asks for confirmation before
-anything that looks like a deploy/publish/release. Everything else should run
-without stopping to ask — the point is speed everywhere except that one moment.
+## Hard gates
+- **Deploy/publish/release.** `.claude/settings.json` runs a PreToolUse hook that
+  asks for confirmation before anything that looks like a deploy/publish/release.
+  Everything else should run without stopping to ask — the point is speed
+  everywhere except that one moment.
+- **Stuck in a repeating error.** If more than 2 fix attempts for the same error
+  have failed to pass tests, stop immediately — don't try a 3rd variation on your
+  own. Show the actual error log (not a paraphrase) and consult me before
+  continuing. This applies inside `hackathon-sprint`/`hackathon-fix` runs too: if
+  a fix-and-reverify step doesn't converge within 2 tries, surface it and pause
+  rather than pushing further fixes into `baseline/`/`advanced/` on a guess.
 
 ## Repo conventions
 - `scripts/setup.sh`, `run_baseline.sh`, `run_advanced.sh`, `collect_trajectories.sh`

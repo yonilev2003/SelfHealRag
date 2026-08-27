@@ -74,7 +74,10 @@ memory.
 
 - Anything that looks like deploy/publish/release triggers a confirmation
   prompt (`.claude/hooks/guard_deploy.py`) — expected behavior, not a bug; it's
-  the one deliberate friction point per `CLAUDE.md`.
+  a deliberate friction point per `CLAUDE.md`.
+- Stuck on the same error after 2 failed fix attempts → stop, show the real
+  error log, and ask instead of trying a 3rd variation alone (see `CLAUDE.md`
+  → Hard gates). Applies inside workflow runs too, not just interactively.
 - Never hand-edit `trajectories/raw/*.jsonl` — copy-only, so disclosure stays
   faithful to what actually ran.
 - Secrets: local `.env` (gitignored) + GitHub repo secrets in CI — see

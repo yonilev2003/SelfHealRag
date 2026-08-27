@@ -70,8 +70,12 @@ in a fresh Claude Code session opened in this repo.
 - סדר שיפוט/tie-break: **Agent Solution & Engineering → Reproducibility →
   Measured Improvement → End-to-End Quality**. אל תזניח תיעוד/שקיפות תהליך
   לטובת קוד "יפה" בלבד — זה קריטריון ה-tie-break הראשון.
-- ה-gate היחיד שדורש אישור אנושי: פקודות שנראות כמו deploy/publish/release
-  (`guard_deploy.py`). כל השאר אמור לרוץ בלי לעצור.
+- ה-gates שדורשים אישור אנושי (ראה `CLAUDE.md` → Hard gates): (1) פקודות
+  שנראות כמו deploy/publish/release (`guard_deploy.py`); (2) **אם נתקעת בשגיאה
+  חוזרת — מעל 2 ניסיונות תיקון שלא צלחו בבדיקות — עצור מיד, הצג את הלוג של
+  השגיאה, והתייעץ איתי במקום להמשיך לנסות לבד.** זה תקף גם בתוך ריצות
+  `hackathon-sprint`/`hackathon-fix`, לא רק באינטראקציה ישירה. כל השאר אמור
+  לרוץ בלי לעצור.
 - אל תערוך ידנית `trajectories/raw/*.jsonl`.
 - כל טענת שיפור צריכה מספר מ-`eval/score.py` — "יותר טוב" זה לא טענה, דלתא
   היא טענה.
