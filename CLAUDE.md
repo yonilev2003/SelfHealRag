@@ -65,8 +65,17 @@ given situation mid-sprint, not just these two entry points. If a new session is
 picking this up cold, `HANDOFF_PROMPT.md` has the paste-ready context.
 
 ## What's being judged
-Correct → Reproducible → Testable → Clearly explained.
-Tie-break order: Agent Solution & Engineering → Reproducibility → Measured
-Improvement → End-to-End Quality. Agent-driven engineering is the #1 tie-break
-criterion — this file and the trajectory disclosure aren't overhead, they're part
-of the entry.
+Scored out of 100 (see README.md for the full table): Problem & user value 15%,
+**Agent solution & engineering 30%**, End-to-end quality 20%, Measured improvement
+15%, Reproducibility 15%, Hot take/insights 5%. Tie-break order: Agent Solution &
+Engineering → Reproducibility → Measured Improvement → End-to-End Quality.
+
+Agent Solution & Engineering is both the single heaviest-weighted criterion and
+the #1 tie-break — this file, `.claude/workflows/`, and the trajectory disclosure
+aren't overhead, they're 30% of the entry. "Problem & user value" (15%) means the
+README's opening has to name a real user and their bottleneck, not just describe
+what the code does. "Hot take / insights" (5%) means `CHANGELOG.md`'s closing
+failure-mode/hot-take isn't optional flavor text.
+
+Deadline: Aug 30, 23:59 UTC (Aug 31, 02:59 IL). No extensions — late/incomplete
+entries aren't accepted.

@@ -12,3 +12,8 @@ Paste (or transcribe) the full kickoff problem PDF here the moment it's released
 (`args.problemPath`, defaults to `PROBLEM.md`) as the source of truth for the
 requirements-extraction phase. Keep it in sync if understanding of the problem
 changes mid-sprint — the workflow and `CLAUDE.md` both point here first.
+
+The theme is open-domain by design (event materials list engineering/science,
+forecasting, game dev, office/professional work, finance/trading, recruiting/HR,
+legal/compliance, research, e-commerce as illustrative examples, not a fixed
+menu) — don't assume the domain from this list before the actual PDF is in.

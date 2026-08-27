@@ -6,11 +6,47 @@ Solo entry for the [micro1 Frontier Engineering Challenge 2026](https://www.hack
 
 | | |
 |---|---|
-| Window | Aug 28, 18:00 IL time → Aug 31, 02:59 IL time |
-| Theme | Creativity (problem released at kickoff) |
+| Window | Aug 28, 15:00 UTC (18:00 IL) → Aug 30, 23:59 UTC (Aug 31, 02:59 IL) |
+| Theme | Creativity — any domain (engineering, forecasting, game dev, office/professional work, finance, recruiting, legal, research, e-commerce, ...); problem released at kickoff |
 | Format | Individual, online, judged on the work — not background/institution/employer |
-| Judging | Correct → Reproducible → Testable → Clearly explained |
 | Tie-break order | Agent Solution & Engineering → Reproducibility → Measured Improvement → End-to-End Quality |
+
+## Timeline (UTC)
+
+| Stage | When | What happens |
+|---|---|---|
+| Kickoff | Aug 28, 15:00 | Problem document + starter material released |
+| Office hours | Aug 29, 14:00 & 21:00 | Support sessions; clarifications posted publicly |
+| Final-day checkpoint | Aug 30, 15:00 | Submission reminder, known issues, support escalation window |
+| **Deadline** | **Aug 30, 23:59** | Submissions close — late/incomplete entries not accepted |
+| Validation | Aug 31 – Sep 1 | Eligibility, completeness, reproducibility, trace-integrity checks |
+| Judge review | Sep 2 – 4 | Scored against the rubric below |
+| Winners announced | Sep 7, 17:00 | Certificates + next-step notifications |
+
+## Scoring rubric (100 pts)
+
+| Criterion | Weight | What judges assess |
+|---|---|---|
+| Problem & user value | 15% | Who experiences the bottleneck, why solving it matters |
+| **Agent solution & engineering** | **30%** | Agents used purposefully, technically sound — which design choices helped solve the problem |
+| End-to-end quality | 20% | A realistic, self-contained execution producing a result the intended user would consider high quality |
+| Measured improvement | 15% | Gains over a fair baseline, changelog connects each iteration to evidence |
+| Reproducibility | 15% | Another person can run baseline + solution from a clean environment and reach the main result |
+| Hot take / insights | 5% | Turns an observed failure mode into a practical lesson |
+
+A submission is only scored after passing the qualification gate (eligibility,
+completeness, integrity, trace and reproducibility checks) — see the tie-break
+order above for how ties within the scored set resolve. Agent Solution &
+Engineering carries the most weight of any single criterion (30%), which is why
+`.claude/workflows/` is treated as a first-class deliverable, not tooling.
+
+**Selective awards** (beyond 1st/2nd/3rd place): Best Engineering Workflow, Most
+Useful Real-World Workflow, Best Demonstrated Improvement — the first and third
+map directly onto how this repo is built (agent Workflows + baseline→advanced
+delta via `eval/score.py`).
+
+**Submission package (all four required):** solution code + improvement
+changelog, reproduction guide, solution video (≤5 min), agent trajectories.
 
 ## What's pre-built vs. built during the window
 
