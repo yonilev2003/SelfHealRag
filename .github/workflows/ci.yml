@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  reproduce:
+    name: Reproduce (setup → baseline → advanced → eval)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Shellcheck scripts
+        run: shellcheck scripts/*.sh
+
+      - name: Python syntax check
+        run: python3 -m py_compile eval/score.py .claude/hooks/guard_deploy.py
+
+      - name: make setup
+        run: make setup
+
+      - name: make baseline
+        run: make baseline
+
+      - name: make advanced
+        run: make advanced
+
+      - name: make eval
+        run: make eval
