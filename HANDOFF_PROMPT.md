@@ -67,9 +67,14 @@ in a fresh Claude Code session opened in this repo.
 
 ## תזכורות קריטיות
 
-- סדר שיפוט/tie-break: **Agent Solution & Engineering → Reproducibility →
-  Measured Improvement → End-to-End Quality**. אל תזניח תיעוד/שקיפות תהליך
-  לטובת קוד "יפה" בלבד — זה קריטריון ה-tie-break הראשון.
+- רובריק שיפוט (100 נק', ראה README.md): Problem & user value 15%, **Agent
+  solution & engineering 30%**, End-to-end quality 20%, Measured improvement
+  15%, Reproducibility 15%, Hot take/insights 5%. סדר tie-break: Agent
+  Solution & Engineering → Reproducibility → Measured Improvement →
+  End-to-End Quality. אל תזניח תיעוד/שקיפות תהליך לטובת קוד "יפה" בלבד — זה
+  גם המשקל הכי גבוה וגם ה-tie-break הראשון. README.md חייב לפתוח עם מי
+  המשתמש ומה ה-bottleneck שלו (15%), ו-CHANGELOG.md חייב לכלול hot take
+  אמיתי בסוף (5%) — לא רק תיאור טכני.
 - ה-gates שדורשים אישור אנושי (ראה `CLAUDE.md` → Hard gates): (1) פקודות
   שנראות כמו deploy/publish/release (`guard_deploy.py`); (2) **אם נתקעת בשגיאה
   חוזרת — מעל 2 ניסיונות תיקון שלא צלחו בבדיקות — עצור מיד, הצג את הלוג של
@@ -79,7 +84,10 @@ in a fresh Claude Code session opened in this repo.
 - אל תערוך ידנית `trajectories/raw/*.jsonl`.
 - כל טענת שיפור צריכה מספר מ-`eval/score.py` — "יותר טוב" זה לא טענה, דלתא
   היא טענה.
-- הדדליין: 31/8, 02:59 שעון ישראל. תכנן קצב בהתאם.
+- לוח זמנים (UTC): kickoff 28/8 15:00, office hours 29/8 14:00+21:00,
+  **final-day checkpoint 30/8 15:00** (תזכורת הגשה + חלון escalation),
+  **דדליין 30/8 23:59 UTC = 31/8 02:59 שעון ישראל**. אין הארכות — הגשה
+  מאוחרת/חלקית לא מתקבלת. תכנן קצב בהתאם, במיוחד סביב ה-checkpoint.
 
 ---
 
