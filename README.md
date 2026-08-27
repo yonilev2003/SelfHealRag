@@ -66,6 +66,10 @@ claim in this README.
 or API keys needed. Note: the event does not provide credits or keys — the stack is
 brought and funded independently.]
 
+**Runtime:** [fill in: wall-clock time for `make setup && make baseline && make advanced
+&& make eval` on a clean checkout]
+**Cost:** [fill in: dollar cost of that same clean run — API usage, any paid services]
+
 ## How this was actually built: the agent workflow
 
 This entry is built with Claude Code's Workflow tool, not just ad-hoc prompting —

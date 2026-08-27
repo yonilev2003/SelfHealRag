@@ -128,6 +128,7 @@ const judgedApproaches = (await parallel(candidates.map((c, i) => () =>
 ))).filter(Boolean)
 
 const winner = judgedApproaches.sort((a, b) => b.verdict.score - a.verdict.score)[0]
+if (!winner) throw new Error('All baseline-approach judges failed -- rerun Plan phase')
 log(`Selected baseline approach: ${winner.approach.name} (${winner.verdict.score}/10)`)
 
 phase('Baseline')
@@ -141,17 +142,32 @@ const baselineReport = await agent(
 )
 
 phase('Baseline Verify')
+// Report-only and concurrent, then a single sequential fix pass -- concurrent
+// lenses must not all edit baseline/ at once (lost updates / clobbered fixes).
 const baselineVotes = (await parallel(['correctness', 'edge-cases', 'reproducibility'].map(lens => () =>
   agent(
     `Adversarially review the baseline solution through the ${lens} lens. Actually run ` +
     `scripts/run_baseline.sh yourself and feed it the trickiest inputs implied by these requirements ` +
-    `and edge cases -- don't just read the code. Requirements: ${JSON.stringify(requirements)}. ` +
-    `Implementation report: ${JSON.stringify(baselineReport)}. Fix any bug you find directly in ` +
-    `baseline/ before returning, and re-run to confirm the fix.`,
+    `and edge cases -- don't just read the code.` +
+    (lens === 'reproducibility'
+      ? ` For the reproducibility lens specifically: delete any local caches/build artifacts/venvs and ` +
+        `re-run scripts/setup.sh + scripts/run_baseline.sh from a clean state; flag hardcoded absolute ` +
+        `paths, unpinned dependency versions, or output that differs across two runs.`
+      : '') +
+    ` Requirements: ${JSON.stringify(requirements)}. Implementation report: ` +
+    `${JSON.stringify(baselineReport)}. Report bugs only -- do not edit any files.`,
     { schema: VERDICT_SCHEMA, phase: 'Baseline Verify', label: `verify-${lens}` }
   )
 ))).filter(Boolean)
-log(`Baseline verify: ${baselineVotes.reduce((n, v) => n + v.bugsFound.length, 0)} issue(s) found/fixed across ${baselineVotes.length} lens(es)`)
+const baselineBugs = baselineVotes.flatMap(v => v.bugsFound)
+log(`Baseline verify: ${baselineBugs.length} issue(s) found across ${baselineVotes.length} lens(es)`)
+if (baselineBugs.length) {
+  await agent(
+    `Fix these bugs found in baseline/, then re-run scripts/run_baseline.sh to confirm the fixes and ` +
+    `check for regressions on anything already working: ${JSON.stringify(baselineBugs)}`,
+    { phase: 'Baseline Verify', label: 'baseline-apply-fixes' }
+  )
+}
 
 phase('Advanced Ideation')
 const ideas = (await parallel(Array.from({ length: panelSize }, (_, i) => () =>
@@ -174,6 +190,7 @@ const judgedIdeas = (await parallel(ideas.map((idea, i) => () =>
 ))).filter(Boolean)
 
 const bestIdea = judgedIdeas.sort((a, b) => b.verdict.score - a.verdict.score)[0]
+if (!bestIdea) throw new Error('All advanced-idea judges failed -- rerun Advanced Ideation phase')
 log(`Selected advanced direction: ${bestIdea.idea.name} (${bestIdea.verdict.score}/10)`)
 
 phase('Advanced Implement')
@@ -188,22 +205,34 @@ const advancedReport = await agent(
 )
 
 phase('Advanced Verify')
+// Report-only and concurrent, then a single sequential fix pass -- concurrent
+// lenses must not all edit advanced/ at once (lost updates / clobbered fixes).
 const advancedVotes = (await parallel(['correctness', 'regression-vs-baseline', 'edge-cases'].map(lens => () =>
   agent(
     `Adversarially review the advanced solution through the ${lens} lens. Actually run ` +
     `scripts/run_advanced.sh yourself. Requirements: ${JSON.stringify(requirements)}. Implementation ` +
     `report: ${JSON.stringify(advancedReport)}. For the regression-vs-baseline lens specifically: confirm ` +
     `advanced/ is still correct on everything baseline/ already handled (also re-run ` +
-    `scripts/run_baseline.sh to compare). Fix any bug found directly in advanced/ before returning, and ` +
-    `re-run to confirm the fix.`,
+    `scripts/run_baseline.sh to compare). Report bugs only -- do not edit any files.`,
     { schema: VERDICT_SCHEMA, phase: 'Advanced Verify', label: `verify-${lens}` }
   )
 ))).filter(Boolean)
-log(`Advanced verify: ${advancedVotes.reduce((n, v) => n + v.bugsFound.length, 0)} issue(s) found/fixed across ${advancedVotes.length} lens(es)`)
+const advancedBugs = advancedVotes.flatMap(v => v.bugsFound)
+log(`Advanced verify: ${advancedBugs.length} issue(s) found across ${advancedVotes.length} lens(es)`)
+if (advancedBugs.length) {
+  await agent(
+    `Fix these bugs found in advanced/, then re-run scripts/run_advanced.sh to confirm the fixes and ` +
+    `check for regressions on anything already working: ${JSON.stringify(advancedBugs)}`,
+    { phase: 'Advanced Verify', label: 'advanced-apply-fixes' }
+  )
+}
 
 const evalResult = await agent(
-  `Run \`make eval\` (equivalently \`python3 eval/score.py\`) from the repo root and return its raw JSON ` +
-  `output verbatim -- nothing else.`,
+  `Run \`make setup && make baseline && make advanced && make eval\` from the repo root as one ` +
+  `sequential check that today's documented reproduction path (see README.md) actually works ` +
+  `end-to-end, and return the raw JSON output of \`make eval\` verbatim -- nothing else. If any step ` +
+  `in that chain fails or exits non-zero, treat that as a phase failure: report the failing command ` +
+  `and its output instead of fabricating a result.`,
   { phase: 'Advanced Verify', label: 'run-eval' }
 )
 log(`eval/score.py output: ${evalResult}`)
