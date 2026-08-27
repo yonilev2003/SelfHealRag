@@ -53,6 +53,10 @@ Both are pre-kickoff scaffolding: the phases and schemas are real, but the promp
 are necessarily generic until the actual problem is known. Adjust wording (not the
 overall shape) once `PROBLEM.md` is filled in, if the problem calls for it.
 
+See `TOOLKIT.md` for the fuller decision tree — which tool/skill/workflow fits a
+given situation mid-sprint, not just these two entry points. If a new session is
+picking this up cold, `HANDOFF_PROMPT.md` has the paste-ready context.
+
 ## What's being judged
 Correct → Reproducible → Testable → Clearly explained.
 Tie-break order: Agent Solution & Engineering → Reproducibility → Measured

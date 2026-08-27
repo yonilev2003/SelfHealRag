@@ -38,7 +38,10 @@ if it isn't already on the remote).
 │   └── workflows/                #   hackathon-sprint.js + hackathon-fix.js — the agent
 │                                  #   orchestration this entry is actually built with
 ├── .github/workflows/ci.yml     # runs setup → baseline → advanced → eval on every push
-└── PROBLEM.md                   # the kickoff problem statement goes here
+├── PROBLEM.md                   # the kickoff problem statement goes here
+├── TOOLKIT.md                   # decision tree: which tool/skill/workflow for which situation
+├── VIDEO_SCRIPT.md              # shot list for the ≤5min submission video
+└── HANDOFF_PROMPT.md            # paste-ready context for starting a new session mid-sprint
 ```
 
 ## Setup
