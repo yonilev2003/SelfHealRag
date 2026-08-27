@@ -1,7 +1,7 @@
 export const meta = {
   name: 'hackathon-sprint',
   description: 'Understand the kickoff problem, then plan/implement/verify baseline and advanced solutions with a judge panel + adversarial review at each step.',
-  whenToUse: 'Run once, right after the kickoff problem PDF is known and pasted into PROBLEM.md. Pass args: { problemPath?: string, panelSize?: number }.',
+  whenToUse: 'Run once, right after the kickoff problem PDF is known and pasted into PROBLEM.md. Pass args: { problemPath?: string, panelSize?: number, stopAfter?: "plan"|"baseline" }. stopAfter returns early for a manual sanity check before the run continues into implementation/advanced -- catches a wrong direction early instead of after a full advanced build. Re-invoke with Workflow({..., resumeFromRunId}) to continue once satisfied: everything up to the stop point replays from cache instantly.',
   phases: [
     { title: 'Understand', detail: 'extract requirements, constraints, acceptance tests, edge cases from PROBLEM.md' },
     { title: 'Plan', detail: 'judge panel over candidate baseline approaches' },
@@ -92,6 +92,7 @@ const IMPROVEMENT_IDEA_SCHEMA = {
 
 const problemPath = (args && args.problemPath) || 'PROBLEM.md'
 const panelSize = (args && args.panelSize) || 2
+const stopAfter = args && args.stopAfter // 'plan' | 'baseline' | undefined (full run)
 
 phase('Understand')
 const requirements = await agent(
@@ -131,6 +132,13 @@ const winner = judgedApproaches.sort((a, b) => b.verdict.score - a.verdict.score
 if (!winner) throw new Error('All baseline-approach judges failed -- rerun Plan phase')
 log(`Selected baseline approach: ${winner.approach.name} (${winner.verdict.score}/10)`)
 
+if (stopAfter === 'plan') {
+  log('stopAfter="plan": stopping for a manual check before implementation starts. Re-invoke with ' +
+    'the same args (drop stopAfter, or set it to "baseline") plus resumeFromRunId to continue -- ' +
+    'Understand/Plan replay from cache instantly.')
+  return { requirements, winner, judgedApproaches }
+}
+
 phase('Baseline')
 const baselineReport = await agent(
   `Implement this approach as the baseline solution, inside baseline/. Requirements: ` +
@@ -167,6 +175,13 @@ if (baselineBugs.length) {
     `check for regressions on anything already working: ${JSON.stringify(baselineBugs)}`,
     { phase: 'Baseline Verify', label: 'baseline-apply-fixes' }
   )
+}
+
+if (stopAfter === 'baseline') {
+  log('stopAfter="baseline": stopping for a manual check before Advanced Ideation. Re-invoke with the ' +
+    'same args (drop stopAfter) plus resumeFromRunId to continue -- everything through Baseline Verify ' +
+    'replays from cache instantly.')
+  return { requirements, winner, baselineReport, baselineBugsFound: baselineBugs.length }
 }
 
 phase('Advanced Ideation')

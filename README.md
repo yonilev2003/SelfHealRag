@@ -73,6 +73,19 @@ brought and funded independently.]
 && make eval` on a clean checkout]
 **Cost:** [fill in: dollar cost of that same clean run — API usage, any paid services]
 
+## API keys / secrets
+
+If the stack ends up needing external API keys (a model provider, a data service):
+
+- **Local:** `cp .env.example .env`, fill in real values, `scripts/setup.sh` loads it.
+  `.env` is gitignored — it never gets committed.
+- **CI:** add the same names as repository secrets (Settings → Secrets and variables
+  → Actions) and reference them in `.github/workflows/ci.yml`'s `make setup` step
+  (see the comment already there). Missing secrets should fail `make setup` with a
+  clear message (`: "${KEY:?Set KEY...}"`), not a cryptic failure three steps later.
+- The event doesn't provide credits or keys — whatever's used here is brought and
+  funded independently, so keep usage/cost visible (see Runtime/Cost above).
+
 ## How this was actually built: the agent workflow
 
 This entry is built with Claude Code's Workflow tool, not just ad-hoc prompting —
