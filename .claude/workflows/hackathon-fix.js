@@ -19,8 +19,9 @@ const BUGS_SCHEMA = {
           description: { type: 'string' },
           file: { type: 'string' },
           severity: { type: 'string' },
+          userImpact: { type: 'string' },
         },
-        required: ['description'],
+        required: ['description', 'userImpact'],
       },
     },
   },
@@ -36,6 +37,16 @@ const REFUTE_SCHEMA = {
   required: ['refuted', 'rationale'],
 }
 
+const GRILL_SCHEMA = {
+  type: 'object',
+  properties: {
+    isThisThorough: { type: 'boolean' },
+    strongestCounterArgument: { type: 'string' },
+    recommendReconsidering: { type: 'boolean' },
+  },
+  required: ['isThisThorough', 'strongestCounterArgument', 'recommendReconsidering'],
+}
+
 const target = (args && args.target) || 'baseline'
 if (!['baseline', 'advanced'].includes(target)) {
   throw new Error(`Invalid target "${target}" -- must be "baseline" or "advanced".`)
@@ -48,6 +59,7 @@ const REFUTE_COOLDOWN_ROUNDS = 2 // rounds a refuted bug is suppressed before it
 const seen = new Set() // descriptions of bugs confirmed fixed -- never re-reported
 const refutedAt = new Map() // description -> round last refuted -- eligible again after cooldown
 const fixed = []
+const grills = []
 let dryRounds = 0
 let round = 0
 
@@ -63,10 +75,29 @@ while (dryRounds < 2 && round < MAX_ROUNDS) {
     agent(
       `Hunt for bugs in ${target}/ through the ${lens} lens. Actually run scripts/run_${target}.sh ` +
       `yourself -- don't just read the code. Context on what's known to be failing or worth checking: ` +
-      `${context}.${investigatedNote} Report concrete, reproducible bugs only, not style nits.`,
+      `${context}.${investigatedNote} Report concrete, reproducible bugs only, not style nits. For each ` +
+      `bug, also note userImpact -- why it actually matters to whoever uses ${target}/, not just that it's ` +
+      `technically wrong.`,
       { schema: BUGS_SCHEMA, phase: 'Find', label: `find-${lens}-r${round}` }
     )
   ))).filter(Boolean).flatMap(r => r.bugs)
+
+  // Grilled once per loop iteration regardless of dry/non-dry -- interrogates
+  // the round's own thoroughness, including the exact failure mode this loop
+  // is prone to: exact-string dedup letting a real issue quietly stop
+  // resurfacing (see REFUTE_COOLDOWN_ROUNDS above).
+  const roundGrill = await agent(
+    `Grill round ${round} of bug-hunting on ${target}/ as skeptically as possible. This round's raw findings ` +
+    `(before dedup): ${JSON.stringify(found.map(b => ({ description: b.description, userImpact: b.userImpact })))}.` +
+    `${investigatedNote} Is this actually ` +
+    `thorough, or missing something obvious -- including something that matters to the end user but isn't a ` +
+    `code-level bug? Is the hunt converging on real issues or just re-finding the same shallow ones?`,
+    { schema: GRILL_SCHEMA, phase: 'Find', label: `round-grill-r${round}` }
+  )
+  if (roundGrill) {
+    log(`Round ${round} grill: ${roundGrill.strongestCounterArgument}`)
+    grills.push({ round, ...roundGrill })
+  }
 
   const fresh = found.filter(b => {
     if (seen.has(b.description)) return false
@@ -110,4 +141,4 @@ while (dryRounds < 2 && round < MAX_ROUNDS) {
   }
 }
 
-return { target, roundsRun: round, totalCandidatesSeen: seen.size + refutedAt.size, fixed }
+return { target, roundsRun: round, totalCandidatesSeen: seen.size + refutedAt.size, fixed, grills }

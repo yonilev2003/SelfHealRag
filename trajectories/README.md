@@ -25,3 +25,23 @@ journal (phases, which agent ran what, structured outputs) is additionally usefu
 context for judges evaluating "Agent Solution & Engineering"; consider copying the
 relevant `journal.jsonl` from the run's transcript directory into `trajectories/raw/`
 alongside the session logs.
+
+**Curating for trace acquisition:** the event's conditional trace-reimbursement
+program pays per qualifying trace ($2–$15, capped $100–200/participant) and looks
+for exactly what the FAQ describes — "what the agent did and how its tools
+responded, the feedback that shaped its next step, plus any retries or human
+checkpoints." That's not automatic from a raw dump: when picking which sessions to
+highlight (or trim `trajectories/raw/` to the representative set the submission
+package actually asks for), favor runs that show real signal over noise —
+- A `hackathon-sprint` run that hit a `stopAfter` checkpoint, or either
+  workflow's "grill" panel voting to reconsider (a genuine human-in-the-loop
+  decision point — `hackathon-fix.js` has no `stopAfter`, only its own
+  per-round grill).
+- A round where `hackathon-fix.js`'s adversarial refute actually flipped a
+  candidate bug (tool feedback changing the next step, not a rubber stamp).
+- The original scaffold-hardening session, where an adversarial review found and
+  fixed real bugs (race condition, regex false positives, a broken path-encoding
+  script) — a clean before/after with concrete tool output driving the fix.
+Don't hand-pick by deleting inconvenient sessions, though — disclosure is about
+faithfulness first; curation here means *pointing to* the good examples (e.g. in
+`MANIFEST.md` or the video), not scrubbing the record.

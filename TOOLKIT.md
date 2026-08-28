@@ -28,6 +28,30 @@ memory.
 - Need to check what's available beyond the core toolset (GitHub, Hugging Face,
   a deploy target, etc.) → `ToolSearch` with a relevant keyword before assuming
   something isn't possible.
+- **Creativity/business-value is genuinely at risk of being under-exercised** —
+  everything pre-kickoff is process/tooling, not product judgment. That's why
+  `hackathon-sprint.js`'s Advanced Ideation reserves a seat for a deliberately
+  creative/differentiated idea (not just technical variety) and scores every
+  idea partly on how well it serves `requirements.intendedUser`'s actual
+  bottleneck, not just a technical metric.
+- **"Grill" panels** — 3 independent skeptics, each told to find the strongest
+  reason a decision is wrong (not to agree), majority-vote whether to flag it.
+  Applied to the two consequential picks in `hackathon-sprint.js` (which
+  baseline approach, which advanced direction) — not blanket-applied to every
+  prompt, since grilling implementation-detail writes (README wording, changelog
+  prose) would multiply cost without adding real scrutiny. `hackathon-fix.js`
+  runs a lighter, single-agent version of this once per bug-hunt round
+  (interrogating the round's own thoroughness, not just the bugs it found).
+  A "MAJORITY SAYS RECONSIDER" log line is a real signal, not noise — read it
+  at the `stopAfter` checkpoint, don't just skim past it.
+- **Competitor comparison** — deliberately not built pre-kickoff: there's
+  nothing concrete to compare against yet, and this is an individual event (no
+  visibility into other entrants' private submissions). Once the real problem
+  is known, a lightweight version is straightforward to add: a `WebSearch`-based
+  agent surveying public writeups of similar past agentic-hackathon problems to
+  flag "this is the obvious/expected solution" before committing engineering
+  time to it — wire it in as an extra Advanced Ideation angle if it seems worth
+  the cost once there's an actual problem to react to.
 
 ## Implementation
 

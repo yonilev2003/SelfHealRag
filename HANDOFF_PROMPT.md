@@ -53,8 +53,10 @@ in a fresh Claude Code session opened in this repo.
    stopAfter: "plan" } })` — נקודת עצירה ראשונה: תבדוק איתי שהגישה שנבחרה
    הגיונית לפני שממשיכים למימוש בפועל.
 3. אחרי אישור — `Workflow({ scriptPath, resumeFromRunId })` בלי `stopAfter` (או
-   עם `stopAfter: "baseline"` לעוד נקודת עצירה) כדי להמשיך. שלבים שכבר רצו
-   חוזרים מה-cache, לא רצים מחדש.
+   עם `stopAfter: "baseline"`/`"ideation"` לעוד נקודות עצירה) כדי להמשיך. שלבים
+   שכבר רצו חוזרים מה-cache, לא רצים מחדש. שים לב ל-panel ה-"grill" (3 סוכנים
+   סקפטיים על כל החלטה מהותית — איזו גישה/רעיון נבחר) — אם הלוג מראה "MAJORITY
+   SAYS RECONSIDER", זה סיגנל אמיתי לעצור ולשקול, לא רעש.
 4. תעקוב אחרי `TOOLKIT.md` לגבי איזה כלי מתאים לכל מצב באמצע הספרינט
    (`hackathon-fix` לבאגים ממוקדים, `code-review`/`simplify` לניקיון קוד,
    `security-review` אם רלוונטי לנתונים/הרשאות).
