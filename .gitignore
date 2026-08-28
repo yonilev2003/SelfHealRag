@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Editor / OS / local-only Claude settings (template additions)
+node_modules/
+.DS_Store
+.env.local
+.claude/settings.local.json

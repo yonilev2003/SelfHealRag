@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  reproduce:
+    name: Reproduce (setup → baseline → advanced → eval)
+    runs-on: ubuntu-latest
+    # Safety valve: a hung/looping step (e.g. a stuck external API call once the
+    # real stack is wired in) fails the job instead of silently burning the
+    # repo's Actions minutes for the rest of the 3-day window.
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Shellcheck scripts
+        run: shellcheck scripts/*.sh
+
+      - name: Python syntax check
+        run: python3 -m py_compile eval/score.py .claude/hooks/guard_deploy.py
+
+      - name: make setup
+        # Once the stack needs API keys/secrets, add repo secrets (Settings ->
+        # Secrets and variables -> Actions) and reference them here, e.g.:
+        #   env:
+        #     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        # See .env.example for the equivalent local-dev pattern.
+        run: make setup
+
+      - name: make baseline
+        run: make baseline
+
+      - name: make advanced
+        run: make advanced
+
+      - name: make eval
+        run: make eval
