@@ -1,11 +1,13 @@
 # Project context for Claude Code
 
 ## What this is
-Solo submission for the micro1 Frontier Engineering Challenge (Aug 28–31 2026,
-HackerEarth). The problem is unknown until kickoff — replace this section with the
-actual problem statement the moment it drops, and keep it in sync as understanding
-evolves. Paste (or link) the full problem statement into `PROBLEM.md` as soon as
-it's released — the agent workflows below read it from there by default.
+Solo submission for the micro1 **Agentic Workflows Hackathon** (Aug 28–31 2026).
+The kickoff document dropped 2026-08-28: it is open-ended — pick a meaningful
+problem, solve it with agents, and prove the improvement over a fair simple
+baseline with a script-computable primary metric on ≥10 evaluation cases.
+`PROBLEM.md` holds the full transcription of the kickoff PDF (rubric, ground
+rules, required deliverables, submission form). The chosen project concept and
+all requirements live there — read it first.
 
 ## Working mode
 - Direction and the calls that matter come from me; you drive ~99% of the execution.
