@@ -1,0 +1,86 @@
+[
+ {
+  "chunk_id": "hr-remote-v1-c01",
+  "entity_key": "hr.remote_work_days_per_week",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it-equip-v1-c01",
+  "entity_key": "it.equipment_refresh_years",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it-vpn-v1-c01",
+  "entity_key": "it.vpn_session_timeout_hours",
+  "value": "8",
+  "effective_date": "2026-01-10",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it-vpn-v1-c02",
+  "entity_key": "it.vpn_session_timeout_hours",
+  "value": "8",
+  "effective_date": "2026-01-10",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it-vpn-v2-c01",
+  "entity_key": "it.vpn_session_timeout_hours",
+  "value": "4",
+  "effective_date": "2026-05-01",
+  "supersedes_id": "it-vpn-v1-c01"
+ },
+ {
+  "chunk_id": "it-vpn-v2-c02",
+  "entity_key": "it.vpn_session_timeout_hours",
+  "value": "4",
+  "effective_date": "2026-05-01",
+  "supersedes_id": "it-vpn-v1-c01"
+ },
+ {
+  "chunk_id": "finance-refund-v1-c01",
+  "entity_key": "finance.refund_cap_usd",
+  "value": "500",
+  "effective_date": "2026-01-05",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance-refund-v1-c02",
+  "entity_key": "finance.refund_cap_usd",
+  "value": "500",
+  "effective_date": "2026-01-05",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance-refund-v2-c01",
+  "entity_key": "finance.refund_cap_usd",
+  "value": "750",
+  "effective_date": "2026-06-15",
+  "supersedes_id": "finance-refund-v1-c01"
+ },
+ {
+  "chunk_id": "finance-refund-v2-c02",
+  "entity_key": "finance.refund_cap_usd",
+  "value": "750",
+  "effective_date": "2026-06-15",
+  "supersedes_id": "finance-refund-v1-c01"
+ },
+ {
+  "chunk_id": "sales-expense-v1-c01",
+  "entity_key": "sales.client_dinner_cap_usd",
+  "value": "200",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng-expense-v1-c01",
+  "entity_key": "eng.team_lunch_cap_usd",
+  "value": "150",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ }
+]
