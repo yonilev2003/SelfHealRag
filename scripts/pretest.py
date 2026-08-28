@@ -104,7 +104,6 @@ async def run_arm(arm: str, case_dir: Path, month: str, traj_path: Path):
         options = ClaudeAgentOptions(
             model=MODEL, cwd=str(work),
             allowed_tools=["Read", "Bash", "Write", "Glob", "Grep"],
-            permission_mode="bypassPermissions",
             max_turns=60, setting_sources=[], mcp_servers={}, strict_mcp_config=True,
         )
 

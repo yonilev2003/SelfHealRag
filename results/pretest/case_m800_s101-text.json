@@ -1,0 +1,161 @@
+{
+ "arm": "text",
+ "case": "case_m800_s101",
+ "wall_s": 1480.0,
+ "predicted": {
+  "total_revenue_usd": 226520.96,
+  "discrepancies": [
+   {
+    "type": "test_traffic_excluded",
+    "description": "Charges from @qa.internal QA emails excluded entirely per policy (internal test traffic on both order and payment records).",
+    "evidence_ids": [
+     "PAY-0101-000213/ORD-0101-00199",
+     "PAY-0101-000382/ORD-0101-00367",
+     "PAY-0101-000496/ORD-0101-00478",
+     "PAY-0101-000579/ORD-0101-00552",
+     "PAY-0101-000625/ORD-0101-00595"
+    ],
+    "impact_usd": -1252.43
+   },
+   {
+    "type": "failed_charge_excluded",
+    "description": "Charge rows with status=failed are export/processor noise; excluded per rule 1. Each has a same-order captured retry elsewhere so no revenue is lost, but naive summation of all rows would overstate revenue by these amounts.",
+    "evidence_ids": [
+     "PAY-0101-000627/ORD-0101-00597",
+     "PAY-0101-000590/ORD-0101-00562",
+     "PAY-0101-000443/ORD-0101-00427",
+     "PAY-0101-000081/ORD-0101-00073",
+     "PAY-0101-000021/ORD-0101-00015",
+     "PAY-0101-000482/ORD-0101-00465",
+     "PAY-0101-000237/ORD-0101-00221",
+     "PAY-0101-000299/ORD-0101-00286",
+     "PAY-0101-000117/ORD-0101-00105",
+     "PAY-0101-000723/ORD-0101-00690",
+     "PAY-0101-000077/ORD-0101-00070",
+     "PAY-0101-000502/ORD-0101-00483",
+     "PAY-0101-000518/ORD-0101-00496",
+     "PAY-0101-000778/ORD-0101-00743",
+     "PAY-0101-000010/ORD-0101-00008",
+     "PAY-0101-000504/ORD-0101-00484",
+     "PAY-0101-000691/ORD-0101-00657",
+     "PAY-0101-000209/ORD-0101-00196",
+     "PAY-0101-000417/ORD-0101-00403",
+     "PAY-0101-000582/ORD-0101-00555",
+     "PAY-0101-000005/ORD-0101-00004",
+     "PAY-0101-000819/ORD-0101-00780",
+     "PAY-0101-000134/ORD-0101-00121",
+     "PAY-0101-000610/ORD-0101-00581",
+     "PAY-0101-000514/ORD-0101-00493",
+     "PAY-0101-000525/ORD-0101-00502",
+     "PAY-0101-000573/ORD-0101-00547",
+     "PAY-0101-000754/ORD-0101-00720"
+    ],
+    "impact_usd": -6456.84
+   },
+   {
+    "type": "pending_charge_timing_item",
+    "description": "Charge rows with status=pending as of July close, no captured retry found in the July export. No cash captured in month M; contributes $0 to July revenue per policy 'Explicitly out of scope' clause. Likely captured in August or abandoned.",
+    "evidence_ids": [
+     "PAY-0101-000038/ORD-0101-00030",
+     "PAY-0101-000043/ORD-0101-00035",
+     "PAY-0101-000058/ORD-0101-00051",
+     "PAY-0101-000186/ORD-0101-00172",
+     "PAY-0101-000206/ORD-0101-00192",
+     "PAY-0101-000002/ORD-0101-00001",
+     "PAY-0101-000339/ORD-0101-00325",
+     "PAY-0101-000378/ORD-0101-00363",
+     "PAY-0101-000396/ORD-0101-00382",
+     "PAY-0101-000398/ORD-0101-00384",
+     "PAY-0101-000399/ORD-0101-00385",
+     "PAY-0101-000422/ORD-0101-00406",
+     "PAY-0101-000465/ORD-0101-00448",
+     "PAY-0101-000531/ORD-0101-00507",
+     "PAY-0101-000752/ORD-0101-00718",
+     "PAY-0101-000767/ORD-0101-00731",
+     "PAY-0101-000817/ORD-0101-00778",
+     "PAY-0101-000831/ORD-0101-00790"
+    ],
+    "impact_usd": -5998.36
+   },
+   {
+    "type": "duplicate_posting",
+    "description": "Same order_id + identical gross_amount captured twice within hours (anomalous BATCH-RP* codes distinct from normal batch numbering), indicating processor double-posting. Counted once per policy rule 3; second posting removed.",
+    "evidence_ids": [
+     "PAY-0101-000014",
+     "PAY-0101-000841",
+     "ORD-0101-00010",
+     "PAY-0101-000009",
+     "PAY-0101-000842",
+     "ORD-0101-00007"
+    ],
+    "impact_usd": -281.99
+   },
+   {
+    "type": "orphan_charge_counted",
+    "description": "Order_ids ORD-0101-00031 and ORD-0101-00734 do not appear in orders.csv (storefront export drop, per policy known artifact) but have captured, non-test payments corroborated by shipment records in the same period. Counted as revenue per policy rule 4 (payment processor is system of record for cash).",
+    "evidence_ids": [
+     "PAY-0101-000039/ORD-0101-00031/SHP-0101-000039-0",
+     "PAY-0101-000770/ORD-0101-00734/SHP-0101-000770-0"
+    ],
+    "impact_usd": 889.24
+   },
+   {
+    "type": "refunds_subtracted",
+    "description": "40 captured refund rows (gross amount, positive) subtracted from gross charges per cash-basis policy. Includes full refunds (e.g. ORD-0101-00013, 00014, 00097, 00117, 00144, 00358, 00599, 00643, 00700, 00768, 00787, 00529, 00291, 00349, 00608) and partial refunds (e.g. ORD-0101-00153, 00205, 00428, 00542, 00609, 00757, 00630). EUR refunds converted at 1.09.",
+    "evidence_ids": [
+     "PAY-0101-000764",
+     "PAY-0101-000229",
+     "PAY-0101-000828",
+     "PAY-0101-000303",
+     "PAY-0101-000018",
+     "PAY-0101-000168",
+     "PAY-0101-000097",
+     "PAY-0101-000311",
+     "PAY-0101-000524",
+     "PAY-0101-000386",
+     "PAY-0101-000107",
+     "PAY-0101-000034",
+     "PAY-0101-000121",
+     "PAY-0101-000373",
+     "PAY-0101-000631",
+     "PAY-0101-000158",
+     "PAY-0101-000544",
+     "PAY-0101-000221",
+     "PAY-0101-000499",
+     "PAY-0101-000217",
+     "PAY-0101-000419",
+     "PAY-0101-000109",
+     "PAY-0101-000130",
+     "PAY-0101-000642",
+     "PAY-0101-000554",
+     "PAY-0101-000363",
+     "PAY-0101-000677",
+     "PAY-0101-000640",
+     "PAY-0101-000794",
+     "PAY-0101-000446",
+     "PAY-0101-000568",
+     "PAY-0101-000805",
+     "PAY-0101-000735",
+     "PAY-0101-000307",
+     "PAY-0101-000020",
+     "PAY-0101-000285",
+     "PAY-0101-000012",
+     "PAY-0101-000663",
+     "PAY-0101-000095",
+     "PAY-0101-000811"
+    ],
+    "impact_usd": -8445.03
+   }
+  ]
+ },
+ "num_turns": 1,
+ "total_cost_usd": 3.54607,
+ "duration_ms": 1478625,
+ "is_error": false,
+ "true_total_usd": 223300.4,
+ "predicted_total_usd": 226520.96,
+ "abs_error_usd": 3220.56,
+ "pct_error": 1.4423,
+ "pass_0p5pct": false,
+ "n_discrepancies_reported": 6
+}
