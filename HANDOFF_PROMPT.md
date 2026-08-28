@@ -4,9 +4,14 @@ This file exists so continuity across sessions is itself disclosed, not just
 convenient. The text below is meant to be pasted verbatim as the first message
 in a fresh Claude Code session opened in this repo.
 
+> **SUPERSEDED (2026-08-28):** the problem is now known — concept is
+> **SelfHeal RAG**. The actual execution runbook is `PLAN.md` (rev 3, FINAL),
+> not the generic pre-kickoff process below. Read `PLAN.md` first, then this
+> file only for pre-kickoff tooling context.
+
 ---
 
-אני ממשיך עבודה על ריפו ה-Hackathon למיקרו1 Frontier Engineering Challenge
+אני ממשיך עבודה על ריפו ה-Hackathon למיקרו1 Agentic Workflows Hackathon
 (28–31 באוגוסט 2026). זה סשן חדש לגמרי, בלי זיכרון מהסשן הקודם. לפני שאתה עושה
 משהו, תקרא בסדר הזה:
 

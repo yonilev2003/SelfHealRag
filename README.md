@@ -1,27 +1,18 @@
-# micro1 Frontier Engineering Challenge — [fill in problem name after kickoff]
+# SelfHeal RAG — micro1 Agentic Workflows Hackathon
 
-Solo entry for the [micro1 Frontier Engineering Challenge 2026](https://www.hackerearth.com/community/challenges/hackathon/micro1-frontier-engineering-challenge-2026/) (HackerEarth), Aug 28–31, 2026.
+Solo entry for the **micro1 Agentic Workflows Hackathon** (Aug 28–31, 2026).
+See `PROBLEM.md` for the full kickoff document and `PLAN.md` for the build
+runbook. [Full README content lands in Phase 6 of `PLAN.md`.]
 
-## Event facts
+## Event facts (source: `PROBLEM.md`, the kickoff PDF transcription)
 
 | | |
 |---|---|
-| Window | Aug 28, 15:00 UTC (18:00 IL) → Aug 30, 23:59 UTC (Aug 31, 02:59 IL) |
-| Theme | Creativity — any domain (engineering, forecasting, game dev, office/professional work, finance, recruiting, legal, research, e-commerce, ...); problem released at kickoff |
-| Format | Individual, online, judged on the work — not background/institution/employer |
+| Deadline | Aug 30, 23:59 UTC (Aug 31, 02:59 IL). No extensions — late/incomplete entries not accepted. |
+| Format | Individual submission, open problem domain — pick a meaningful problem, solve it with agents, prove improvement over a fair baseline |
 | Tie-break order | Agent Solution & Engineering → Reproducibility → Measured Improvement → End-to-End Quality |
 
-## Timeline (UTC)
-
-| Stage | When | What happens |
-|---|---|---|
-| Kickoff | Aug 28, 15:00 | Problem document + starter material released |
-| Office hours | Aug 29, 14:00 & 21:00 | Support sessions; clarifications posted publicly |
-| Final-day checkpoint | Aug 30, 15:00 | Submission reminder, known issues, support escalation window |
-| **Deadline** | **Aug 30, 23:59** | Submissions close — late/incomplete entries not accepted |
-| Validation | Aug 31 – Sep 1 | Eligibility, completeness, reproducibility, trace-integrity checks |
-| Judge review | Sep 2 – 4 | Scored against the rubric below |
-| Winners announced | Sep 7, 17:00 | Certificates + next-step notifications |
+*(Validation/judging/announcement dates are not stated in the kickoff document available to this repo — not claimed here.)*
 
 ## Scoring rubric (100 pts)
 
