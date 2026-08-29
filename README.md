@@ -128,7 +128,7 @@ d*_e = argmax_{d ∈ D_e} effective_date(d)
 
 If a citation's version predates `d*_e`, the verifier deterministically
 overrides it with the current value and sets `requires_human_review`.
-No model call, no guessing — and unit-tested against real corpus cases
+No model call, no guessing — and unit-tested against corpus cases
 (`advanced/test_verifier.py`). **It is disabled in the shipped config**
 (`use_verifier: false`) because the explicit verifier-ON ablation
 (`results/ablations_summary.json`) changed **zero** outputs across all 16
@@ -276,6 +276,18 @@ minimal proof of this mechanism, pre-scale.
 | Cost per case | $0.0039 | $0.0043 |
 | Human time per case (modeled, disclosed — not measured) | ~5 min manual cross-check (15 chunks × 20s, or a 90s ticket cross-check for `memory_correction` cases) | Same modeled baseline — the point is what SelfHeal automates away, not raw speed |
 
+### Improvement Changelog
+
+The project kept the experiment history visible rather than presenting only the final configuration. The compact version below is the submission-facing summary; [`CHANGELOG.md`](CHANGELOG.md) contains the full experiment-by-experiment record.
+
+| Stage | What changed | Evidence | Decision / learning |
+|---|---|---|---|
+| Single-shot QA pre-test | Tested whether stronger context/agentic reading alone produced a meaningful QA gap | A0=6/6 and B=6/6 on two successive gates | **Retargeted.** Raw model capability erased the intended gap; the project moved to the cross-session memory hypothesis. |
+| Cross-session memory pre-test | Put the correction outside the document corpus and supplied it only through persisted memory | No memory → $200; memory → **$250**; fresh no-memory control → $200 | **Adopted.** This isolated the information-access failure the final system targets. |
+| Dev loop: memory correction | On the plurality failure category, persisted five source-backed correction entries | Dev GAA **17/24 → 21/24 (+4)** | **Kept.** Memory cleared the configured +2-case improvement threshold. |
+| Dev loop: retrieval tuning | Tried BM25 `k=3→5`, then `k=3→7` for remaining retrieval misses | Each trial reached 22/24, only +1 over the current best | **Reverted.** Both changes failed the predeclared +2-case keep rule. |
+| Frozen final evaluation | Compared A0/A/A2/B/C and ran memory/verifier/tuning/hybrid ablations | Aggregate: A0 13/16, B 12/16, C 11/16. `memory_correction`: all baselines 0/3, C 3/3; memory-OFF returns C to 0/3. Secondary ablations changed zero test outputs. | **Contribution scoped to memory.** The reported held-out gain is the persistent correction-memory mechanism on the synthetic memory slice, not verifier/retrieval tuning or overall benchmark superiority. |
+
 ## 7. Engineering discipline behind the numbers
 
 **Fairness, made explicit** (kickoff doc's own requirement): all five arms
@@ -324,7 +336,7 @@ satisfies it: `COMPLIANCE.md`.
 (latest), `claude-sonnet-5` for every API call.
 
 ```bash
-git clone <this repo> && cd hackathonaug28.08.26
+git clone https://github.com/yonilev2003/SelfHealRag.git && cd SelfHealRag
 cp .env.example .env   # fill in ANTHROPIC_API_KEY
 make setup
 
