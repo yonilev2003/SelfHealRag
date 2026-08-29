@@ -8,7 +8,7 @@ message in a fresh session, or just point Claude at this file.
 
 ---
 
-## מצב עדכני — סוף פאזה 6, פאזה 7 (וידאו + אריזה) באמצע
+## מצב עדכני — פאזה 7 (וידאו + אריזה) הושלמה, בעבודה על ליטוש להגשה
 
 זה ריפו של הגשה יחידה ל-**micro1 Agentic Workflows Hackathon** (28–31/8/2026,
 דדליין **30/8 23:59 UTC = 31/8 02:59 שעון ישראל**, אין הארכות).
@@ -49,7 +49,7 @@ Bash (רק `disallowed_tools` כן) | פיצול chunk context/value שבר retr
 | citation לא מסומן `"MEMORY"` | verifier השווה chunk_id במקום effective_date |
 `next_k()` לא התקדם בלולאה | `run_ablations.py` היה דורס את הריצה הרשמית.
 
-## מה כבר גמור (פאזות 0–6, קוד+מספרים אמיתיים, לא placeholder)
+## מה כבר גמור (פאזות 0–7, קוד+מספרים אמיתיים, לא placeholder)
 
 - קורפוס דטרמיניסטי: 81 chunks, 40 probes, split 24 dev / 16 test **נעול
   ב-SHA-256** (`data/probes/test_split.locked.json`, `data/fact_registry.json`).
@@ -66,38 +66,48 @@ Bash (רק `disallowed_tools` כן) | פיצול chunk context/value שבר retr
 - `archive/ledgerguard-pretest/` — הקונספט הראשון שנבחר ונהרג ע"י ה-baseline
   ההוגן שלו עצמו, שמור עם README כן על הכישלון.
 
-## מה עדיין באמצע — פאזה 7 (וידאו + אריזה)
+## פאזה 7 — גמורה. מצב עכשווי: ליטוש להגשה בפועל
 
-1. **`video/beats.html`** — עמוד הקלטה: 6 beats לפי `VIDEO_SCRIPT.md` (0:00–5:00),
-   עם כל בלוקי הטרמינל ממולאים מפלט אמיתי שנתפס בלייב (לא מבוים). כולל
-   `window.__seek(seconds)` דיבאג-הוק לתצוגה מקדימה מהירה.
-2. **הקלטה בפועל**: Playwright + Chromium שהותקנו מראש (`/opt/pw-browsers/`),
-   `record_video_dir` על `beats.html`, המתנה ל-304 שניות מלאות. **שים לב**: אם
-   מריצים דרך `Bash(run_in_background:true)` — **אל תוסיפו `&` בתוך הפקודה
-   עצמה** — זה יוצר double-backgrounding: ה-shell מדווח "exited 0" כמעט מיד
-   (כי רק ה-`&`-launch עצמו הסתיים), בעוד התהליך האמיתי ממשיך לרוץ "יתום"
-   ברקע בלי שהכלי עוקב אחריו. זה קרה בפועל הפעם — תוקן ע"י המתנה נכונה
-   (`while kill -0 <pid>; do sleep 5; done`) על ה-PID האמיתי.
-3. **ffmpeg המותקן מראש** (`/opt/pw-browsers/ffmpeg-1011/ffmpeg-linux`) הוא
-   build מוגבל של Playwright — **תומך רק ב-encoder=libvpx (webm), אין מוקסר
-   mp4, אין `-f null`**. אי אפשר להמיר ל-mp4 בסביבה הזו. הפלט נשאר `.webm`
-   (נתמך native בדפדפנים דרך `<video>`).
-4. **דחיסה נדרשת לפני אירוח**: ההקלטה הגולמית יוצאת ב-~400-500kbps, מה שיוצא
-   ל-~15-18MB ל-300 שניות — **קרוב מדי או מעל מגבלת ה-16MB** של Artifact
-   data-URI (ובנוסף base64 מנפח ~33%!). יש להריץ מחדש דרך ffmpeg עם `-b:v
-   ~250-260k -r 12 -crf 30 -an` כדי לרדת ל-~9-10MB גולמי (~12-13MB אחרי
-   base64, כולל מרווח ל-wrapper HTML). סקריפט מוכן: `/tmp/compress_video.sh`.
-5. **חשוב — `assets` capability לא זמינה לחשבון הזה** (נבדק דרך skill
-   `artifact-capabilities`: הרשימה הזמינה היא רק `artifact, downloads, mcp,
-   self` — אין `assets`). **אי אפשר להעלות את קובץ הוידאו כ-asset נפרד ל-Artifact.**
-   הדרך היחידה לאירוח: להטמיע את הוידאו כ-`data:` URI בתוך עמוד HTML יחיד
-   ולפרסם עם `Artifact` הרגיל (בלי `capabilities`), תחת מגבלת 16MB הכוללת.
-6. אחרי שהוידאו מתארח: לעדכן `README.md` (יש placeholder `[link once
-   recorded]`) ו-`VIDEO_SCRIPT.md` עם ה-URL, למלא את `SUBMISSION.md`'s "Video
-   URL" section (כבר כתוב Title+Description מלא שם).
-7. להריץ `scripts/package_submission.sh` (כבר נבדק, מייצר zip תקין מתחת
-   ל-50MB — היה 2MB בבדיקה עם תוכן חלקי; לוודא שוב עם התוכן הסופי).
-8. קומיט + push סופיים.
+וידאו 5:04 (`video/beats.html` הקליט, `video/demo_page.html` מארח) חי ב-Artifact:
+https://claude.ai/code/artifact/42418c8e-e0fd-4ce8-90c9-fd7eca0ccaf0 — מקושר
+מ-README/VIDEO_SCRIPT/SUBMISSION.md. `submission.zip` נבנה (5MB). **audit agent
+מלא (39 tool calls) עבר על כל הריפו לפני הגשה — 8/8 PASS**: `eval/score.py`
+נכון ומתאים לתוצאות המחייבות, אין oracle leakage (`make verify-no-leak`
+ירוק), מספרי README תואמים ל-`results/*` בפועל, אין TODO/placeholder, כל
+ה-unit tests עוברים, אין secrets בריפו.
+
+**גילויים טכניים חשובים מפאזה 7 (לזכור להמשך):**
+- ffmpeg המותקן מראש (`/opt/pw-browsers/ffmpeg-1011/ffmpeg-linux`) הוא build
+  מוגבל של Playwright: **וידאו VP8/webm בלבד, אין שום audio encoder מקומפל**.
+  אי אפשר לערבב אודיו לתוך קובץ וידאו בסביבה הזו כלל.
+- `assets` capability של Artifact **לא זמינה לחשבון הזה** — אי אפשר להעלות
+  קובץ וידאו כ-asset נפרד. הפתרון שנבחר: להטמיע כ-`data:` URI בתוך עמוד HTML
+  יחיד (מגבלה כוללת 16MB).
+- double-backgrounding bug אמיתי: `Bash(run_in_background:true)` + `&` בתוך
+  הפקודה עצמה גורם ל-shell לדווח "exited 0" מיידית בעוד התהליך האמיתי ממשיך
+  לרוץ יתום ברקע. תמיד להמתין על ה-PID האמיתי (`while kill -0 <pid>`).
+
+**עבודה נוכחית (אחרי אישור המשתמש, לא פאזה חדשה אלא ליטוש להגשה):**
+1. **וידאו עם הקראה אמיתית (ElevenLabs) + מוזיקת רקע** — הוחלט לבנות ולהחליף
+   את הוידאו הקיים (לא לשמור שתי גרסאות — "הכי יעיל לשופטים"). פתרון טכני:
+   בגלל ש-ffmpeg כאן לא תומך באודיו, לא מערבבים מחדש את קובץ ה-webm — מוסיפים
+   שכבת `<audio>` מסונכרנת ב-JS על גבי `video/demo_page.html` (מוזיקת רקע
+   loop + 6 קטעי narration שמופעלים בדיוק ב-beat boundaries הקיימים:
+   0/30/75/165/225/270/300 שניות). מוזיקת רקע אמביינטית סונתזה מקומית
+   (`/tmp/synth_ambient.py`, numpy+wave, ~1.1MB, 26s loop) — לא הורדה
+   מהאינטרנט, בלי סיכון זכויות יוצרים. **חסום על מפתח ElevenLabs API** (לא
+   קיים ב-env, המשתמש אמור לספק אותו).
+2. **הגשה בפועל לטופס התחרות** — המשתמש ביקש לנסות מכאן דרך Playwright (לא
+   דרך "Claude in Chrome" שלו — אין לי גישה לזה מהסביבה המרוחקת הזו). **חסום
+   על ה-URL של טופס ההגשה** — עדיין לא סופק. תוכן הטופס (Title/Description/
+   Video URL) כבר מוכן ב-`SUBMISSION.md`. **לפני לחיצה על Submit בפועל —
+   לעצור ולבקש אישור סופי מהמשתמש**, זו פעולה בלתי הפיכה על תחרות אמיתית.
+3. **שינוי שם ריפו ל-`selfheal-rag`** — **אין tool זמין** ב-MCP של GitHub
+   לשינוי שם ריפו (נבדק). המשתמש צריך לעשות את זה ידנית (GitHub Settings →
+   General → Repository name), ואז לעדכן את הקישורים הפנימיים (README,
+   SUBMISSION.md, footer של demo_page.html) לשם החדש.
+4. פוסט לינקדאין — ינוסח בנפרד, אין connector ללינקדאין זמין (נבדק), אז זו
+   טיוטת טקסט בלבד שהמשתמש יפרסם בעצמו.
 
 ## הוראות סטנדינג מהמשתמש (בתוקף, לא לשכוח)
 
