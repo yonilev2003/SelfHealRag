@@ -226,3 +226,4 @@ node_modules/
 # Internal dev-loop performance cache (not disclosure-relevant; regenerable) --
 # real evidence is advanced/memory.json, audit_memory.json, selfheal_changelog.md
 results/dev_cache.json
+submission.zip
