@@ -6,3 +6,4 @@ rough proxy for phase/agent() call order -- filenames are opaque session-id
 UUIDs with no other attribution.
 
 - 356983b4-4e42-5a8e-83db-664479f1bab1.jsonl
+- 95bdc2ed-43ba-5930-822a-361037adef34.jsonl

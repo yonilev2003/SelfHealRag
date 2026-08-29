@@ -23,15 +23,16 @@ The pre-registered hero case (`memory_correction-01`, the Engineering
 on-call stipend: corpus says $200, true current value $250 per
 `TICKET-4521`, discoverable only in `data/correction_signals.json`) is
 exactly the case every non-memory arm gets wrong — including **A0, which
-reads the entire 81-chunk corpus in one call** and **B, an agentic reader
-with unlimited turns to explore**. Neither extra context nor extra
+reads the entire 81-chunk corpus in one call** and **B, a sandboxed
+generalist agent capped at 25 turns / 8 minutes**, given full read access
+to the same documents. Neither extra context nor extra
 reasoning time helps, because the correct answer simply does not exist
 anywhere in the corpus. It revealed that "give the model more to read" and
 "give the model more time to think" are both structurally incapable of
 closing this gap — only an explicit, separate memory/signal channel can,
 which is precisely the categorical (not merely empirical) claim this
-submission is built around, and Phase 5's frozen run proves it holds
-outside the pretest's toy example.
+submission is built around, and Phase 5's frozen run demonstrates it
+holds outside the pretest's toy example (N=3 on `memory_correction`).
 
 ## Main failure mode
 
@@ -47,9 +48,9 @@ disabled the feature it was supposed to stress-test). A system that only
 self-heals during an offline "training" phase isn't really self-healing —
 it's memorizing a training set. The fix (`advanced/memory_writer.py`,
 consulted live by `advanced/generator.py` for ANY retrieved entity, not
-just ones seen during Phase 4) turned the dev-time mechanism into a
-genuinely continuous one, and the categorical proof (0/3 → 3/3) only
-appeared once that fix was in.
+just ones seen during Phase 4) turned the dev-time-only mechanism into a
+live, per-query one, and the categorical result (0/3 → 3/3) only appeared
+once that fix was in.
 
 ## Hot take
 
