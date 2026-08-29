@@ -76,4 +76,4 @@ https://github.com/yonilev2003/SelfHealRag
 
 ## Video URL
 
-https://claude.ai/code/artifact/f2121890-60e5-4e0d-bf48-d11d08268d08
+https://github.com/user-attachments/assets/af85d5fd-8e7d-4ea8-8a30-2c0806af9c2c
