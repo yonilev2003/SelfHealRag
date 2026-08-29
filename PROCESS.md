@@ -455,3 +455,58 @@ and the redesigned recording compressed slightly better). Republished to
 the same Artifact URL. `README.md`/`VIDEO_SCRIPT.md` updated to describe
 the actual final state honestly (no music, real toggleable captions) —
 not the aspirational one from two rounds ago.
+
+### 2026-08-29 — V3 video redesign started, blocked on ElevenLabs, session closed cleanly
+User requested a genuinely more cinematic V3 rebuild of the demo video:
+less dead air, more dynamic narration, better pacing, a hook within 5-10s,
+business/creative framing with a hard no-invented-numbers rule, and a
+vision-framed close. `video/beats.html` was rewritten from scratch: 9 beats
+(cold open, evidence clash, baselines fail, SelfHeal fires with staged
+sub-reveals at +5s/+12s/+20s, verifier, frozen-test table with progressive
+row reveal, scale/economics anecdote, the lesson/hot take, closing framed
+explicitly as "vision, not yet built"). All 9 beats visually verified via
+Playwright screenshots (t=3,18,40,58,68,78,100,118,130,148,172,205) — no
+console/page errors. Timing is provisional (word-count/170wpm estimate,
+217s total) pending real narration durations.
+
+Work stopped cleanly rather than guessing around a real blocker: the
+ElevenLabs MCP connector showed `connected: true` at the account level but
+`enabledInChat: false` in this session across 4+ `ToolSearch` checks,
+including twice after the user re-toggled it and confirmed reconnection.
+Per explicit instruction, Hugging Face TTS was **not** used as a silent
+substitute — voice quality matters too much for this to be a first no-questions
+fallback, and a real ElevenLabs Starter account exists. A full narration
+script + ElevenLabs Studio prompt package (9 chapters, voice-selection
+criteria, a ~15s voice-test line) was written into `HANDOFF_PROMPT.md` so a
+follow-up session (or the user, directly in Studio) can generate the audio
+without reconstructing context.
+
+A real, small bug was caught and fixed in the same pass: `#stepper` had
+only 8 `.step` elements for 9 `.beat` divs, so the final beat (Closing) had
+no corresponding stepper label to highlight. Fixed by adding a 9th step
+("Closing"); re-verified via Playwright that step/beat counts now match
+(9/9) and the correct step highlights at t=205s.
+
+An honest "good/bad/ugly" review of the whole project was requested and
+delivered, then explicitly deferred rather than acted on: preserved in a
+new `REVIEW_FINDINGS.md` (not linked from README/SUBMISSION on purpose).
+Key points: `memory_correction` is only n=3 (dramatic-looking flip, small
+sample); entity resolution/label matching in `advanced/verifier.py` looks
+pre-solved rather than genuinely hard in this curated 81-chunk corpus;
+README Section 3's wording may read as claiming staleness *detection* when
+the mechanism is closer to correction-signal *lookup*; 3 of 4 load-bearing
+pipeline components show zero ablation impact on held-out data; and there
+is a real gap between the *agentic build process* (genuinely evidenced,
+scored under Agent Solution & Engineering) and the *shipped runtime*
+(a focused linear pipeline, not a general-purpose autonomous agent at
+runtime) — worth being precise about which claim is being made if a judge
+asks. None of this was acted on; explicitly deferred to a pass after V3
+ships, per the user's instruction not to touch README/CHANGELOG now.
+
+`video/demo_page.html` (the live, published V2 Artifact) was **not**
+touched — V2 remains the working, linked, judge-facing video until V3 has
+real narration and passes the same QA bar V2 passed (sync from cold start
+and after mid-video seek, clean pause/resume, toggleable WebVTT captions,
+no console errors, page under 16MB, secret scan green). Session ends here
+by explicit user request, with `HANDOFF_PROMPT.md` fully rewritten so the
+next session resumes with zero information loss.
