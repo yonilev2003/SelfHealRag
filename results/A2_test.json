@@ -1,0 +1,298 @@
+{
+ "atomic-01": {
+  "wall_s": 5.630000000000001,
+  "predicted": {
+   "value": "5",
+   "chunk_id": "hr_bereavement_leave-c01"
+  },
+  "total_cost_usd": 0.006377,
+  "duration_ms": 1358,
+  "retrieved_chunk_ids": [
+   "hr_bereavement_leave-c01",
+   "hr_caregiver_leave_weeks-c01",
+   "hr_new_parent_leave_weeks-c01"
+  ],
+  "first_turn_answer": {
+   "value": "5",
+   "chunk_id": "hr_bereavement_leave-c01"
+  }
+ },
+ "atomic-02": {
+  "wall_s": 5.48,
+  "predicted": {
+   "value": "4",
+   "chunk_id": "it_offboarding_sla-c01"
+  },
+  "total_cost_usd": 0.0063820000000000005,
+  "duration_ms": 1401,
+  "retrieved_chunk_ids": [
+   "it_badge_access_hours_contractor-c01",
+   "it_badge_access_hours_standard-c01",
+   "it_offboarding_sla-c01"
+  ],
+  "first_turn_answer": {
+   "value": "4",
+   "chunk_id": "it_offboarding_sla-c01"
+  }
+ },
+ "atomic-03": {
+  "wall_s": 5.22,
+  "predicted": {
+   "value": "75",
+   "chunk_id": "finance_per_diem-c01+finance_travel_per_diem_usd-c01"
+  },
+  "total_cost_usd": 0.006602,
+  "duration_ms": 1430,
+  "retrieved_chunk_ids": [
+   "finance_conference_lodging_cap_usd_per_night-c01",
+   "finance_per_diem-c01",
+   "finance_travel_per_diem_usd-c01"
+  ],
+  "first_turn_answer": {
+   "value": "75",
+   "chunk_id": "finance_per_diem-c01+finance_travel_per_diem_usd-c01"
+  }
+ },
+ "contradiction-01": {
+  "wall_s": 5.21,
+  "predicted": {
+   "value": "4",
+   "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+  },
+  "total_cost_usd": 0.006507000000000001,
+  "duration_ms": 1345,
+  "retrieved_chunk_ids": [
+   "finance_expense_report_deadline_days_v2-c01",
+   "it_vpn_session_timeout_hours_v1-c01",
+   "it_vpn_session_timeout_hours_v2-c01"
+  ],
+  "first_turn_answer": {
+   "value": "4",
+   "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+  }
+ },
+ "contradiction-02": {
+  "wall_s": 6.0,
+  "predicted": {
+   "value": "1.5",
+   "chunk_id": "hr_pto_accrual_days_per_month_v2-c01"
+  },
+  "total_cost_usd": 0.007681,
+  "duration_ms": 1463,
+  "retrieved_chunk_ids": [
+   "eng_incident_postmortem_days-c01",
+   "hr_base_pto_days-c01",
+   "hr_pto_accrual_days_per_month_v2-c01",
+   "hr_tenure_bonus_pto_days_per_5yr-c01"
+  ],
+  "first_turn_answer": {
+   "value": "1.25",
+   "chunk_id": "hr_base_pto_days-c01"
+  }
+ },
+ "contradiction-03": {
+  "wall_s": 5.5,
+  "predicted": {
+   "value": "14",
+   "chunk_id": "finance_expense_report_deadline_days_v2-c01"
+  },
+  "total_cost_usd": 0.006555,
+  "duration_ms": 1340,
+  "retrieved_chunk_ids": [
+   "eng_team_lunch_cap_usd-c01",
+   "finance_expense_report_deadline_days_v2-c01",
+   "hr_bereavement_leave-c01",
+   "sales_client_dinner_cap_usd-c01"
+  ],
+  "first_turn_answer": {
+   "value": "unknown",
+   "chunk_id": ""
+  }
+ },
+ "contradiction-04": {
+  "wall_s": 5.5,
+  "predicted": {
+   "value": "180",
+   "chunk_id": "it_password_rotation_days_v2-c01"
+  },
+  "total_cost_usd": 0.0063349999999999995,
+  "duration_ms": 1412,
+  "retrieved_chunk_ids": [
+   "eng_incident_postmortem_days-c01",
+   "it_password_rotation_days_v1-c01",
+   "it_password_rotation_days_v2-c01"
+  ],
+  "first_turn_answer": {
+   "value": "180",
+   "chunk_id": "it_password_rotation_days_v2-c01"
+  }
+ },
+ "contradiction-09": {
+  "wall_s": 5.4399999999999995,
+  "predicted": {
+   "value": "900",
+   "chunk_id": "finance_refund_cap_usd_v3-c01"
+  },
+  "total_cost_usd": 0.006433,
+  "duration_ms": 1493,
+  "retrieved_chunk_ids": [
+   "finance_refund_cap_usd_v1-c01",
+   "finance_refund_cap_usd_v2-c01",
+   "finance_refund_cap_usd_v3-c01"
+  ],
+  "first_turn_answer": {
+   "value": "900",
+   "chunk_id": "finance_refund_cap_usd_v3-c01"
+  }
+ },
+ "memory_correction-01": {
+  "wall_s": 5.82,
+  "predicted": {
+   "value": "200",
+   "chunk_id": "eng_oncall_stipend_usd-c01"
+  },
+  "total_cost_usd": 0.007562999999999999,
+  "duration_ms": 1930,
+  "retrieved_chunk_ids": [
+   "benefits_gym_stipend_usd-c01",
+   "eng_oncall_rotation_days_v1-c01",
+   "eng_oncall_rotation_days_v2-c01",
+   "eng_oncall_stipend_usd-c01",
+   "finance_expense_report_deadline_days_v2-c01"
+  ],
+  "first_turn_answer": {
+   "value": "200",
+   "chunk_id": "eng_oncall_stipend_usd-c01"
+  }
+ },
+ "memory_correction-02": {
+  "wall_s": 5.41,
+  "predicted": {
+   "value": "10",
+   "chunk_id": "support_weekend_shift_diff_pct-c01"
+  },
+  "total_cost_usd": 0.00669,
+  "duration_ms": 1603,
+  "retrieved_chunk_ids": [
+   "finance_expense_report_deadline_days_v2-c01",
+   "support.knowledge_base_owner_note-c01",
+   "support_csat_target-c01",
+   "support_weekend_shift_diff_pct-c01"
+  ],
+  "first_turn_answer": {
+   "value": "10",
+   "chunk_id": "support_weekend_shift_diff_pct-c01"
+  }
+ },
+ "memory_correction-03": {
+  "wall_s": 5.25,
+  "predicted": {
+   "value": "80",
+   "chunk_id": "facilities_parking_reimbursement_usd-c01"
+  },
+  "total_cost_usd": 0.006473,
+  "duration_ms": 1346,
+  "retrieved_chunk_ids": [
+   "facilities_parking_reimbursement_usd-c01",
+   "finance_expense_report_deadline_days_v2-c01",
+   "relocation_travel_reimbursement_usd-c01"
+  ],
+  "first_turn_answer": {
+   "value": "80",
+   "chunk_id": "facilities_parking_reimbursement_usd-c01"
+  }
+ },
+ "multi_hop-01": {
+  "wall_s": 6.88,
+  "predicted": {
+   "value": "700",
+   "chunk_id": "onboarding_senior_tier_bonus_usd-c01"
+  },
+  "total_cost_usd": 0.008244999999999999,
+  "duration_ms": 1554,
+  "retrieved_chunk_ids": [
+   "finance_expense_report_deadline_days_v2-c01",
+   "hr_new_parent_leave_weeks-c01",
+   "it.software_request_process_note-c01",
+   "onboarding_senior_tier_bonus_usd-c01"
+  ],
+  "first_turn_answer": {
+   "value": "700",
+   "chunk_id": "onboarding_senior_tier_bonus_usd-c01"
+  }
+ },
+ "multi_hop-04": {
+  "wall_s": 6.54,
+  "predicted": {
+   "value": "500",
+   "chunk_id": "relocation_travel_reimbursement_usd-c01"
+  },
+  "total_cost_usd": 0.007945,
+  "duration_ms": 1568,
+  "retrieved_chunk_ids": [
+   "finance_expense_report_deadline_days_v2-c01",
+   "hr_bereavement_leave-c01",
+   "it.software_request_process_note-c01",
+   "relocation_travel_reimbursement_usd-c01"
+  ],
+  "first_turn_answer": {
+   "value": "500",
+   "chunk_id": "relocation_travel_reimbursement_usd-c01"
+  }
+ },
+ "near_dup-01": {
+  "wall_s": 5.65,
+  "predicted": {
+   "value": "200",
+   "chunk_id": "sales_client_dinner_cap_usd-c01"
+  },
+  "total_cost_usd": 0.006738,
+  "duration_ms": 1432,
+  "retrieved_chunk_ids": [
+   "eng_team_lunch_cap_usd-c01",
+   "finance_expense_report_deadline_days_v2-c01",
+   "sales_client_dinner_cap_usd-c01",
+   "sales_deal_approval_threshold_usd-c01"
+  ],
+  "first_turn_answer": {
+   "value": "200",
+   "chunk_id": "sales_client_dinner_cap_usd-c01"
+  }
+ },
+ "near_dup-02": {
+  "wall_s": 5.300000000000001,
+  "predicted": {
+   "value": "12",
+   "chunk_id": "hr_new_parent_leave_weeks-c01"
+  },
+  "total_cost_usd": 0.006376000000000001,
+  "duration_ms": 1428,
+  "retrieved_chunk_ids": [
+   "hr_caregiver_leave_weeks-c01",
+   "hr_new_parent_leave_weeks-c01",
+   "relocation_temp_housing_weeks-c01"
+  ],
+  "first_turn_answer": {
+   "value": "12",
+   "chunk_id": "hr_new_parent_leave_weeks-c01"
+  }
+ },
+ "near_dup-03": {
+  "wall_s": 5.390000000000001,
+  "predicted": {
+   "value": "16",
+   "chunk_id": "it_badge_access_hours_standard-c01"
+  },
+  "total_cost_usd": 0.00637,
+  "duration_ms": 1423,
+  "retrieved_chunk_ids": [
+   "facilities.mail_room_hours-c01",
+   "it_badge_access_hours_contractor-c01",
+   "it_badge_access_hours_standard-c01"
+  ],
+  "first_turn_answer": {
+   "value": "16",
+   "chunk_id": "it_badge_access_hours_standard-c01"
+  }
+ }
+}

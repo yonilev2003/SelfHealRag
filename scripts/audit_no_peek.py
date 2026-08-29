@@ -4,10 +4,11 @@ baseline/ source code (docstrings/comments stripped first, so this flags
 actual code, not documentation ABOUT the invariant):
   (a) grep for fact_registry|test_split|all_probes|correction_signals in
       real code lines. `correction_signals` is permitted ONLY in
-      advanced/diagnose.py (the one sanctioned consultation point) and in
-      import statements naming its functions (e.g.
-      `from diagnose import find_correction_signals` elsewhere) -- calling
-      a function through its own module is not opening the file directly.
+      advanced/memory_writer.py (the one sanctioned consultation point,
+      shared by tuner.py's offline action and generator.py's live
+      self-heal) and in import statements naming its functions (e.g.
+      `from memory_writer import heal_entities` elsewhere) -- calling a
+      function through its own module is not opening the file directly.
   (b) source may reference data/ only via explicit filenames -- any
       glob/listdir/iterdir/os.walk targeting data/ is a violation
   (c) re-hash test_split.locked.json, dev_split.json, and
@@ -51,9 +52,9 @@ def main():
                 for m in FORBIDDEN.finditer(line):
                     token = m.group()
                     if token == "correction_signals":
-                        if f.name == "diagnose.py":
+                        if f.name == "memory_writer.py":
                             continue  # the one sanctioned consultation point
-                        if IMPORT_LINE_RE.match(line) or "find_correction_signals" in line:
+                        if IMPORT_LINE_RE.match(line) or "heal_entities" in line or "load_correction_signals" in line:
                             continue  # importing/calling the function, not opening the file
                     violations.append(f"{f.relative_to(REPO)}:{line_no}: forbidden token {token!r} — {line.strip()}")
                 for m in DATA_GLOB_RE.finditer(line):

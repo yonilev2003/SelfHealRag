@@ -1,11 +1,11 @@
-"""Classifies a full dev-round's results via eval/taxonomy.py, picks the
-plurality failure category (priority order breaks ties), and — for
-memory_correction_missed only — cross-references data/correction_signals.json
-against each failing case's entity_key (never the oracle registry directly,
-matching how a human triaging a ticket would work).
+"""Classifies a full dev-round's results via eval/taxonomy.py and picks the
+plurality failure category (priority order breaks ties). The actual
+correction-signal consultation (for memory_correction_missed) lives in
+advanced/memory_writer.py -- the one sanctioned place that opens
+data/correction_signals.json, shared by both tuner.py's offline batch
+action and generator.py's live runtime self-heal.
 """
 
-import json
 import sys
 from pathlib import Path
 
@@ -38,10 +38,3 @@ def diagnose_round(dev_split: list, results: dict) -> dict:
             "failure_counts_by_taxonomy": failure_counts,
             "case_ids_by_taxonomy": by_category,
             "plurality_category": plurality}
-
-
-def find_correction_signals(entity_keys: list) -> dict:
-    """entity_key -> signal dict, for any entity_key with a matching signal."""
-    signals = json.loads((REPO / "data" / "correction_signals.json").read_text())
-    by_entity = {s["entity_key"]: s for s in signals}
-    return {ek: by_entity[ek] for ek in entity_keys if ek in by_entity}

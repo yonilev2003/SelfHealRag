@@ -116,6 +116,38 @@ specifies for `retrieval_miss` were a disclosed, pre-agreed scope cut
 (see `advanced/tuner.py`'s docstring); these 2 cases stay unresolved by
 the available action space. Final dev accuracy: **21/24 (87.5%)**.
 
+### 2026-08-29 — Phase 5 CORRECTION: memory self-heal made live, not dev-only
+
+**Bug found live from the first official frozen-test run:** Arm C scored
+identically to Arm A (8/16) and the 3-way structural proof showed **0/3**
+on `memory_correction` test cases — C failed every single one. Root cause:
+`data/probes/dev_split.json` and `test_split.locked.json` are, by design
+(invariant #3), entity-disjoint — none of the 3 test `memory_correction`
+entities (`eng.oncall_stipend_usd`, `support.weekend_shift_diff_pct`,
+`facilities.parking_reimbursement_usd`) were ever seen by Phase 4's
+dev-only batch tuning loop, so `advanced/memory.json` had no entries for
+them at all. Arm C's memory lookup found nothing and behaved exactly like
+the static baseline it otherwise matches (k=3, no hybrid, no verifier).
+
+This is a genuine architecture gap, not a knob to retune: gating the
+self-heal capability to "whichever entities happened to appear during an
+offline dev-tuning phase" doesn't match how a real production SelfHeal RAG
+would work — it should self-heal continuously as it serves any query, not
+only during a batch calibration step. **Fix:** extracted the signal-
+consultation-and-persist logic into `advanced/memory_writer.py` (one
+implementation), and `advanced/generator.py` now calls it LIVE for every
+retrieved entity with no existing memory entry — `advanced/tuner.py`'s
+dev-loop action now calls the same function instead of duplicating it.
+This never touches `fact_registry.json` or `test_split.locked.json` —
+only `data/correction_signals.json` (a resource explicitly available to
+Arm C by design, per invariant #5) and the system's own `memory.json`
+state. Re-verified live: the hero case (`eng.oncall_stipend_usd`, a test-
+only entity) now self-heals to the correct $250 on a single call, citing
+`MEMORY`. Re-running the official Arm C frozen-test pass next; the prior
+(8/16, 0/3 memory_correction) result stays in `results/test_run_log.md`
+as the pre-fix receipt, not deleted — invariant #8's "pre-fix and post-fix
+numbers side by side."
+
 **Artifacts + hashes (independently re-verifiable, per `eval/split_summary.json`):**
 - `data/fact_registry.json` — sha256 `1c0d1f8cafd6f5f1329207c4f7c67e1e195c8ef4bcd6634f666393f7643f4477`
 - `data/probes/dev_split.json` (24 cases) — sha256 `f0ed240d6c870177459d519361b759d187f1ef677d80f8770f85f122fcc05c02`

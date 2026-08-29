@@ -25,15 +25,13 @@ sys.path.insert(0, str(REPO / "eval"))
 from build_index import load_corpus  # noqa: E402
 from verifier import load_entity_index  # noqa: E402
 from run_case import run_case  # noqa: E402
-from diagnose import diagnose_round, find_correction_signals  # noqa: E402
-from llm_call import run_single_call  # noqa: E402
-from match import values_match  # noqa: E402
+from diagnose import diagnose_round  # noqa: E402
+from memory_writer import heal_entities  # noqa: E402
 
 MEMORY_PATH = REPO / "advanced" / "memory.json"
 AUDIT_MEMORY_PATH = REPO / "advanced" / "audit_memory.json"
 CHANGELOG_PATH = REPO / "advanced" / "selfheal_changelog.md"
 CACHE_PATH = REPO / "results" / "dev_cache.json"
-SIGNAL_EXTRACTOR_TEMPLATE = (REPO / "prompts" / "signal_extractor.md").read_text()
 
 DEFAULT_CONFIG = {"k": 3, "hybrid_date_boost": False, "use_verifier": False, "use_memory": True}
 K_LADDER = [5, 7, 10]
@@ -80,32 +78,20 @@ async def run_dev_round(chunks: dict, entity_index: dict, dev_split: list, confi
     return results
 
 
-async def apply_memory_action(case_ids: list, dev_split_by_id: dict, changelog_lines: list) -> int:
+async def apply_memory_action(case_ids: list, dev_split_by_id: dict, changelog_lines: list, round_num: int) -> int:
     """Consults correction_signals.json for each failing memory_correction
-    case's entity_key; extracts + persists a correction for each match.
+    case's entity_key via the SAME heal_entities() function generator.py
+    calls live at runtime -- one signal-consultation code path, not two.
     Returns the number of new memory entries written."""
     entity_keys = [dev_split_by_id[cid]["entity_key"] for cid in case_ids]
-    matches = find_correction_signals(entity_keys)
-    memory = json.loads(MEMORY_PATH.read_text()) if MEMORY_PATH.exists() else {}
-    n_new = 0
-    for entity_key, signal in matches.items():
-        if entity_key in memory:
-            continue
-        prompt = SIGNAL_EXTRACTOR_TEMPLATE.format(entity_key=entity_key, signal_text=signal["text"])
-        res = await run_single_call(prompt)
-        extracted = (res.get("predicted") or {}).get("value")
-        if extracted is None:
-            continue
-        memory[entity_key] = {"value": extracted, "source_signal_id": signal["signal_id"],
-                              "round_added": len(changelog_lines)}
+    new_entries = await heal_entities(entity_keys, round_label=f"dev-round-{round_num}")
+    for entity_key, entry in new_entries.items():
         motivating = [cid for cid in case_ids if dev_split_by_id[cid]["entity_key"] == entity_key]
         changelog_lines.append(
-            f"  - Wrote memory correction for `{entity_key}` = {extracted!r} "
-            f"(source: {signal['signal_id']}), motivated by dev case(s) {motivating}."
+            f"  - Wrote memory correction for `{entity_key}` = {entry['value']!r} "
+            f"(source: {entry['source_signal_id']}), motivated by dev case(s) {motivating}."
         )
-        n_new += 1
-    MEMORY_PATH.write_text(json.dumps(memory, indent=1))
-    return n_new
+    return len(new_entries)
 
 
 def next_k(current_k: int, tried_k: set) -> int | None:
@@ -157,7 +143,7 @@ async def main():
         memory_written = 0
 
         if plurality == "memory_correction_missed":
-            memory_written = await apply_memory_action(case_ids, dev_split_by_id, changelog)
+            memory_written = await apply_memory_action(case_ids, dev_split_by_id, changelog, round_num)
             action_desc = f"consulted the correction-signal feed for {len(case_ids)} case(s), wrote {memory_written} new memory entries"
         elif plurality == "retrieval_miss":
             nk = next_k(config["k"], tried_k)

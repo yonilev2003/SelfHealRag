@@ -1,0 +1,130 @@
+{
+ "primary_metric": "Grounded Answer Accuracy (16-case frozen test split)",
+ "results_table": {
+  "A0": {
+   "n_correct": 13,
+   "n_total": 16,
+   "accuracy": 0.8125,
+   "total_cost_usd": 0.6877,
+   "total_wall_s": 45.3,
+   "cost_per_case_usd": 0.043,
+   "wall_s_per_case": 2.83
+  },
+  "A": {
+   "n_correct": 8,
+   "n_total": 16,
+   "accuracy": 0.5,
+   "total_cost_usd": 0.0629,
+   "total_wall_s": 45.1,
+   "cost_per_case_usd": 0.0039,
+   "wall_s_per_case": 2.82
+  },
+  "A2": {
+   "n_correct": 10,
+   "n_total": 16,
+   "accuracy": 0.625,
+   "total_cost_usd": 0.1093,
+   "total_wall_s": 90.2,
+   "cost_per_case_usd": 0.0068,
+   "wall_s_per_case": 5.64
+  },
+  "B": {
+   "n_correct": 12,
+   "n_total": 16,
+   "accuracy": 0.75,
+   "total_cost_usd": 0.7964,
+   "total_wall_s": 122.8,
+   "cost_per_case_usd": 0.0498,
+   "wall_s_per_case": 7.68
+  },
+  "C": {
+   "n_correct": 8,
+   "n_total": 16,
+   "accuracy": 0.5,
+   "total_cost_usd": 0.0678,
+   "total_wall_s": 44.2,
+   "cost_per_case_usd": 0.0042,
+   "wall_s_per_case": 2.77
+  }
+ },
+ "human_time_modeled_seconds": 4170,
+ "human_time_methodology": "Modeled, not measured: 15 chunks x 20s/chunk for 13 non-memory cases + 90s/case ticket cross-check for 3 memory_correction cases.",
+ "three_way_structural_proof": {
+  "memory_correction": {
+   "n_cases": 3,
+   "n_all_baselines_fail_only_C_succeeds": 0,
+   "rows": [
+    {
+     "probe_id": "memory_correction-01",
+     "A0": false,
+     "A": false,
+     "A2": false,
+     "C": false,
+     "all_baselines_fail_only_C_succeeds": false
+    },
+    {
+     "probe_id": "memory_correction-02",
+     "A0": false,
+     "A": false,
+     "A2": false,
+     "C": false,
+     "all_baselines_fail_only_C_succeeds": false
+    },
+    {
+     "probe_id": "memory_correction-03",
+     "A0": false,
+     "A": false,
+     "A2": false,
+     "C": false,
+     "all_baselines_fail_only_C_succeeds": false
+    }
+   ]
+  },
+  "contradiction": {
+   "n_cases": 5,
+   "n_all_baselines_fail_only_C_succeeds": 0,
+   "rows": [
+    {
+     "probe_id": "contradiction-01",
+     "A0": true,
+     "A": true,
+     "A2": true,
+     "C": true,
+     "all_baselines_fail_only_C_succeeds": false
+    },
+    {
+     "probe_id": "contradiction-02",
+     "A0": true,
+     "A": false,
+     "A2": true,
+     "C": false,
+     "all_baselines_fail_only_C_succeeds": false
+    },
+    {
+     "probe_id": "contradiction-03",
+     "A0": true,
+     "A": false,
+     "A2": true,
+     "C": false,
+     "all_baselines_fail_only_C_succeeds": false
+    },
+    {
+     "probe_id": "contradiction-04",
+     "A0": true,
+     "A": true,
+     "A2": true,
+     "C": true,
+     "all_baselines_fail_only_C_succeeds": false
+    },
+    {
+     "probe_id": "contradiction-09",
+     "A0": true,
+     "A": true,
+     "A2": true,
+     "C": true,
+     "all_baselines_fail_only_C_succeeds": false
+    }
+   ]
+  }
+ }
+}
