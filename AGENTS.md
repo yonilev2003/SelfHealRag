@@ -96,7 +96,7 @@ ground truth, not inferred — the actual unbuilt IP for a real deployment
 accuracy; its proven advantage is categorical and scoped to the
 `memory_correction` category (N=3).
 
-## Current production config (`advanced/final_config.json`)
+## Current shipped/reported configuration (`advanced/final_config.json`)
 
 ```json
 {"k": 3, "hybrid_date_boost": false, "use_verifier": false, "use_memory": true}

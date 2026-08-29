@@ -118,7 +118,7 @@ during offline tuning — the live-heal path exists specifically because
 the offline-only version undercounted test-split entities (§7, main
 failure mode).
 
-**Deterministic temporal verifier — real, tested, disabled in production.**
+**Deterministic temporal verifier — real, tested, disabled in the reported configuration.**
 `verifier.py` builds an entity index `e → {d_1, ..., d_n}` from parsed
 corpus headers and finds each entity's current version:
 
@@ -154,8 +154,9 @@ explicit exception:
         = θ_t    otherwise
 ```
 
-Memory writes are kept unconditionally (confirmed against a real signal,
-not a guess); everything else needs a ≥2-case dev-accuracy improvement.
+Memory writes are kept unconditionally (confirmed against an explicit,
+source-backed correction signal, not a guess); everything else needs a
+≥2-case dev-accuracy improvement.
 The loop's own output, `advanced/selfheal_changelog.md`, is a changelog
 the *system* writes about itself.
 
@@ -249,8 +250,9 @@ effect.
   | `memory_correction` accuracy | **3/3** | **0/3** |
 
   One capability, nothing else changed, flips 0/3 to 3/3 — for this
-  category. This is the entire, unconfoundable case for the memory
-  mechanism; it is not a claim about overall system accuracy.
+  category. This ablation isolates the measured contribution of memory on
+  this synthetic slice (N=3); it is not a claim about overall system
+  accuracy, and not a large-sample statistical result.
 - **Every other ablation (verifier ON/OFF, tuned-vs-round0, hybrid
   ON/OFF) showed no measurable difference on this test slice.** Reported
   as-is — see [§9 Limitations](#9-limitations) and §3's verifier note for
@@ -392,11 +394,11 @@ set as a repo secret, and are skipped with an explicit notice otherwise.
 | `data/` | Corpus, fact registry (oracle), correction signals, frozen dev/test splits |
 | `eval/` | Corpus/probe generation, grading, ablations, the shared match rule, taxonomy classifier |
 | `results/` | Every number in this README, as committed JSON/CSV |
-| `trajectories/` | Raw agent session logs, one file per case, unedited |
+| `trajectories/` | Per-arm/per-case eval logs (`{A0,A,A2,B,C}_test/`, one file per case, 16 cases each), `pretest*/`; `raw/` holds interactive build-session logs (currently one session + `MANIFEST.md`) — see `trajectories/README.md` |
 | `scripts/` | `setup` / `run_baseline` / `run_advanced` / oracle-isolation audits |
 | `archive/` | The abandoned LedgerGuard concept, kept with its real numbers |
 | `video/` | Demo video source (`beats.html`), narration, build/QA scripts |
-| `.claude/workflows/` | The Workflow-tool scripts this build's engineering process actually used |
+| `.claude/workflows/` | Workflow-tool scripts encoding this build's orchestration methodology (Phases 2–7 ran interactively, not through these scripts — §7) |
 | `PROBLEM.md` | Kickoff document (full transcription) |
 | `PLAN.md` | Build runbook (rev 4) — every phase, every invariant |
 | `PROCESS.md` | The actual paper trail — what happened, in order, including bugs |
