@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SelfHeal RAG walkthrough</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; width: 1280px; height: 720px; overflow: hidden;
+    background: #0b0e14; color: #e6e6e6;
+    font-family: 'SF Mono', 'Fira Code', Consolas, Menlo, monospace;
+  }
+  #bar-wrap {
+    position: absolute; top: 0; left: 0; width: 100%; height: 6px;
+    background: #1c2333; z-index: 50;
+  }
+  #bar { height: 100%; width: 0%; background: linear-gradient(90deg,#4fd1c5,#63b3ed); transition: width 0.2s linear; }
+  #clock {
+    position: absolute; top: 12px; right: 20px; font-size: 14px; color: #7d8797; z-index: 50;
+    letter-spacing: 0.05em;
+  }
+  #beatlabel {
+    position: absolute; top: 12px; left: 20px; font-size: 13px; color: #4fd1c5; z-index: 50;
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .beat {
+    position: absolute; top: 0; left: 0; width: 1280px; height: 720px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 90px 80px 110px 80px; opacity: 0; pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .beat.active { opacity: 1; }
+  .caption {
+    position: absolute; bottom: 30px; left: 60px; right: 60px;
+    font-size: 22px; line-height: 1.45; color: #f2f2f2; text-align: center;
+    background: rgba(10,13,20,0.72); border-radius: 10px; padding: 16px 22px;
+    border: 1px solid rgba(79,209,197,0.25);
+  }
+  .title { font-size: 30px; color: #f2f2f2; margin-bottom: 22px; font-weight: 600; }
+  .subtitle { font-size: 17px; color: #9aa5b1; margin-bottom: 26px; }
+  pre.term {
+    background: #10141d; border: 1px solid #262f42; border-radius: 8px;
+    padding: 18px 22px; font-size: 17px; line-height: 1.55; color: #c7f9e5;
+    width: 100%; max-width: 1080px; white-space: pre-wrap; overflow: hidden;
+  }
+  pre.term .prompt { color: #63b3ed; }
+  .row { display: flex; gap: 24px; width: 100%; max-width: 1120px; }
+  .col { flex: 1; }
+  .filecard {
+    background: #10141d; border: 1px solid #262f42; border-radius: 8px;
+    padding: 16px 18px; font-size: 14px; line-height: 1.5; color: #d7dde5; height: 260px; overflow: hidden;
+  }
+  .filecard h4 { margin: 0 0 10px 0; color: #4fd1c5; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .highlight { color: #f6ad55; font-weight: 700; }
+  .bad { color: #fc8181; font-weight: 700; }
+  .good { color: #68d391; font-weight: 700; }
+  table.res { border-collapse: collapse; width: 100%; max-width: 1120px; font-size: 14px; }
+  table.res th, table.res td { border: 1px solid #262f42; padding: 6px 8px; text-align: center; }
+  table.res th { background: #161c29; color: #9aa5b1; font-weight: 600; }
+  table.res td.arm { text-align: left; font-weight: 600; }
+  .cursor { display:inline-block; width:9px; height:18px; background:#c7f9e5; vertical-align:-3px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .bignum { font-size: 46px; font-weight: 800; }
+</style>
+</head>
+<body>
+
+<div id="bar-wrap"><div id="bar"></div></div>
+<div id="beatlabel">Beat 0</div>
+<div id="clock">0:00 / 5:00</div>
+
+<!-- BEAT 1 : 0:00-0:30 -->
+<div class="beat" id="b1">
+  <div class="title">SelfHeal RAG</div>
+  <div class="subtitle">A self-healing RAG pipeline for company policy docs — real corpus, real bugs, real numbers</div>
+  <div class="row">
+    <div class="col">
+      <div class="filecard">
+        <h4>data/corpus/eng_oncall_stipend_usd.md</h4>
+        <div># On-Call Stipend</div>
+        <div style="margin-top:8px">Engineers on the production on-call rotation
+receive an additional weekly stipend on top of
+regular salary. Documented under the Engineering
+section of the employee handbook.</div>
+        <div style="margin-top:8px">Current value: <span class="bad">200</span>.</div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="filecard">
+        <h4>data/correction_signals.json — TICKET-4521</h4>
+        <div>entity_key: eng.oncall_stipend_usd</div>
+        <div style="margin-top:8px">"Ticket #4521 (Finance, resolved): Approved
+raising the Engineering on-call weekly stipend
+from $200 to <span class="good">$250</span>, effective this pay
+period, per the Q3 comp review. Please route
+future on-call pay questions to this ticket
+until the handbook is updated."</div>
+      </div>
+    </div>
+  </div>
+  <div class="caption">This is a real failure mode for any company RAG bot: a fact changes, the change is recorded somewhere — a ticket, an audit note — and the document the bot actually reads never gets updated. The bot then answers confidently, and wrong.</div>
+</div>
+
+<!-- BEAT 2 : 0:30-1:15 -->
+<div class="beat" id="b2">
+  <div class="title">Baselines fail on camera</div>
+  <div class="subtitle">Same question, two strong baselines: full 81-chunk context, and an unrestricted agent</div>
+  <pre class="term"><span class="prompt">$</span> python3 run_A0.py "What is the current weekly on-call stipend for engineers, in USD?"
+A0 (full 81-chunk corpus in one call): {'value': '<span class="bad">200</span>', 'chunk_id': 'eng_oncall_stipend_usd-c01'}
+
+<span class="prompt">$</span> python3 run_B.py "What is the current weekly on-call stipend for engineers, in USD?"
+B (unrestricted agent, unlimited reads): {'value': '<span class="bad">200</span>', 'chunk_id': 'eng_oncall_stipend_usd-c01'}<span class="cursor"></span></pre>
+  <div class="caption">Full context — wrong. An agent with unlimited time to read every document — also wrong. Same $200. Neither extra reading nor extra reasoning time helps, because the right answer literally isn't in the corpus.</div>
+</div>
+
+<!-- BEAT 3 : 1:15-2:45 -->
+<div class="beat" id="b3">
+  <div class="title">SelfHeal — one genuine, unedited run</div>
+  <pre class="term">&gt;&gt;&gt; entity eng.oncall_stipend_usd is NOT in memory.json (simulated first encounter)
+&gt;&gt;&gt; running full SelfHeal pipeline: retrieve -&gt; generate(memory-aware) -&gt; verify
+
+&gt;&gt;&gt; memory.json AFTER this single call (heal_entities ran live inside generate()):
+{
+ "value": "<span class="good">250</span>",
+ "source_signal_id": "TICKET-4521",
+ "round_added": "live-generate"
+}
+
+&gt;&gt;&gt; FINAL ANSWER:
+{
+ "value": "<span class="good">250</span>",
+ "chunk_id": "<span class="good">MEMORY</span>"
+}<span class="cursor"></span></pre>
+  <div class="caption">SelfHeal checks a signal feed no baseline gets — a stand-in for the ticket system a real company's RAG bot was never connected to — finds the correction, persists it, and cites where it came from. This isn't a one-time trick: it self-heals continuously as it serves queries, not only during offline tuning — that continuous-healing property is itself something this build got wrong on the first try and fixed live.</div>
+</div>
+
+<!-- BEAT 4 : 2:45-3:45 -->
+<div class="beat" id="b4">
+  <div class="title">The verifier catching a stale citation</div>
+  <div class="subtitle">Independent of memory — a deterministic check over the corpus's own supersession chains</div>
+  <pre class="term"><span class="prompt">$</span> python3 -c "verify(chunks, pred, idx)"
+# A generator that cited the January (stale) VPN policy
+pred = {'value': '<span class="bad">8</span>', 'chunk_id': 'it_vpn_session_timeout_hours_v1-c01'}
+
+{
+ "value": "<span class="good">4</span>",
+ "chunk_id": "it_vpn_session_timeout_hours_v2-c01",
+ "overridden": true,
+ "reason": "cited chunk it_vpn_session_timeout_hours_v1-c01
+   (effective_date 2026-01-10) is superseded by the
+   chain-head version dated 2026-05-01",
+ "requires_human_review": true
+}<span class="cursor"></span></pre>
+  <div class="caption">A deterministic verifier catches stale citations on in-document policy revisions — the corpus's own supersession chains — and overrides them with a reason, independent of the memory channel.</div>
+</div>
+
+<!-- BEAT 5 : 3:45-4:30 -->
+<div class="beat" id="b5">
+  <div class="title">Frozen 16-case test — the categorical result</div>
+  <table class="res">
+    <tr><th>Arm</th><th>Overall</th><th>memory_correction</th></tr>
+    <tr><td class="arm">A0 — full corpus in one prompt</td><td>13/16</td><td class="bad">0/3</td></tr>
+    <tr><td class="arm">A — static RAG (BM25 k=3)</td><td>8/16</td><td class="bad">0/3</td></tr>
+    <tr><td class="arm">A2 — A + 1 forced re-query</td><td>10/16</td><td class="bad">0/3</td></tr>
+    <tr><td class="arm">B — generalist agent (fair baseline)</td><td>12/16</td><td class="bad">0/3</td></tr>
+    <tr><td class="arm">C — SelfHeal RAG</td><td>11/16</td><td class="good">3/3</td></tr>
+  </table>
+  <div class="subtitle" style="margin-top:22px">Ablation: memory ON → <span class="good">3/3</span> &nbsp;|&nbsp; memory OFF, same config → <span class="bad">0/3</span>. Every other ablation (verifier, tuned-vs-round0, hybrid) showed zero difference.</div>
+  <div class="caption">The change that moved the number wasn't a smarter prompt or a retrieval tweak — every other ablation we tried showed zero difference on held-out data. It was giving the system exactly one new resource: a channel to information that isn't in its own documents. And we didn't start here — our first concept died to the same lesson this one almost repeated.</div>
+</div>
+
+<!-- BEAT 6 : 4:30-5:00 -->
+<div class="beat" id="b6">
+  <div class="title">Hot take</div>
+  <div style="font-size:19px; line-height:1.6; max-width:980px; color:#e6e6e6;">
+  The first time we ran the frozen test, SelfHeal <span class="bad">tied the plain baseline — 0/3</span>
+  on the exact case it was built for. Not a crash — just a disappointing number,
+  the kind you could rationalize away under deadline pressure.
+  <br><br>
+  The bug: memory only learned from training-time data, not from what it was
+  actually asked live. A held-out split doesn't just measure whether you
+  generalize — it catches you gating a capability to the wrong scope,
+  <span class="highlight">silently, as a boring number instead of a stack trace.</span>
+  </div>
+  <div class="caption">Full writeup, all bugs found and fixed live, and every number behind this video: github.com/yonilev2003/hackathonaug28.08.26</div>
+</div>
+
+<script>
+  const beats = [
+    { id: 'b1', start: 0,   end: 30  },
+    { id: 'b2', start: 30,  end: 75  },
+    { id: 'b3', start: 75,  end: 165 },
+    { id: 'b4', start: 165, end: 225 },
+    { id: 'b5', start: 225, end: 270 },
+    { id: 'b6', start: 270, end: 300 },
+  ];
+  const TOTAL = 300;
+  const barEl = document.getElementById('bar');
+  const clockEl = document.getElementById('clock');
+  const labelEl = document.getElementById('beatlabel');
+  const els = {};
+  beats.forEach(b => els[b.id] = document.getElementById(b.id));
+
+  function fmt(s) {
+    const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+    return m + ':' + String(sec).padStart(2, '0');
+  }
+
+  let startTime = performance.now();
+  window.__seek = (seconds) => { startTime = performance.now() - seconds * 1000; };
+  function tick() {
+    const elapsed = (performance.now() - startTime) / 1000;
+    barEl.style.width = Math.min(100, (elapsed / TOTAL) * 100) + '%';
+    clockEl.textContent = fmt(elapsed) + ' / ' + fmt(TOTAL);
+    let activeIdx = -1;
+    beats.forEach((b, i) => {
+      const on = elapsed >= b.start && elapsed < b.end;
+      els[b.id].classList.toggle('active', on);
+      if (on) activeIdx = i;
+    });
+    if (activeIdx >= 0) labelEl.textContent = 'Beat ' + (activeIdx + 1) + ' / ' + beats.length;
+    if (elapsed < TOTAL + 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+</script>
+
+</body>
+</html>
