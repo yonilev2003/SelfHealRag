@@ -38,13 +38,13 @@
    "wall_s_per_case": 7.68
   },
   "C": {
-   "n_correct": 8,
+   "n_correct": 11,
    "n_total": 16,
-   "accuracy": 0.5,
-   "total_cost_usd": 0.0678,
-   "total_wall_s": 44.2,
-   "cost_per_case_usd": 0.0042,
-   "wall_s_per_case": 2.77
+   "accuracy": 0.6875,
+   "total_cost_usd": 0.0695,
+   "total_wall_s": 46.2,
+   "cost_per_case_usd": 0.0043,
+   "wall_s_per_case": 2.89
   }
  },
  "human_time_modeled_seconds": 4170,
@@ -52,31 +52,31 @@
  "three_way_structural_proof": {
   "memory_correction": {
    "n_cases": 3,
-   "n_all_baselines_fail_only_C_succeeds": 0,
+   "n_all_baselines_fail_only_C_succeeds": 3,
    "rows": [
     {
      "probe_id": "memory_correction-01",
      "A0": false,
      "A": false,
      "A2": false,
-     "C": false,
-     "all_baselines_fail_only_C_succeeds": false
+     "C": true,
+     "all_baselines_fail_only_C_succeeds": true
     },
     {
      "probe_id": "memory_correction-02",
      "A0": false,
      "A": false,
      "A2": false,
-     "C": false,
-     "all_baselines_fail_only_C_succeeds": false
+     "C": true,
+     "all_baselines_fail_only_C_succeeds": true
     },
     {
      "probe_id": "memory_correction-03",
      "A0": false,
      "A": false,
      "A2": false,
-     "C": false,
-     "all_baselines_fail_only_C_succeeds": false
+     "C": true,
+     "all_baselines_fail_only_C_succeeds": true
     }
    ]
   },

@@ -19,10 +19,10 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.0037229999999999997,
-  "wall_s": 2.62,
+  "wall_s": 2.56,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -47,10 +47,10 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.003728,
-  "wall_s": 2.58,
+  "wall_s": 2.54,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -75,10 +75,10 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.003772,
-  "wall_s": 2.86,
+  "wall_s": 2.72,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -93,8 +93,8 @@
    "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
   },
   "retrieved_chunk_ids": [
-   "it_vpn_session_timeout_hours_v1-c01",
    "it_vpn_session_timeout_hours_v2-c01",
+   "it_vpn_session_timeout_hours_v1-c01",
    "finance_expense_report_deadline_days_v2-c01"
   ],
   "verifier": {
@@ -102,11 +102,11 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.0037740000000000004,
-  "wall_s": 2.67,
+  "total_cost_usd": 0.003759,
+  "wall_s": 2.81,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -130,22 +130,22 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.004514,
-  "wall_s": 3.42,
+  "total_cost_usd": 0.004024,
+  "wall_s": 3.21,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
  },
  "contradiction-03": {
   "predicted": {
-   "value": "unknown",
+   "value": "not found",
    "chunk_id": ""
   },
   "generator_predicted": {
-   "value": "unknown",
+   "value": "not found",
    "chunk_id": ""
   },
   "retrieved_chunk_ids": [
@@ -158,11 +158,11 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.0036119999999999998,
-  "wall_s": 2.5,
+  "total_cost_usd": 0.003607,
+  "wall_s": 2.76,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -187,10 +187,10 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.0036759999999999996,
-  "wall_s": 2.87,
+  "wall_s": 2.81,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -205,20 +205,20 @@
    "chunk_id": "finance_refund_cap_usd_v3-c01"
   },
   "retrieved_chunk_ids": [
-   "finance_refund_cap_usd_v1-c01",
+   "finance_refund_cap_usd_v3-c01",
    "finance_refund_cap_usd_v2-c01",
-   "finance_refund_cap_usd_v3-c01"
+   "finance_refund_cap_usd_v1-c01"
   ],
   "verifier": {
    "overridden": false,
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.0037010000000000003,
-  "wall_s": 2.53,
+  "total_cost_usd": 0.003706,
+  "wall_s": 2.7,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -235,18 +235,18 @@
   "retrieved_chunk_ids": [
    "eng_oncall_stipend_usd-c01",
    "eng_oncall_rotation_days_v1-c01",
-   "benefits_gym_stipend_usd-c01"
+   "eng_oncall_rotation_days_v2-c01"
   ],
   "verifier": {
    "overridden": false,
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.002096,
-  "wall_s": 2.75,
+  "total_cost_usd": 0.006280000000000001,
+  "wall_s": 2.62,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -270,11 +270,11 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.006275,
-  "wall_s": 2.86,
+  "total_cost_usd": 0.0020456,
+  "wall_s": 2.58,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -298,11 +298,11 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.0062320000000000006,
-  "wall_s": 2.67,
+  "total_cost_usd": 0.0020634,
+  "wall_s": 2.78,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -318,19 +318,19 @@
   },
   "retrieved_chunk_ids": [
    "onboarding_senior_tier_bonus_usd-c01",
-   "hr_new_parent_leave_weeks-c01",
-   "it.software_request_process_note-c01"
+   "finance_expense_report_deadline_days_v2-c01",
+   "hr_new_parent_leave_weeks-c01"
   ],
   "verifier": {
    "overridden": false,
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.005586,
-  "wall_s": 4.53,
+  "total_cost_usd": 0.004919,
+  "wall_s": 3.46,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -354,11 +354,11 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.004932,
-  "wall_s": 3.57,
+  "total_cost_usd": 0.005822,
+  "wall_s": 4.66,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -382,11 +382,11 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.006475,
-  "wall_s": 2.7,
+  "total_cost_usd": 0.0021724,
+  "wall_s": 2.67,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -411,10 +411,10 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.0036940000000000002,
-  "wall_s": 2.53,
+  "wall_s": 2.63,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }
@@ -438,11 +438,11 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.003693,
+  "total_cost_usd": 0.0037080000000000004,
   "wall_s": 2.59,
   "config": {
    "k": 3,
-   "hybrid_date_boost": false,
+   "hybrid_date_boost": true,
    "use_verifier": false,
    "use_memory": true
   }

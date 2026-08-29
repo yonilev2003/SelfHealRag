@@ -19,7 +19,7 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.0037229999999999997,
-  "wall_s": 2.62,
+  "wall_s": 2.78,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -47,7 +47,7 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.003728,
-  "wall_s": 2.58,
+  "wall_s": 2.8,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -74,8 +74,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.003772,
-  "wall_s": 2.86,
+  "total_cost_usd": 0.0037670000000000004,
+  "wall_s": 2.62,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -102,8 +102,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.0037740000000000004,
-  "wall_s": 2.67,
+  "total_cost_usd": 0.0037790000000000002,
+  "wall_s": 2.68,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -130,8 +130,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.004514,
-  "wall_s": 3.42,
+  "total_cost_usd": 0.0044740000000000005,
+  "wall_s": 3.11,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -141,11 +141,11 @@
  },
  "contradiction-03": {
   "predicted": {
-   "value": "unknown",
+   "value": "insufficient information",
    "chunk_id": ""
   },
   "generator_predicted": {
-   "value": "unknown",
+   "value": "insufficient information",
    "chunk_id": ""
   },
   "retrieved_chunk_ids": [
@@ -158,8 +158,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.0036119999999999998,
-  "wall_s": 2.5,
+  "total_cost_usd": 0.003637,
+  "wall_s": 2.77,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -187,7 +187,7 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.0036759999999999996,
-  "wall_s": 2.87,
+  "wall_s": 2.5,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -215,7 +215,7 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.0037010000000000003,
-  "wall_s": 2.53,
+  "wall_s": 2.57,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -242,8 +242,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.002096,
-  "wall_s": 2.75,
+  "total_cost_usd": 0.002101,
+  "wall_s": 3.53,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -270,8 +270,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.006275,
-  "wall_s": 2.86,
+  "total_cost_usd": 0.0020356,
+  "wall_s": 2.5,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -298,8 +298,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.0062320000000000006,
-  "wall_s": 2.67,
+  "total_cost_usd": 0.0020634,
+  "wall_s": 2.58,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -326,8 +326,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.005586,
-  "wall_s": 4.53,
+  "total_cost_usd": 0.005246,
+  "wall_s": 4.26,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -354,8 +354,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.004932,
-  "wall_s": 3.57,
+  "total_cost_usd": 0.004522,
+  "wall_s": 3.3,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -382,7 +382,7 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.006475,
+  "total_cost_usd": 0.0021724,
   "wall_s": 2.7,
   "config": {
    "k": 3,
@@ -411,7 +411,7 @@
    "requires_human_review": false
   },
   "total_cost_usd": 0.0036940000000000002,
-  "wall_s": 2.53,
+  "wall_s": 2.58,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
@@ -438,8 +438,8 @@
    "reason": "verifier disabled",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.003693,
-  "wall_s": 2.59,
+  "total_cost_usd": 0.003703,
+  "wall_s": 2.57,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,

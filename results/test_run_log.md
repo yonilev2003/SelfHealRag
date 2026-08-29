@@ -3,3 +3,8 @@
 - 2026-08-29T07:14:24.485580+00:00 | arm=A2 | git_sha=3263596311 | results_hash=6dac6f96da65c589 | n=16 | cost=$0.1093 | wall=90.2s
 - 2026-08-29T07:15:10.181165+00:00 | arm=C | git_sha=3263596311 | results_hash=da4276f74646ee96 | n=16 | cost=$0.0678 | wall=44.2s
 - 2026-08-29T07:17:14.365228+00:00 | arm=B | git_sha=3263596311 | results_hash=8dcf0c7660c5af29 | n=16 | cost=$0.7964 | wall=122.8s
+- 2026-08-29T07:22:31.035229+00:00 | arm=C | git_sha=994f6a6155 | results_hash=4da4c439fb93dadb | n=16 | cost=$0.0695 | wall=46.2s
+- 2026-08-29T07:24:24.134412+00:00 | arm=C | git_sha=994f6a6155 | results_hash=e763161eafb72885 | n=16 | cost=$0.0631 | wall=45.5s
+- 2026-08-29T07:25:11.596532+00:00 | arm=C | git_sha=994f6a6155 | results_hash=4689c18235784988 | n=16 | cost=$0.0575 | wall=47.4s
+- 2026-08-29T07:25:57.483205+00:00 | arm=C | git_sha=994f6a6155 | results_hash=6b313557c74433ca | n=16 | cost=$0.056 | wall=45.8s
+- 2026-08-29T07:26:43.603637+00:00 | arm=C | git_sha=994f6a6155 | results_hash=9455bbdc5782de54 | n=16 | cost=$0.0607 | wall=46.1s

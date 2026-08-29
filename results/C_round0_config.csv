@@ -4,7 +4,7 @@ atomic-02,atomic,Within how many hours of an employee's last day does IT revoke 
 atomic-03,atomic,What is the daily per diem for domestic business travel?,75,finance_per_diem-c01,75,finance_per_diem-c01+finance_travel_per_diem_usd-c01,False
 contradiction-01,contradiction,"What is the current VPN session timeout, in hours?",4,it_vpn_session_timeout_hours_v2-c01,4,it_vpn_session_timeout_hours_v2-c01,True
 contradiction-02,contradiction,How many PTO days does an employee currently accrue per month?,1.5,hr_pto_accrual_days_per_month_v2-c01,1.25,hr_base_pto_days-c01,False
-contradiction-03,contradiction,How many days does an employee currently have to submit an expense report?,14,finance_expense_report_deadline_days_v2-c01,unknown,,False
+contradiction-03,contradiction,How many days does an employee currently have to submit an expense report?,14,finance_expense_report_deadline_days_v2-c01,insufficient information,,False
 contradiction-04,contradiction,How many days is the current password rotation requirement?,180,it_password_rotation_days_v2-c01,180,it_password_rotation_days_v2-c01,True
 contradiction-09,contradiction,"What is the current customer refund cap that a rep can approve without manager sign-off, in USD?",900,finance_refund_cap_usd_v3-c01,900,finance_refund_cap_usd_v3-c01,True
 memory_correction-01,memory_correction,"What is the current weekly on-call stipend for engineers, in USD?",250,MEMORY,250,MEMORY,True

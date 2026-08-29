@@ -1,0 +1,252 @@
+{
+ "PRIMARY_memory_ablation": {
+  "memory_ON (official C_test.json)": {
+   "category": "memory_correction",
+   "n_correct": 3,
+   "n_total": 3,
+   "rows": [
+    {
+     "probe_id": "memory_correction-01",
+     "correct": true,
+     "predicted": {
+      "value": "250",
+      "chunk_id": "MEMORY"
+     },
+     "expected": {
+      "value": "250",
+      "chunk_id": "MEMORY"
+     }
+    },
+    {
+     "probe_id": "memory_correction-02",
+     "correct": true,
+     "predicted": {
+      "value": "15",
+      "chunk_id": "MEMORY"
+     },
+     "expected": {
+      "value": "15",
+      "chunk_id": "MEMORY"
+     }
+    },
+    {
+     "probe_id": "memory_correction-03",
+     "correct": true,
+     "predicted": {
+      "value": "120",
+      "chunk_id": "MEMORY"
+     },
+     "expected": {
+      "value": "120",
+      "chunk_id": "MEMORY"
+     }
+    }
+   ]
+  },
+  "memory_OFF": {
+   "category": "memory_correction",
+   "n_correct": 0,
+   "n_total": 3,
+   "rows": [
+    {
+     "probe_id": "memory_correction-01",
+     "correct": false,
+     "predicted": {
+      "value": "200",
+      "chunk_id": "eng_oncall_stipend_usd-c01"
+     },
+     "expected": {
+      "value": "250",
+      "chunk_id": "MEMORY"
+     }
+    },
+    {
+     "probe_id": "memory_correction-02",
+     "correct": false,
+     "predicted": {
+      "value": "10",
+      "chunk_id": "support_weekend_shift_diff_pct-c01"
+     },
+     "expected": {
+      "value": "15",
+      "chunk_id": "MEMORY"
+     }
+    },
+    {
+     "probe_id": "memory_correction-03",
+     "correct": false,
+     "predicted": {
+      "value": "80",
+      "chunk_id": "facilities_parking_reimbursement_usd-c01"
+     },
+     "expected": {
+      "value": "120",
+      "chunk_id": "MEMORY"
+     }
+    }
+   ]
+  }
+ },
+ "secondary_verifier_ablation_on_contradiction": {
+  "verifier_ON": {
+   "category": "contradiction",
+   "n_correct": 3,
+   "n_total": 5,
+   "rows": [
+    {
+     "probe_id": "contradiction-01",
+     "correct": true,
+     "predicted": {
+      "value": "4",
+      "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+     },
+     "expected": {
+      "value": "4",
+      "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+     }
+    },
+    {
+     "probe_id": "contradiction-02",
+     "correct": false,
+     "predicted": {
+      "value": "1.25",
+      "chunk_id": "hr_base_pto_days-c01"
+     },
+     "expected": {
+      "value": "1.5",
+      "chunk_id": "hr_pto_accrual_days_per_month_v2-c01"
+     }
+    },
+    {
+     "probe_id": "contradiction-03",
+     "correct": false,
+     "predicted": {
+      "value": "unknown",
+      "chunk_id": ""
+     },
+     "expected": {
+      "value": "14",
+      "chunk_id": "finance_expense_report_deadline_days_v2-c01"
+     }
+    },
+    {
+     "probe_id": "contradiction-04",
+     "correct": true,
+     "predicted": {
+      "value": "180",
+      "chunk_id": "it_password_rotation_days_v2-c01"
+     },
+     "expected": {
+      "value": "180",
+      "chunk_id": "it_password_rotation_days_v2-c01"
+     }
+    },
+    {
+     "probe_id": "contradiction-09",
+     "correct": true,
+     "predicted": {
+      "value": "900",
+      "chunk_id": "finance_refund_cap_usd_v3-c01"
+     },
+     "expected": {
+      "value": "900",
+      "chunk_id": "finance_refund_cap_usd_v3-c01"
+     }
+    }
+   ]
+  },
+  "verifier_OFF (official C_test.json)": {
+   "category": "contradiction",
+   "n_correct": 3,
+   "n_total": 5,
+   "rows": [
+    {
+     "probe_id": "contradiction-01",
+     "correct": true,
+     "predicted": {
+      "value": "4",
+      "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+     },
+     "expected": {
+      "value": "4",
+      "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+     }
+    },
+    {
+     "probe_id": "contradiction-02",
+     "correct": false,
+     "predicted": {
+      "value": "1.25",
+      "chunk_id": "hr_base_pto_days-c01"
+     },
+     "expected": {
+      "value": "1.5",
+      "chunk_id": "hr_pto_accrual_days_per_month_v2-c01"
+     }
+    },
+    {
+     "probe_id": "contradiction-03",
+     "correct": false,
+     "predicted": {
+      "value": "unknown",
+      "chunk_id": ""
+     },
+     "expected": {
+      "value": "14",
+      "chunk_id": "finance_expense_report_deadline_days_v2-c01"
+     }
+    },
+    {
+     "probe_id": "contradiction-04",
+     "correct": true,
+     "predicted": {
+      "value": "180",
+      "chunk_id": "it_password_rotation_days_v2-c01"
+     },
+     "expected": {
+      "value": "180",
+      "chunk_id": "it_password_rotation_days_v2-c01"
+     }
+    },
+    {
+     "probe_id": "contradiction-09",
+     "correct": true,
+     "predicted": {
+      "value": "900",
+      "chunk_id": "finance_refund_cap_usd_v3-c01"
+     },
+     "expected": {
+      "value": "900",
+      "chunk_id": "finance_refund_cap_usd_v3-c01"
+     }
+    }
+   ]
+  }
+ },
+ "variant_configs": {
+  "C_memory_off": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  },
+  "C_verifier_on": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": true,
+   "use_memory": true
+  },
+  "C_round0_config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": true
+  },
+  "C_hybrid_on": {
+   "k": 3,
+   "hybrid_date_boost": true,
+   "use_verifier": false,
+   "use_memory": true
+  }
+ }
+}

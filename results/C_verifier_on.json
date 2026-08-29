@@ -15,15 +15,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
   "total_cost_usd": 0.0037229999999999997,
-  "wall_s": 2.62,
+  "wall_s": 2.75,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -43,15 +43,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.003728,
-  "wall_s": 2.58,
+  "total_cost_usd": 0.0037229999999999997,
+  "wall_s": 2.56,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -71,15 +71,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "not a single-entity citation; verifier scope is supersession chains only",
    "requires_human_review": false
   },
   "total_cost_usd": 0.003772,
-  "wall_s": 2.86,
+  "wall_s": 2.57,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -99,15 +99,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
   "total_cost_usd": 0.0037740000000000004,
-  "wall_s": 2.67,
+  "wall_s": 2.8,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -127,15 +127,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.004514,
-  "wall_s": 3.42,
+  "total_cost_usd": 0.0053089999999999995,
+  "wall_s": 3.83,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -155,15 +155,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
-   "requires_human_review": false
+   "reason": "cited chunk_id not found in corpus",
+   "requires_human_review": true
   },
-  "total_cost_usd": 0.0036119999999999998,
-  "wall_s": 2.5,
+  "total_cost_usd": 0.003617,
+  "wall_s": 2.64,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -183,15 +183,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
   "total_cost_usd": 0.0036759999999999996,
-  "wall_s": 2.87,
+  "wall_s": 2.76,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -211,15 +211,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
   "total_cost_usd": 0.0037010000000000003,
-  "wall_s": 2.53,
+  "wall_s": 2.66,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -239,15 +239,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "not a single-entity citation; verifier scope is supersession chains only",
    "requires_human_review": false
   },
   "total_cost_usd": 0.002096,
-  "wall_s": 2.75,
+  "wall_s": 2.78,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -267,15 +267,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "not a single-entity citation; verifier scope is supersession chains only",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.006275,
-  "wall_s": 2.86,
+  "total_cost_usd": 0.0020356,
+  "wall_s": 3.08,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -295,15 +295,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "not a single-entity citation; verifier scope is supersession chains only",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.0062320000000000006,
-  "wall_s": 2.67,
+  "total_cost_usd": 0.0020634,
+  "wall_s": 3.21,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -323,15 +323,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.005586,
-  "wall_s": 4.53,
+  "total_cost_usd": 0.005566,
+  "wall_s": 4.49,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -351,15 +351,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.004932,
-  "wall_s": 3.57,
+  "total_cost_usd": 0.0048319999999999995,
+  "wall_s": 3.43,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -379,15 +379,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
-  "total_cost_usd": 0.006475,
-  "wall_s": 2.7,
+  "total_cost_usd": 0.0021874,
+  "wall_s": 2.56,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -407,15 +407,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
   "total_cost_usd": 0.0036940000000000002,
-  "wall_s": 2.53,
+  "wall_s": 2.66,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  },
@@ -435,15 +435,15 @@
   ],
   "verifier": {
    "overridden": false,
-   "reason": "verifier disabled",
+   "reason": "cited chunk already belongs to the chain-head (current) version",
    "requires_human_review": false
   },
   "total_cost_usd": 0.003693,
-  "wall_s": 2.59,
+  "wall_s": 2.64,
   "config": {
    "k": 3,
    "hybrid_date_boost": false,
-   "use_verifier": false,
+   "use_verifier": true,
    "use_memory": true
   }
  }
