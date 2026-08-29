@@ -23,5 +23,20 @@
   "value": "2.0x",
   "source_signal_id": "TICKET-4890",
   "round_added": 6
+ },
+ "eng.oncall_stipend_usd": {
+  "value": "250",
+  "source_signal_id": "TICKET-4521",
+  "round_added": "live-generate"
+ },
+ "support.weekend_shift_diff_pct": {
+  "value": "15%",
+  "source_signal_id": "AUDIT-0912",
+  "round_added": "live-generate"
+ },
+ "facilities.parking_reimbursement_usd": {
+  "value": "120",
+  "source_signal_id": "TICKET-3390",
+  "round_added": "live-generate"
  }
 }
