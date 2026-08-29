@@ -316,3 +316,53 @@ close to a no-extensions deadline); wiring a real approval queue into
 `generator.py`'s live path (would change Arm C's graded behavior);
 building real folder-watcher/connector/dashboard code (multi-week
 engineering, correctly scoped instead as roadmap, not hackathon output).
+
+**Follow-up round, same day — engineering-process section + autonomy
+reframing, then one more adversarial pass.** Per explicit product
+direction: added a README §6 subsection describing the real mechanics of
+`.claude/workflows/hackathon-sprint.js`/`hackathon-fix.js` (grillDecision's
+3-skeptic majority vote, the 3-lens report-only verify, the "creative
+seat," loop-until-dry's refute-cooldown quarantine), with an explicit
+disclosure that Phases 2-7 ran directly/interactively, not through an
+autonomous script invocation (per `PLAN.md`'s own execution-mode note) —
+what *did* run at that scale was concept selection. Also reframed the
+human-review story (README + `PRODUCTION_ROADMAP.md` §4): the goal is
+maximal autonomy with confidence-gated verification, not review-by-
+default; human-in-the-loop is a configurable *exception* path (low
+confidence / contradictions / high-impact changes), and a separate,
+explicitly-unbuilt human-*evaluation* sampling layer (rubrics,
+inter-rater calibration, risk-based sample rates) is named for ongoing
+QA — neither claimed as implemented.
+
+A dedicated adversarial-review agent then re-checked this new content
+against the actual `.js` files and the rest of the repo's own numbers,
+specifically hunting for overclaims. **It found 4 real issues, 2 of them
+serious:**
+1. The new README section's "mean 88.3, highest of all candidates" was
+   misattributed — 88.3 is **LedgerGuard's** own panel score
+   (`archive/ledgerguard-pretest/README.md`), the concept that was
+   subsequently killed by its own fair baseline, not SelfHeal RAG's.
+2. "44 candidate ideas... 4 grillers" didn't reconcile with
+   `CHANGELOG.md`'s own per-stage counts (LedgerGuard 24 ideas/2 panels +
+   SelfHeal RAG 27 ideas/1 panel = 51 total; the grill was actually
+   "5 attackers × 2 rounds, 46 blocking issues," which independently
+   matches `PLAN.md`'s own rev-2/rev-3 revision notes, 36+10=46). The
+   44/4 figures trace only to `PLAN.md`'s own unreconciled "Decision
+   provenance" summary line — a pre-existing inaccuracy in that file,
+   not something introduced by the new README section, but propagated by
+   it. Fixed in both `PLAN.md` and `README.md` to the CHANGELOG-sourced,
+   cross-verified numbers.
+3. README claimed `verifier.py` sets `requires_human_review: true`
+   "only" on a stale-citation override — false; it also sets `true` on
+   two unrelated error paths (chunk not found, no entity-index chain).
+   Fixed to "overrides a stale citation or hits a citation/index error it
+   can't resolve."
+4. README described `hackathon-fix.js`'s refutation bar backwards: the
+   code drops a bug only if **both** of 2 refutation attempts agree it's
+   refuted (survives on just one holdout), not "must survive 2 attempts"
+   as originally worded. Fixed.
+
+All 4 fixes applied as prose-only corrections to `README.md`/`PLAN.md` —
+no code or locked artifact touched. This is exactly the discipline this
+file has documented from Phase 3 onward, now applied to the submission's
+own narrative, not just its numbers.

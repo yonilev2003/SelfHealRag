@@ -32,10 +32,14 @@ category, applies one targeted persistent fix per round, keeps only fixes that
 measurably help on a dev split — and proves the result generalizes on a frozen,
 pre-registered test split it never saw, against fair baselines.
 
-**Decision provenance:** 3 selection workflows (44 ideas, ~100 Sonnet agents),
-rubric-blind scoring (88.3 mean, highest of all candidates), 4 grillers, and an
-empirical pre-test that killed the previous front-runner (LedgerGuard) when its
-fair baseline aced it. Sellability (8.8/10) tracked separately, never added.
+**Decision provenance:** 3 rubric-blind judge panels across the full process
+(LedgerGuard: 2 panels, 24 ideas; SelfHeal RAG: 1 larger panel, 27 ideas — 51
+ideas total, ~100 Sonnet agents), SelfHeal RAG's pick then adversarially
+grilled twice (5 attackers × 2 rounds, 46 blocking issues found and
+resolved — see rev 2/rev 3 notes above), and an empirical pre-test that
+killed the previous front-runner (LedgerGuard, which had itself scored
+highest at 88.3 across its own two panels) when its fair baseline aced it.
+Sellability (8.8/10) tracked separately, never added.
 
 ---
 

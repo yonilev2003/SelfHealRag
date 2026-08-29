@@ -217,9 +217,11 @@ project is built on:
   slot gets a different prompt — not "improve this," but "what would a
   sharper competitor build instead" — judged on impact-vs-risk,
   creativity, and user-value alignment together, not one technical score.
-- **`hackathon-fix.js`'s loop-until-dry:** a found bug must survive 2
-  independent refutation attempts (default-refuted if unreproducible) to
-  count as real. A refuted bug isn't permanently buried — it's
+- **`hackathon-fix.js`'s loop-until-dry:** a found bug is dropped only if
+  **both** of 2 independent refutation attempts agree it's refuted
+  (default-refuted if unreproducible, so a bug needs just one refuter to
+  fail reproducing it to count as real — a lenient-toward-flagging bar on
+  purpose). A refuted bug isn't permanently buried — it's
   quarantined for 2 rounds, then eligible to resurface if still genuinely
   present, guarding against naive dedup silently burying a true issue.
   Stops after 2 consecutive dry rounds, capped at 8 as a safety valve,
@@ -234,11 +236,15 @@ judgment-heavy work (a chunk-boundary bug, a dev/test memory-gating gap)
 needed a human in the loop at each step, not a scripted pipeline. The
 scripts above are a real, reusable engineering artifact; they are not the
 literal execution log for this build. What **did** run at that scale:
-concept selection itself used **3 separate Workflow-tool design passes
-across 44 candidate ideas and ~100 Sonnet agents**, rubric-blind-scored
-(mean 88.3, highest of all candidates) and adversarially grilled by 4
-independent skeptics — including the empirical pre-test that killed the
-prior front-runner (`archive/ledgerguard-pretest/`) when its own fair
+concept selection itself used **3 rubric-blind judge panels across the
+full process — 51 candidate ideas total** (LedgerGuard: 24 ideas across 2
+panels; SelfHeal RAG: 27 ideas in one larger, more targeted panel — see
+`CHANGELOG.md`'s concept-selection rows for the exact per-stage counts —
+**~100 Sonnet agents** overall), with SelfHeal RAG's own pick then
+**adversarially grilled twice (5 attackers × 2 rounds, 46 blocking issues
+found and resolved)** — including the empirical pre-test that killed the
+prior front-runner (`archive/ledgerguard-pretest/`, which had itself
+scored highest at 88.3 across its own two panels) when its own fair
 baseline solved it outright. Every bug in `PROCESS.md` (the chunk-
 splitting bug, the dev/test memory-gating gap, the sandbox `allowed_tools`
 gap) was caught the way `hackathon-fix.js` is *designed* to catch bugs —
@@ -258,9 +264,10 @@ index) and is exactly the capability under test, not a hidden advantage.
 **Human review — accurate, not aspirational:** SelfHeal RAG never files,
 sends, or takes any real-world action; every answer is informational
 output a human reads. Within that: `advanced/verifier.py` sets
-`requires_human_review: true` only when it actively overrides a stale
-citation (a real correction happening, worth a second look) — a
-memory-sourced answer currently does **not** carry that flag, since the
+`requires_human_review: true` when it actively overrides a stale citation
+(a real correction happening, worth a second look) or hits a citation/
+index error it can't resolve — a memory-sourced answer currently does
+**not** carry that flag, since the
 signal-extraction step (`advanced/memory_writer.py`) applies whatever it
 extracts immediately, with no confidence check and no gate at all. **The
 design intent is not "review everything"** — a self-healing system that
