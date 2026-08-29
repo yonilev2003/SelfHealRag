@@ -408,3 +408,50 @@ link changes needed anywhere. `docs/assets`/results chart, Mermaid
 diagram, and every other Phase-7-polish item from earlier today are
 untouched by this round; only `video/demo_page.html`,
 `README.md`'s Video section, and `VIDEO_SCRIPT.md` changed.
+
+**Same day, later still — real user feedback on the narrated video,
+then a full presentation redesign.** The user watched the narrated+music
+cut and reported the voice sounded artificial and the music sounded
+off, with a request to keep it "smooth" rather than fix it via more
+generated audio (ElevenLabs was disconnected at that point anyway).
+Judgment call, explicitly authorized as a non-blocking decision: kept
+narration (independently verified accurate via a transcription
+round-trip earlier), dropped the music entirely rather than trying to
+rebalance a mix nobody had confirmed was fixable. The user then gave
+explicit, detailed direction to redesign the video itself for retention/
+clarity/broad-audience comprehension (not just rubric correctness),
+authorizing reversible presentation changes without a stop-and-ask each
+time.
+
+Rewrote `video/beats.html`: the opening now leads with a `$200` vs
+`$250` hero clash in the first seconds (plain-language framing before any
+jargon) instead of building up to it; added a persistent pipeline-stepper
+(Problem → Baselines fail → SelfHeal fires → Verifier → Frozen test → The
+lesson) so both technical and non-technical viewers can track story
+position; added stage badges, pulse-highlighted key values ($200/$250,
+250/MEMORY, 3/3), and visual hierarchy on dense JSON blocks (bold/bright
+value lines vs. dimmed structural punctuation). **Kept the exact same
+300s timeline and 6 beat boundaries on purpose** — the already-generated,
+transcription-verified narration clips are locked to that timing and
+ElevenLabs was unavailable to regenerate them.
+
+Replaced the baked-in caption div (which can never be turned off) with a
+real `<track kind="subtitles">` WebVTT track — native browser CC toggle,
+confirmed via `textTrack.mode` flipping between `showing`/`hidden`. First
+attempt used one long cue per beat (the full narration paragraph) and
+visibly overlapped the on-screen content at any reasonable font size;
+fixed by splitting each beat's narration into short, clause-length cues
+(2-6 per beat, ~30 total) with duration allocated proportionally to text
+length within the beat's real narration window, matching how professional
+captions are actually paced rather than one static block per beat.
+
+Re-recorded (304s, Playwright, same pipeline as before), re-verified
+with Playwright screenshots at all 6 beats before re-recording (catching
+layout issues for free) and again after, confirmed no console/page
+errors, confirmed narration sync and caption-track cue count (30) and
+toggle behavior all still correct post-edit. Page size actually
+*dropped* versus the music version: 8.07MB -> 6.41MB (no music track,
+and the redesigned recording compressed slightly better). Republished to
+the same Artifact URL. `README.md`/`VIDEO_SCRIPT.md` updated to describe
+the actual final state honestly (no music, real toggleable captions) —
+not the aspirational one from two rounds ago.
