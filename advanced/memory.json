@@ -1,1 +1,27 @@
-{}
+{
+ "benefits.gym_stipend_usd": {
+  "value": "100",
+  "source_signal_id": "TICKET-5108",
+  "round_added": 2
+ },
+ "it.hardware_request_sla_days": {
+  "value": "2",
+  "source_signal_id": "AUDIT-1147",
+  "round_added": 3
+ },
+ "sales.deal_approval_threshold_usd": {
+  "value": "75000",
+  "source_signal_id": "TICKET-2287",
+  "round_added": 4
+ },
+ "legal.nda_duration_years": {
+  "value": "5",
+  "source_signal_id": "AUDIT-0764",
+  "round_added": 5
+ },
+ "eng.oncall_rotation_pay_multiplier": {
+  "value": "2.0x",
+  "source_signal_id": "TICKET-4890",
+  "round_added": 6
+ }
+}
