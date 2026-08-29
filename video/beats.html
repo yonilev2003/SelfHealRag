@@ -171,7 +171,7 @@ effective this pay period."</div>
 A0 (full 81-chunk corpus, one call): <span class="keyline">{'value': '<span class="bad">200</span>'}</span>
 
 <span class="prompt">$</span> python3 run_B.py "What is the current weekly on-call stipend, in USD?"
-B (unrestricted agent, unlimited reads): <span class="keyline">{'value': '<span class="bad">200</span>'}</span><span class="cursor"></span></pre>
+B (agent, free to search &amp; read): <span class="keyline">{'value': '<span class="bad">200</span>'}</span><span class="cursor"></span></pre>
   <div class="subtitle" style="margin-top:18px">More reading doesn't fix this. <b style="color:#f2f2f2">The answer isn't in the documents.</b></div>
 </div>
 
@@ -186,14 +186,14 @@ B (unrestricted agent, unlimited reads): <span class="keyline">{'value': '<span 
 <span class="keyline">{ "value": "<span class="good">250</span>", "source_signal_id": "TICKET-4521", "round_added": "live-generate" }</span></pre>
   <div class="sub" id="b3reveal2" style="margin-top:16px; text-align:center;">
     <div style="font-size:34px; font-weight:800;">FINAL ANSWER: <span class="good pulse">$250</span></div>
-    <div class="subtitle" style="margin-top:8px">cited <b style="color:#f2f2f2">"MEMORY"</b> — not a lookup trick, this runs on every query, live</div>
+    <div class="subtitle" style="margin-top:8px">cited <b style="color:#f2f2f2">"MEMORY"</b> — runs on every query, live</div>
   </div>
 </div>
 
 <!-- BEAT 4: VERIFIER -->
 <div class="beat" id="b4">
-  <div class="badge">A second safety net</div>
-  <div class="title">Independent of memory</div>
+  <div class="badge warn">Targeted verifier demo</div>
+  <div class="title">Real, tested — but didn't move the needle</div>
   <div class="subtitle">A deterministic check — no model call, no guessing</div>
   <pre class="term"><span class="prompt">$</span> python3 -c "verify(chunks, pred, idx)"
 # cited the January (stale) VPN policy
@@ -204,6 +204,7 @@ pred = <span class="keyline">{'value': '<span class="bad">8</span>'}</span>
    dated 2026-05-01",
   "requires_human_review": true
 }<span class="cursor"></span></pre>
+  <div class="subtitle" style="margin-top:14px">Disabled in the shipped config — <b style="color:#f2f2f2">zero</b> output changes on the frozen 16-case test</div>
 </div>
 
 <!-- BEAT 5: FROZEN TEST -->
@@ -218,7 +219,7 @@ pred = <span class="keyline">{'value': '<span class="bad">8</span>'}</span>
     <tr class="rowreveal" id="row4"><td class="arm">B — generalist agent (fair baseline)</td><td>12/16</td><td class="bad">0/3</td></tr>
     <tr class="rowreveal" id="row5"><td class="arm">C — SelfHeal RAG</td><td>11/16</td><td class="good pulse">3/3</td></tr>
   </table>
-  <div class="subtitle sub" id="b5sub" style="margin-top:18px">Flip memory off, same everything else → back to <span class="bad">0/3</span>. One capability. That's the entire difference.</div>
+  <div class="subtitle sub" id="b5sub" style="margin-top:18px">Flip memory off, same everything else → back to <span class="bad">0/3</span> on these cases. One capability. For this category, that's the entire difference.</div>
 </div>
 
 <!-- BEAT 6: SCALE / ECONOMICS -->
@@ -248,25 +249,28 @@ pred = <span class="keyline">{'value': '<span class="bad">8</span>'}</span>
 <div class="beat" id="b8">
   <div class="closer">
   A RAG system that retrieves information is useful.<br>
-  One that knows when its own knowledge has expired<br>
-  is something I'd actually trust <span class="accent">inside a company.</span>
+  A system that can recover when what it retrieves<br>
+  is contradicted by a newer signal — that's something<br>
+  I'd actually trust <span class="accent">inside a company.</span>
   </div>
   <div class="vision-tag">vision, not yet built — see PRODUCTION_ROADMAP.md</div>
 </div>
 
 <script>
-  // Provisional timing (words/170wpm estimate) -- will be replaced with
-  // real numbers once ElevenLabs narration durations are measured.
+  // Real timing, trued up from measured ElevenLabs narration durations
+  // (mutagen-verified against the actual downloaded mp3s, 2026-08-29):
+  // b0=11.154 b1=16.196 b2=32.287 b3=40.046 b4=31.321 b5=34.691 b6=19.331
+  // b7=36.676 b8=29.466, back-to-back with zero gap (no accidental dead air).
   const beats = [
-    { id: 'b0', start: 0,    end: 12  },
-    { id: 'b1', start: 12,   end: 30  },
-    { id: 'b2', start: 30,   end: 54  },
-    { id: 'b3', start: 54,   end: 92  },
-    { id: 'b4', start: 92,   end: 115 },
-    { id: 'b5', start: 115,  end: 140 },
-    { id: 'b6', start: 140,  end: 160 },
-    { id: 'b7', start: 160,  end: 190 },
-    { id: 'b8', start: 190,  end: 217 },
+    { id: 'b0', start: 0,       end: 11.154 },
+    { id: 'b1', start: 11.154,  end: 27.350 },
+    { id: 'b2', start: 27.350,  end: 59.637 },
+    { id: 'b3', start: 59.637,  end: 99.683 },
+    { id: 'b4', start: 99.683,  end: 131.004 },
+    { id: 'b5', start: 131.004, end: 165.695 },
+    { id: 'b6', start: 165.695, end: 185.026 },
+    { id: 'b7', start: 185.026, end: 221.702 },
+    { id: 'b8', start: 221.702, end: 251.168 },
   ];
   const TOTAL = beats[beats.length - 1].end;
   const barEl = document.getElementById('bar');
@@ -301,18 +305,21 @@ pred = <span class="keyline">{'value': '<span class="bad">8</span>'}</span>
       el.classList.toggle('done', activeIdx >= 0 && i < activeIdx);
     });
 
-    // Beat 3 sub-reveals: wait dots at +6s, memory-write at +12s, final answer at +20s
+    // Beat 3 sub-reveals: wait dots at +5s, memory-write at +12s, final answer at +21s
+    // (calibrated to real ch4 audio: ~40s total, 3 pause tags)
     const t3 = elapsed - b3start;
-    document.getElementById('b3wait').classList.toggle('on', t3 >= 5 && t3 < 34);
+    document.getElementById('b3wait').classList.toggle('on', t3 >= 5 && t3 < 36);
     document.getElementById('b3reveal1').classList.toggle('on', t3 >= 12);
-    document.getElementById('b3reveal2').classList.toggle('on', t3 >= 20);
+    document.getElementById('b3reveal2').classList.toggle('on', t3 >= 21);
 
-    // Beat 5 progressive row reveal, ~1.6s apart, then subtitle
+    // Beat 5 progressive row reveal (~1.8s apart, matching the intro clause's
+    // real pacing), subtitle at +19s to land on the "flip memory off" payoff
+    // clause (real ch6 audio: ~34.7s total, 2 pause tags)
     const t5 = elapsed - b5start;
     [1,2,3,4,5].forEach((n, i) => {
-      document.getElementById('row' + n).classList.toggle('on', t5 >= i * 1.6);
+      document.getElementById('row' + n).classList.toggle('on', t5 >= i * 1.8);
     });
-    document.getElementById('b5sub').classList.toggle('on', t5 >= 9);
+    document.getElementById('b5sub').classList.toggle('on', t5 >= 19);
 
     if (elapsed < TOTAL + 1) requestAnimationFrame(tick);
   }
