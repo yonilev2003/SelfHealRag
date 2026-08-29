@@ -129,7 +129,21 @@ recorded via Playwright against the pre-installed Chromium
 (`record_video_dir`, 1280×720, 304s real-time capture), then re-encoded
 with the pre-installed ffmpeg (`-c:v libvpx -b:v 260k -r 12 -crf 30 -an`,
 ~260kbps/12fps/no audio) to fit as a `data:` URI inside a single-page
-Artifact under its 16MB cap. Captions stand in for voiceover — disclosed,
-not hidden.
+Artifact under its 16MB cap.
+
+**Narration + music, added after the fact via the ElevenLabs connector**
+(the local ffmpeg build has no audio encoder at all, so this happens as a
+separate JS-synced audio layer on the hosting page, not muxed into the
+video file itself): 6 per-beat narration clips (`eleven_multilingual_v2`,
+voice "River — Relaxed, Neutral, Informative", picked for a calm,
+technical-explainer tone rather than a promotional one) generated from
+the exact VO lines above, each independently confirmed to fit its beat's
+on-screen window before use; a subdued instrumental bed
+(`eleven_music_v2`), confirmed genuinely instrumental via a transcription
+round-trip (empty transcript, no accidental vocals) before use. Both are
+triggered by a small JS listener on the video's own `timeupdate` event,
+keyed to the exact beat boundaries above — narration plays once per beat,
+music loops quietly underneath, both pause/resume with the video. On-
+screen captions (baked into the recorded video itself) are unchanged.
 
 **Hosted video: https://claude.ai/code/artifact/42418c8e-e0fd-4ce8-90c9-fd7eca0ccaf0**

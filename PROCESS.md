@@ -366,3 +366,45 @@ All 4 fixes applied as prose-only corrections to `README.md`/`PLAN.md` —
 no code or locked artifact touched. This is exactly the discipline this
 file has documented from Phase 3 onward, now applied to the submission's
 own narrative, not just its numbers.
+
+**Same day, later — narrated video via the ElevenLabs connector.** The
+user connected their ElevenLabs account via OAuth (full permissions,
+including TTS/music). Generated 6 per-beat narration clips
+(`eleven_multilingual_v2`, voice "River — Relaxed, Neutral, Informative")
+from the exact VO lines in `VIDEO_SCRIPT.md`, tightening Beat 6's line to
+~80 words so it fits its 30s window at a natural pace (the on-screen
+caption stays as originally written — narration and caption don't need
+to match word-for-word). Every clip's actual rendered duration was
+checked against its beat window before use (longest: Beat 6 at 27.45s of
+30s available); none needed a second take. Also generated a subdued
+instrumental bed via `eleven_music_v2`, verified genuinely instrumental
+by round-tripping it through `eleven_scribe_v1` transcription (empty
+transcript, 0.12 language-probability — confirmed no accidental vocals)
+before use, rather than trusting the "Instrumental: True" request alone.
+
+**Deliberately did not use the connector's video/lipsync-dubbing nodes**
+(`sync-lipsync-v3`, `veed-lipsync`, etc.) to mux the narration into the
+recorded `.webm` directly — those are built for lip-syncing a face to new
+audio, and this recording has no face (it's a screen capture of a
+terminal-style page). The already-working approach (a JS listener on the
+video's own `timeupdate` event, triggering the right narration clip at
+each beat boundary, kept as a separate audio layer on the hosting page
+rather than a remux) stayed simpler and lower-risk, and needed no new
+mechanism — the same pattern already used for the ambient bed candidate
+built locally before the connector was available. Two independent QA
+passes before publishing: (1) transcribed Beat 3 and Beat 6 (the
+densest/tightest clips) back through `eleven_scribe_v1` and diffed
+against the intended script — both matched verbatim, confirming no
+mispronunciation or truncation artifacts on technical terms; (2) a
+Playwright harness exercised the actual sync logic — confirmed the
+correct clip activates at the correct video timestamp from a cold start,
+confirmed a mid-video seek resumes the right clip at the right internal
+offset (or correctly plays nothing when the seek lands past where that
+beat's narration would already have finished), and confirmed pausing the
+video stops both narration and music cleanly. Page size after adding
+audio: 8.07MB (was 4.56MB for the silent video alone), still comfortably
+under the Artifact 16MB cap. Republished to the same Artifact URL — no
+link changes needed anywhere. `docs/assets`/results chart, Mermaid
+diagram, and every other Phase-7-polish item from earlier today are
+untouched by this round; only `video/demo_page.html`,
+`README.md`'s Video section, and `VIDEO_SCRIPT.md` changed.
