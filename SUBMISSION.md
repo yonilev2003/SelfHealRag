@@ -62,4 +62,4 @@ claim: https://github.com/yonilev2003/hackathonaug28.08.26
 
 ## Video URL
 
-[fill in once hosted]
+https://claude.ai/code/artifact/42418c8e-e0fd-4ce8-90c9-fd7eca0ccaf0

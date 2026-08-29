@@ -118,3 +118,18 @@ Playwright-recorded browser terminal; real command output, no post-hoc
 editing of numbers. Total target: 4:30–5:00. Host as an unlisted/private
 link or a claude.ai Artifact; final URL goes in the submission form and
 this file.
+
+## Final: how this was actually recorded
+
+Every beat's terminal output above is real, captured live against this
+repo (see `PROCESS.md` for the exact commands run). `video/beats.html` is
+the recording source — six auto-advancing sections timed to the beats
+above, driven by a JS clock (no manual clicking, no editing cuts). It was
+recorded via Playwright against the pre-installed Chromium
+(`record_video_dir`, 1280×720, 304s real-time capture), then re-encoded
+with the pre-installed ffmpeg (`-c:v libvpx -b:v 260k -r 12 -crf 30 -an`,
+~260kbps/12fps/no audio) to fit as a `data:` URI inside a single-page
+Artifact under its 16MB cap. Captions stand in for voiceover — disclosed,
+not hidden.
+
+**Hosted video: https://claude.ai/code/artifact/42418c8e-e0fd-4ce8-90c9-fd7eca0ccaf0**

@@ -262,7 +262,11 @@ the concept-selection memory experiment) are under
 
 ## Video (≤5 min)
 
-[link once recorded — see `VIDEO_SCRIPT.md`]
+**https://claude.ai/code/artifact/42418c8e-e0fd-4ce8-90c9-fd7eca0ccaf0**
+
+5:04, captioned (no voiceover), six beats matching `VIDEO_SCRIPT.md`. Every
+terminal block on screen is real, unedited command output captured live
+against this repo — recording source: `video/beats.html`.
 
 ## Ownership note
 
