@@ -193,6 +193,59 @@ the measured result, not just the architecture diagram:
    guess). The loop's own output, `advanced/selfheal_changelog.md`, is a
    changelog the *system* writes about itself.
 
+### The engineering process, not just the code
+
+`.claude/workflows/` holds two real, working Workflow-tool scripts —
+inspectable JavaScript with structured-output JSON schemas at every
+step, not pseudocode — that encode the orchestration methodology this
+project is built on:
+
+- **`hackathon-sprint.js`'s `grillDecision()`:** on every consequential
+  decision, 3 independent skeptics run in parallel, each explicitly
+  instructed to *"find the strongest reason it's wrong, not to be
+  agreeable."* Majority vote (≥2/3) flags `MAJORITY SAYS RECONSIDER`.
+  Deliberately **not** run on every prompt — grilling a README edit
+  multiplies cost without adding real scrutiny — only on picks that
+  matter (which approach, which direction).
+- **3-lens adversarial verify**, concurrent and report-only (lenses never
+  edit files directly — concurrent writers would clobber each other's
+  fixes), then one sequential fix pass: `correctness` / `edge-cases` /
+  `reproducibility` at Baseline Verify (the reproducibility lens wipes
+  caches/venvs and re-runs from clean state); `correctness` /
+  `regression-vs-baseline` / `edge-cases` at Advanced Verify.
+- **A reserved "creative seat":** in Advanced Ideation, the last panel
+  slot gets a different prompt — not "improve this," but "what would a
+  sharper competitor build instead" — judged on impact-vs-risk,
+  creativity, and user-value alignment together, not one technical score.
+- **`hackathon-fix.js`'s loop-until-dry:** a found bug must survive 2
+  independent refutation attempts (default-refuted if unreproducible) to
+  count as real. A refuted bug isn't permanently buried — it's
+  quarantined for 2 rounds, then eligible to resurface if still genuinely
+  present, guarding against naive dedup silently burying a true issue.
+  Stops after 2 consecutive dry rounds, capped at 8 as a safety valve,
+  plus a per-round meta-critic asking whether the hunt is converging or
+  just re-finding the same shallow things.
+
+**Honest about what actually ran where** (per `PLAN.md`'s own
+execution-mode note): once the concept was chosen, Phases 2–7 of this
+build ran **directly, phase-by-phase, in an interactive session** — not
+through an autonomous `hackathon-sprint.js` invocation — because
+judgment-heavy work (a chunk-boundary bug, a dev/test memory-gating gap)
+needed a human in the loop at each step, not a scripted pipeline. The
+scripts above are a real, reusable engineering artifact; they are not the
+literal execution log for this build. What **did** run at that scale:
+concept selection itself used **3 separate Workflow-tool design passes
+across 44 candidate ideas and ~100 Sonnet agents**, rubric-blind-scored
+(mean 88.3, highest of all candidates) and adversarially grilled by 4
+independent skeptics — including the empirical pre-test that killed the
+prior front-runner (`archive/ledgerguard-pretest/`) when its own fair
+baseline solved it outright. Every bug in `PROCESS.md` (the chunk-
+splitting bug, the dev/test memory-gating gap, the sandbox `allowed_tools`
+gap) was caught the way `hackathon-fix.js` is *designed* to catch bugs —
+adversarial re-reading of actual per-case results before trusting an
+aggregate number — applied by hand, with a full dated paper trail, not by
+an autonomous script run.
+
 **Fairness, made explicit (kickoff doc's own requirement):** all five arms
 share one prompt template (`baseline/prompt_template.md`), the same model
 (`claude-sonnet-5`), and byte-identical chunk rendering
@@ -209,10 +262,17 @@ output a human reads. Within that: `advanced/verifier.py` sets
 citation (a real correction happening, worth a second look) — a
 memory-sourced answer currently does **not** carry that flag, since the
 signal-extraction step (`advanced/memory_writer.py`) applies whatever it
-extracts immediately, with no approval gate. That's a real, disclosed gap
-for anything beyond this demo — see `PRODUCTION_ROADMAP.md`'s human-approval
-item for what closing it would take before this touches a real HR/legal/
-finance policy store.
+extracts immediately, with no confidence check and no gate at all. **The
+design intent is not "review everything"** — a self-healing system that
+needs a human on every correction isn't actually self-healing — it's
+maximal autonomy with strong-enough verification that most cases need
+nobody, and a *configurable* human-in-the-loop path for the exceptions
+(low confidence, real contradictions, high-impact changes). Today's code
+has neither the confidence gate nor the exception queue — that's a real,
+disclosed gap, not glossed over: see `PRODUCTION_ROADMAP.md` §4 for
+exactly what closing it takes, including the separate (also unbuilt)
+human-*evaluation* sampling layer for ongoing quality measurement, which
+is a different mechanism from per-output review.
 
 **Known limitations for production use:** this build demonstrates the
 self-healing *mechanism* on a synthetic corpus with hand-authored
