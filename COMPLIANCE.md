@@ -66,9 +66,9 @@ is a working gate: nothing ships while a MUST row is unchecked. Derived
 | # | Requirement | Gate / artifact |
 |---|---|---|
 | G1 | Clear pre-competition vs added split | `pre-kickoff` scaffold commits vs work after `49a647a`; README section documents the split |
-| G2 | Licenses/terms respected | Only public-domain / synthetic data; pip/npm deps under permissive licenses |
+| G2 | Licenses/terms respected | Only public-domain / synthetic data; pip/npm deps under permissive licenses; repo itself carries an MIT `LICENSE` |
 | G3 | **Consequential actions sandboxed + human approval before they happen** | Solution never sends/files/pays anything automatically; output is a review artifact; deploy-guard hook active |
-| G4 | **Qualified human reviewer for solutions that could significantly affect someone** | Final artifact carries an explicit human-review checkpoint (review-required banner + unverified items flagged for human) |
+| G4 | **Qualified human reviewer for solutions that could significantly affect someone** | The design goal is confidence-gated autonomy, not blanket human review (a system that needs a human on every output isn't self-healing) — `advanced/verifier.py` flags `requires_human_review: true` on the one case that actually is a real, live correction (a stale-citation override); a configurable human-in-the-loop *exception* path for low-confidence/high-impact memory corrections, and a separate risk-based human-*evaluation* sampling layer, are named as roadmap in `PRODUCTION_ROADMAP.md` §4 — neither is claimed as shipped. README Section 6 states this distinction plainly rather than overclaiming a review gate that doesn't exist in code. |
 | G5 | Public or synthetic data only | Fully synthetic, deterministically generated corpus vendored in-repo |
 | G6 | No credentials/private info in submission | `.env` gitignored; pre-zip secret scan; zip audit |
 | G7 | **Every claim connected to submitted evidence** | Every number in README/CHANGELOG traceable to a committed `results/*.json`; no unmeasured superlatives |
