@@ -11,6 +11,16 @@ Solo entry for the **micro1 Agentic Workflows Hackathon** (Aug 28–31,
 decision's paper trail: `PLAN.md` + `PROCESS.md`. This file is the
 top-level summary; those two are the full, unabridged record.
 
+**The one number that matters:** on the frozen 16-case test, *every*
+baseline — a full-context read of the entire corpus, static RAG, an
+unrestricted agent with unlimited turns to read — scores **0/3** on the
+one case class this was built for. SelfHeal RAG scores **3/3**. Not an
+average, not a trend: a full swing, on the exact question *"what is the
+current weekly on-call stipend for engineers?"*, where the handbook says
+$200, a support ticket says $250, and only SelfHeal RAG ever sees the
+ticket. Full numbers, honest both directions (SelfHeal does *not* win on
+raw aggregate — see Section 5), below.
+
 ## 1. Who has this problem?
 
 A data/analytics or ops lead at a small-to-mid-size company who has
@@ -67,6 +77,8 @@ below.
 ---
 
 ## 5. Results (frozen 16-case test split, one-time official run)
+
+![memory_correction accuracy: every baseline 0/3, SelfHeal RAG 3/3](docs/assets/results_chart.svg)
 
 **Primary metric:** Grounded Answer Accuracy — a predicted answer counts
 correct only if BOTH the value and its citation exactly match the planted
@@ -137,6 +149,24 @@ it holding at full scale on data the system never saw during development.
 
 ## 6. How it's built (Agent Solution & Engineering)
 
+```mermaid
+flowchart LR
+    Q[question] --> R["retriever.py<br/>BM25, k=3"]
+    R --> G["generator.py"]
+    G --> V["verifier.py<br/>deterministic,<br/>LLM-free"]
+    V --> A[answer + citation]
+
+    S[["data/correction_signals.json<br/>(ticket / audit feed)"]] -.->|"only SelfHeal reads this —<br/>the one asymmetry vs. every baseline"| MW["memory_writer.py<br/>heal_entities()"]
+    MW <-->|"read / write"| M[("advanced/memory.json")]
+    G -->|"per retrieved entity,<br/>every query"| MW
+    M -->|"MEMORY-cited override,<br/>if a correction exists"| G
+
+    classDef oracle fill:#3a2a1a,stroke:#c9822a,color:#f3d9b1;
+    classDef store fill:#1a2a3a,stroke:#4a90c2,color:#c9e3f5;
+    class S oracle
+    class M store
+```
+
 Four load-bearing components, each necessary — removing any one changes
 the measured result, not just the architecture diagram:
 
@@ -172,11 +202,28 @@ including A0's otherwise-total corpus access. This mirrors the real-world
 condition it's modeling (a ticketing system nobody wired into the RAG
 index) and is exactly the capability under test, not a hidden advantage.
 
-**Human review:** SelfHeal RAG never files, sends, or auto-applies
-anything. Every answer where the verifier overrides a citation or memory
-supplies the value carries a `requires_human_review` flag in its raw
-output — a real person confirms before anything downstream acts on it
-(kickoff doc ground rules #4–5).
+**Human review — accurate, not aspirational:** SelfHeal RAG never files,
+sends, or takes any real-world action; every answer is informational
+output a human reads. Within that: `advanced/verifier.py` sets
+`requires_human_review: true` only when it actively overrides a stale
+citation (a real correction happening, worth a second look) — a
+memory-sourced answer currently does **not** carry that flag, since the
+signal-extraction step (`advanced/memory_writer.py`) applies whatever it
+extracts immediately, with no approval gate. That's a real, disclosed gap
+for anything beyond this demo — see `PRODUCTION_ROADMAP.md`'s human-approval
+item for what closing it would take before this touches a real HR/legal/
+finance policy store.
+
+**Known limitations for production use:** this build demonstrates the
+self-healing *mechanism* on a synthetic corpus with hand-authored
+provenance metadata and a static, pre-labeled signal fixture — it is not
+a deployable connector. The biggest unproven piece is automatic
+entity/version resolution over real, messy documents (here it's given as
+ground truth; in reality it must be inferred). Concrete failure scenario
+if deployed as-is: a sarcastic or hypothetical Slack message gets
+extracted as a "correction" and silently served as fact, since nothing
+gates a memory write today. Full gap analysis, tied to actual code
+locations: `PRODUCTION_ROADMAP.md`.
 
 ## 7. Reproducing this
 
@@ -243,6 +290,7 @@ PLAN.md              the build runbook (rev 4) — every phase, every invariant
 PROCESS.md           the actual paper trail — what happened, in order, including bugs
 CHANGELOG.md         the judged improvement changelog
 COMPLIANCE.md        every kickoff requirement mapped to what satisfies it
+PRODUCTION_ROADMAP.md  honest gap analysis: prototype -> deployable product
 data/                corpus, fact registry (oracle), correction signals, frozen splits
 baseline/            Arms A0 / A / A2 / B
 advanced/            SelfHeal RAG: retriever, generator, verifier, tuner, memory
@@ -270,6 +318,7 @@ against this repo — recording source: `video/beats.html`.
 
 ## Ownership note
 
-Submitted under the event's participation agreement (micro1 holds rights
-to use submissions, including for model training — see the official Rule
-Book for exact terms, not summarized here).
+Submitted under the event's official participation terms (not reproduced
+here — see the event's Rule Book for the exact terms; nothing in
+`PROBLEM.md` as transcribed spells out a specific rights clause, so this
+note intentionally doesn't invent one).

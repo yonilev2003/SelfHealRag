@@ -232,3 +232,87 @@ still empty aside from the Phase-1 pretest scaffolding already archived).
 
 *(Phase 3+ entries are appended here as each phase completes — never
 backfilled from memory.)*
+
+### 2026-08-29 — Phase 6+7 complete, then a post-submission polish round
+
+**Disclosure on timing:** this entry is a consolidated retrospective,
+written after Phase 6 (README/CHANGELOG/COMPLIANCE) and Phase 7
+(video/packaging) had already completed in-session — not appended in
+real time the way the entries above were. Recorded honestly rather than
+silently skipped, per this file's own stated discipline.
+
+**Phase 6 — README.md rewritten** (4 kickoff questions as literal
+headings, honest aggregate-doesn't-win framing kept front and center,
+Section 5 results + Section 6 architecture + Section 7 repro guide).
+**Phase 7 — video + packaging.** Real bugs found and fixed live:
+- `Bash(run_in_background:true)` + a manual `&` inside the command
+  double-backgrounds — the shell reports "exited 0" almost immediately
+  while the real process (a 304s Playwright recording) keeps running
+  orphaned, untracked by the tool. Fixed by waiting on the actual PID.
+- The Playwright-bundled ffmpeg (`/opt/pw-browsers/ffmpeg-1011/`) is a
+  restricted build: video-only (`libvpx`/webm), **no audio encoder
+  compiled in at all** — audio muxing into the recorded video is not
+  possible in this environment.
+- Artifact's `assets` capability (for uploading a video as a separate
+  file) is not available to this account — the only viable hosting path
+  was embedding the compressed webm as a `data:` URI inside a single
+  self-contained HTML page, under the 16MB artifact cap.
+`submission.zip` built and verified under the 50MB cap.
+
+**Post-submission audit (39 tool calls, one `general-purpose` agent, run
+before considering the submission final):** 8/8 PASS — `eval/score.py`
+correctness, oracle isolation (`make verify-no-leak`), README numbers vs.
+`results/*.json`, no leftover placeholders, all fast unit tests green,
+secrets scan clean. No fixes required from this pass.
+
+**LinkedIn/business-credibility audit (dynamic workflow, 5 agents:
+3 parallel auditors → synthesis → adversarial skeptic, 464K tokens, 68
+tool calls) — run at the submitter's explicit request**, to check the
+repo reads as a genuinely credible project (not just a graded artifact)
+without spending any rubric-relevant risk to get there. **One real,
+substantive bug caught, not just polish:** README Section 6 claimed
+*"every answer where the verifier overrides a citation or memory
+supplies the value carries a `requires_human_review` flag"* — false.
+Verified directly against `advanced/verifier.py` (lines ~47–50): a
+MEMORY-cited answer explicitly gets `requires_human_review: False`. Only
+a verifier-detected stale-citation override gets `True`. This is exactly
+the class of claims-vs-evidence gap the project's own G7 discipline
+exists to catch — fixed as a prose-only correction (see README Section 6),
+**not** a code change, since altering `verifier.py`'s actual logic would
+change Arm C's measured behavior and require re-running the hash-locked
+frozen test — correctly out of scope this close to the deadline. Also
+found: the README's "Ownership note" asserted a specific rights clause
+("micro1 holds rights... for model training") that does not actually
+appear anywhere in the transcribed `PROBLEM.md` — softened to not invent
+a claim the source document doesn't make.
+
+**The workflow's own adversarial skeptic caught something too:** the
+synthesis step's first recommendation ("flip the GitHub repo public +
+rename it") was flagged `overall_safe_to_execute: false` and cut from
+the executed list — not because it's unsafe mechanically, but because it
+was framed as pure LinkedIn-fit with no rubric line behind it, which is
+exactly the kind of implicit judge-affinity weighting the submitter's own
+standing instruction rules out. Left as a manual decision for the
+submitter (no GitHub MCP tool exists here to change repo visibility or
+name in any case).
+
+**Executed from the audit (all additive, zero locked-artifact changes):**
+Mermaid architecture diagram in README Section 6; a results chart
+(`docs/assets/results_chart.svg`, dataviz-skill palette/validated colors)
+showing the `memory_correction` 0/3-vs-3/3 result at a glance; the hero
+case pulled into the README's opening hook; `PRODUCTION_ROADMAP.md` (new
+file — an honest, code-grounded gap analysis between this prototype and
+a real "Corporate RAG Healer" deployment: multi-format ingestion,
+automatic version/supersession inference, a real signal connector with
+entity resolution, a human-approval queue, a production datastore) plus
+a "Known limitations" pointer in the README; an MIT `LICENSE`.
+**Explicitly rejected** (per the workflow's own risk-graded findings):
+regenerating the eval corpus with richer LLM-authored prose (would
+invalidate every hash-locked artifact and every number in `CHANGELOG.md`
+for zero rubric benefit — the project's own history already shows 2
+live bugs surfaced on the first pass through this exact corpus-generation
+pipeline, and CLAUDE.md's 2-strikes escalate gate is a real risk this
+close to a no-extensions deadline); wiring a real approval queue into
+`generator.py`'s live path (would change Arm C's graded behavior);
+building real folder-watcher/connector/dashboard code (multi-week
+engineering, correctly scoped instead as roadmap, not hackathon output).
