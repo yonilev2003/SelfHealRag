@@ -1,309 +1,332 @@
 # SelfHeal RAG
 
-A RAG system for internal company policy documents that **catches its own
-stale answers and permanently fixes them** — closing a gap that no amount
-of context, retrieval sophistication, or agentic reading time can close on
-its own, because the correct information simply isn't in the document
-corpus at all.
+Correction-aware, stateful retrieval-augmented generation for enterprise
+knowledge that changes faster than the documents describing it.
 
-Solo entry for the **micro1 Agentic Workflows Hackathon** (Aug 28–31,
-2026). Full kickoff document: `PROBLEM.md`. Build runbook and every design
-decision's paper trail: `PLAN.md` + `PROCESS.md`. This file is the
-top-level summary; those two are the full, unabridged record.
-
-**The one number that matters:** on the frozen 16-case test, *every*
-baseline — a full-context read of the entire corpus, static RAG, an
-unrestricted agent with unlimited turns to read — scores **0/3** on the
-one case class this was built for. SelfHeal RAG scores **3/3**. Not an
-average, not a trend: a full swing, on the exact question *"what is the
-current weekly on-call stipend for engineers?"*, where the handbook says
-$200, a support ticket says $250, and only SelfHeal RAG ever sees the
-ticket. Full numbers, honest both directions (SelfHeal does *not* win on
-raw aggregate — see Section 5), below.
-
-## 1. Who has this problem?
-
-A data/analytics or ops lead at a small-to-mid-size company who has
-already shipped an internal RAG chatbot over the employee handbook —
-refund policy, PTO, on-call pay, expense caps, and so on. This is a
-realistic, common first "let's use AI internally" project, and it's
-exactly the kind of system this submission's author builds professionally
-(RAG for businesses is the stated domain expertise this project leans on).
-
-## 2. What bottleneck makes it worth solving?
-
-Company policy documents go stale in a very specific, very common way:
-**a fact changes, and the update reaches everyone except the document.**
-Finance approves a stipend increase over Slack. A support-ops audit
-tightens an SLA. HR extends an NDA term in a contract-template revision.
-These changes are real, they're recorded *somewhere* (a ticket, an audit
-note, an email thread) — but nobody circles back to update the employee
-handbook the RAG bot is actually indexed against. The bot then answers
-confidently and wrong, citing a real, existing, on-topic document — which
-is worse than not answering at all, because there's no obvious sign
-anything is off.
-
-**This is not a "the RAG bot needs a smarter model" problem.** Section 5
-below measures this directly: giving the bot the *entire* 81-chunk corpus
-in one call (no retrieval limits at all) and giving it an agent with
-unlimited turns to read every document both fail on this exact case class,
-just as completely as a plain retrieve-then-answer pipeline. The
-information the bot needs is not in the corpus. No amount of reading
-harder closes that gap.
-
-## 3. Does the agent solve it well?
-
-Yes, on the one case class that's structurally impossible for every
-baseline — and honestly, no better than a static baseline elsewhere (see
-Section 5's full, unedited numbers). SelfHeal RAG adds exactly one
-new resource no baseline gets: a feed of internal "signals" (support
-tickets, audit notes — the places corrections actually live before they
-reach the handbook) it can consult and learn from *continuously, live, as
-it serves queries* — not just during a one-time calibration pass. When it
-notices a retrieved document's answer might be stale, it checks the signal
-feed, and if a correction exists, it persists it and uses it from then on,
-citing `"MEMORY"` instead of a document chunk so the source is always
-auditable.
-
-## 4. Can another person reproduce the result?
-
-Yes — see Section 7. Every number in this README traces to a committed
-file under `results/`; the frozen test split is SHA-256-locked and
-re-verifiable; the corpus, probes, and the entire self-improvement loop
-are deterministic and regenerate byte-for-byte from the scripts in this
-repo. Full command sequence, versions, measured runtime and measured cost
-below.
+[Demo (4:11)](https://claude.ai/code/artifact/f2121890-60e5-4e0d-bf48-d11d08268d08) ·
+[Architecture](#2-system-architecture) ·
+[Quick start](#8-reproducing-this)
 
 ---
 
-## 5. Results (frozen 16-case test split, one-time official run)
+## 1. What it is
+
+SelfHeal RAG combines BM25 sparse retrieval, a persistent entity-scoped
+correction memory, a deterministic supersession verifier, and a
+failure-taxonomy-driven self-improvement loop to close a specific,
+structural RAG failure: the correct answer is *categorically absent* from
+the indexed corpus and reachable only through an external correction
+signal (a ticket, an audit note) that a standard retrieve-then-generate
+pipeline never connects to. Concretely, this targets a data/analytics or
+ops lead running an internal RAG chatbot over an employee handbook —
+refund policy, PTO, on-call pay, expense caps — where a fact changes
+(Finance approves a raise over Slack, an audit tightens an SLA) and the
+update reaches everyone except the document the bot is indexed against. It
+then answers confidently, wrong, and citing a real document — worse than
+not answering, because nothing signals it's stale.
+
+**The mechanism, in one number:** on a frozen 16-case test, every baseline
+— full-context, static RAG, self-correcting RAG, a search-capable agent —
+scores **0/3** on `memory_correction`, the category this was built for.
+SelfHeal RAG scores **3/3**, reproduced by a single-flag memory ON/OFF
+ablation. Full numbers, including where SelfHeal does *not* win (raw
+aggregate), in [Section 6](#6-results).
+
+## 2. System architecture
+
+```mermaid
+flowchart LR
+    Q[Query] --> R["retriever.py<br/>BM25 top-k<br/>+ optional temporal prior"]
+    R --> RE[Retrieved entities]
+    RE --> MW["memory_writer.py<br/>heal_entities()"]
+    CS[["correction_signals.json<br/>(ticket / audit feed)"]] -.->|"only SelfHeal reads this —<br/>the one asymmetry vs. every baseline"| MW
+    MW <-->|"read / write"| M[("memory.json<br/>persistent")]
+    RE --> G["generator.py<br/>LLM generation"]
+    M -->|"MEMORY-cited override,<br/>if a correction exists"| G
+    G --> V{"verifier.py<br/>deterministic, LLM-free<br/>(off in shipped config —<br/>see §4)"}
+    V --> A[Answer + citation]
+
+    classDef oracle fill:#3a2a1a,stroke:#c9822a,color:#f3d9b1;
+    classDef store fill:#1a2a3a,stroke:#4a90c2,color:#c9e3f5;
+    class CS oracle
+    class M store
+```
+
+**Query lifecycle for the hero case** (`memory_correction-01`: handbook
+says $200, `TICKET-4521` says $250):
+
+```mermaid
+sequenceDiagram
+    participant Q as Query
+    participant R as retriever.py
+    participant G as generator.py
+    participant M as memory.json
+    participant S as correction_signals.json
+    Q->>R: "current weekly on-call stipend?"
+    R->>G: top-k chunks (handbook: $200)
+    G->>M: entity eng.oncall_stipend_usd in memory?
+    M-->>G: not found
+    G->>S: check correction-signal feed
+    S-->>G: TICKET-4521, true_value=250
+    G->>M: persist {value: 250, source: TICKET-4521}
+    G-->>Q: {"value": "250", "chunk_id": "MEMORY"}
+```
+
+## 3. Algorithms & mechanisms
+
+**Sparse retrieval — Okapi BM25.** `retriever.py` is a standard lexical
+retriever (`rank_bm25.BM25Okapi`, `k=3` by default):
+
+```
+S_BM25(q,d) = Σ_{t∈q} IDF(t) · f(t,d)(k1+1) / (f(t,d) + k1(1-b+b·|d|/avgdl))
+```
+
+with an optional entity-local temporal prior, toggled by
+`hybrid_date_boost`:
+
+```
+S(d,q) = S_BM25(d,q) + λ · r_e(d),   λ = 0.5
+```
+
+where `r_e(d)` is `d`'s zero-indexed chronological rank among versions of
+the same entity — a later version needs to out-lexically-match only
+*other entities*, not out-score its own superseded predecessor. **This
+knob is off in the shipped config** (`hybrid_date_boost: false` in
+`advanced/final_config.json`) — the frozen-test numbers in §6 use plain
+BM25.
+
+**Persistent, entity-scoped correction memory.** `memory_writer.py`
+checks every retrieved entity against `memory.json`; for any entity with
+no entry yet, it consults `correction_signals.json` and, if a signal
+exists, extracts a value via one LLM call and persists it:
+
+```
+M_{t+1}(e) = M_t(e)              if e ∈ M_t
+           = Extract(s_e)         if e ∉ M_t and a signal s_e exists
+           = ∅                    otherwise
+```
+
+Generation then composes the base prompt with any matching memory entry,
+which overrides the document excerpt and is cited `"MEMORY"`:
+
+```
+P = P_base(q, R_k(q)) ⊕ M(E_R)
+```
+
+This runs on **every query** (`generator.py`, `use_memory=True`), not only
+during offline tuning — the live-heal path exists specifically because
+the offline-only version undercounted test-split entities (§7, main
+failure mode).
+
+**Deterministic temporal verifier — real, tested, disabled in production.**
+`verifier.py` builds an entity index `e → {d_1, ..., d_n}` from parsed
+corpus headers and finds each entity's current version:
+
+```
+d*_e = argmax_{d ∈ D_e} effective_date(d)
+```
+
+If a citation's version predates `d*_e`, the verifier deterministically
+overrides it with the current value and sets `requires_human_review`.
+No model call, no guessing — and unit-tested against real corpus cases
+(`advanced/test_verifier.py`). **It is disabled in the shipped config**
+(`use_verifier: false`) because the explicit verifier-ON ablation
+(`results/ablations_summary.json`) changed **zero** outputs across all 16
+frozen-test cases. Kept in the repo and demonstrated in the video as a
+real, working, negative result — not claimed as load-bearing.
+
+**Failure-taxonomy-driven self-improvement.** `eval/taxonomy.py` classifies
+every dev-split failure into one of six categories (priority order):
+`memory_correction_missed > retrieval_miss > hallucinated_citation >
+wrong_override > stale_value_uncaught > wrong_value_other`. Each round,
+`advanced/tuner.py` takes the plurality category and a mapped action:
+
+```
+c_t = argmax_c N_t(c)          (plurality failure category)
+a_t = π(c_t)                    (mapped action: memory consult / k-bump / verifier-on / hybrid-on)
+```
+
+and keeps the change only if it clears a minimum effect size, with one
+explicit exception:
+
+```
+θ_{t+1} = θ'_t   if Correct(θ'_t) − Correct(θ_t) ≥ 2, OR a memory write occurred
+        = θ_t    otherwise
+```
+
+Memory writes are kept unconditionally (confirmed against a real signal,
+not a guess); everything else needs a ≥2-case dev-accuracy improvement.
+The loop's own output, `advanced/selfheal_changelog.md`, is a changelog
+the *system* writes about itself.
+
+## 4. The self-healing path (pseudocode)
+
+```python
+for entity in retrieved_entities:
+    if entity not in memory:
+        signal = correction_signals.get(entity)      # only SelfHeal reads this
+        if signal:
+            value = llm_extract(signal.text)          # one LLM call
+            memory[entity] = {"value": value, "source": signal.id}
+
+if any(e in memory for e in retrieved_entities):
+    prompt += memory_addendum(matches)                # cited "MEMORY", overrides doc excerpts
+
+answer = llm_generate(prompt)
+
+if use_verifier:                                       # False in the shipped config
+    answer = verifier.check(answer, entity_index)      # deterministic, no model call
+```
+
+## 5. Evaluation
+
+**Primary metric — Grounded Answer Accuracy (GAA).** A predicted answer
+counts correct only if both the value *and* its citation match the
+planted ground truth (`eval/match.py`):
+
+```
+GAA = (1/N) Σ_i 1[ match(ŷ_i, y_i) ∧ (ĉ_i = c_i) ]
+```
+
+Citing the right value from the wrong chunk — or the right chunk with a
+misread value — scores zero. This is stricter than value-only accuracy on
+purpose: a correct-looking wrong-citation is exactly the failure mode a
+company can't afford to trust silently.
+
+**Frozen 16-case test, entity-disjoint from the 24-case dev split** (both
+SHA-256-locked, `eval/split_and_lock.py`), across 5 categories: `atomic`,
+`contradiction`, `near_dup`, `multi_hop`, `memory_correction`.
+
+**Oracle isolation** (`make verify-no-leak`, static, no API calls): the
+frozen split and `data/fact_registry.json` (the ground-truth oracle) are
+never read by any arm's runtime code — only by the grading script.
+
+**Baselines**, all sharing one prompt template, one model
+(`claude-sonnet-5`), byte-identical chunk rendering:
+
+| Arm | Description | Given |
+|---|---|---|
+| A0 | Full 81-chunk corpus, one call | Everything except `correction_signals.json` |
+| A | Static RAG, BM25 k=3 | Top-3 retrieved chunks |
+| A2 | A + one forced self-correction re-query | Top-3 + a second angled re-query |
+| B | Sandboxed generalist agent (`Read`/`Grep`/`Glob` only, no `Bash`/`Write`/`Edit`, 25-turn/8-min cap) | Full read access to a copy of `data/corpus/` |
+| **C** | **SelfHeal RAG** | Retrieval + `correction_signals.json` (the one deliberate asymmetry) |
+
+**Ablations** (`eval/run_ablations.py`): memory ON/OFF (primary),
+verifier ON/OFF, tuned-vs-round0 config, hybrid-date-boost ON/OFF
+(secondary) — all reported in §6, including the ones that showed no
+effect.
+
+## 6. Results
+
+**Memory-correction proof-of-mechanism: 3/3 vs 0/3.**
 
 ![memory_correction accuracy: every baseline 0/3, SelfHeal RAG 3/3](docs/assets/results_chart.svg)
 
-**Primary metric:** Grounded Answer Accuracy — a predicted answer counts
-correct only if BOTH the value and its citation exactly match the planted
-ground truth (`eval/match.py`, `eval/grade_test.py`).
-
 | Arm | Overall | atomic | contradiction | near_dup | multi_hop | **memory_correction** | Cost | Wall-clock |
 |---|---|---|---|---|---|---|---|---|
-| A0 — full corpus in one prompt (no retrieval limit at all) | 13/16 (81.3%) | 3/3 | 5/5 | 3/3 | 2/2 | **0/3** | $0.688 | 45.3s |
-| A — static RAG, BM25 k=3 (the "reasonable basic way to handle the task") | 8/16 (50.0%) | 2/3 | 3/5 | 3/3 | 0/2 | **0/3** | $0.063 | 45.1s |
-| A2 — A + one forced self-correction re-query | 10/16 (62.5%) | 2/3 | 5/5 | 3/3 | 0/2 | **0/3** | $0.109 | 90.2s |
-| B — generalist agent, unlimited reads (the PDF's own fair baseline: *"one general purpose agent with basic tools"*) | 12/16 (75.0%) | 2/3 | 5/5 | 3/3 | 2/2 | **0/3** | $0.796 | 122.8s |
+| A0 — full corpus in one prompt | 13/16 (81.3%) | 3/3 | 5/5 | 3/3 | 2/2 | **0/3** | $0.688 | 45.3s |
+| A — static RAG, BM25 k=3 | 8/16 (50.0%) | 2/3 | 3/5 | 3/3 | 0/2 | **0/3** | $0.063 | 45.1s |
+| A2 — A + one forced re-query | 10/16 (62.5%) | 2/3 | 5/5 | 3/3 | 0/2 | **0/3** | $0.109 | 90.2s |
+| B — sandboxed generalist agent | 12/16 (75.0%) | 2/3 | 5/5 | 3/3 | 2/2 | **0/3** | $0.796 | 122.8s |
 | **C — SelfHeal RAG** | 11/16 (68.8%) | 2/3 | 3/5 | 3/3 | 0/2 | **3/3** | $0.070 | 46.2s |
 
 **Read this honestly, both directions:**
 
-- **On raw aggregate, SelfHeal RAG does not win.** A0 (which sees the
-  entire corpus every time) and B (an unrestricted agent) both score
-  higher overall. SelfHeal's retrieval configuration (BM25, k=3) never
-  improved past its starting point during self-improvement — the k-bump
-  experiments tried in Phase 4 didn't clear the improvement bar and were
-  correctly reverted — so on retrieval-bound categories it performs like
-  the plain static baseline it shares that configuration with, not better.
-- **On `memory_correction` — the one category no baseline can ever solve,
-  by construction, since only SelfHeal has access to the signal feed — the
-  result is categorical: every single baseline scores 0/3. SelfHeal scores
-  3/3.** This is the primary claim of this submission, and it is not an
-  average or a trend — it's a full swing, confirmed by a direct ablation:
+- **On raw aggregate, SelfHeal RAG does not win.** A0 (entire corpus every
+  call) and B (a search-capable agent) both score higher overall.
+  SelfHeal's retrieval config (BM25, k=3) never improved past its starting
+  point during self-improvement — k-bump trials didn't clear the +2-case
+  bar and were correctly reverted — so on retrieval-bound categories it
+  performs like the static baseline it shares that config with, not better.
+- **On `memory_correction` — the one category no baseline can solve by
+  construction, since only SelfHeal has the signal feed — the result is
+  categorical:** every baseline 0/3, SelfHeal 3/3, confirmed by a direct
+  ablation:
 
   | | memory ON | memory OFF (same config, one flag) |
   |---|---|---|
   | `memory_correction` accuracy | **3/3** | **0/3** |
 
-  Toggling one capability, nothing else, flips 0/3 to 3/3. That's the
-  entire, unconfoundable case for the agentic machinery in this build.
+  One capability, nothing else changed, flips 0/3 to 3/3 — for this
+  category. This is the entire, unconfoundable case for the memory
+  mechanism; it is not a claim about overall system accuracy.
+- **Every other ablation (verifier ON/OFF, tuned-vs-round0, hybrid
+  ON/OFF) showed no measurable difference on this test slice.** Reported
+  as-is — see [§9 Limitations](#9-limitations) and §3's verifier note for
+  what that means.
 
-- **Every other ablation tried (verifier ON/OFF, tuned-vs-round0 config,
-  hybrid retrieval boost ON/OFF) showed NO measurable difference on this
-  test slice.** That's reported here as-is, not hidden or spun — see the
-  Hot Take below for what that means.
+Full per-case results: `results/{A0,A,A2,B,C}_test.csv`. Ablation raw
+data: `results/ablations_summary.json`. Run receipts (timestamps, git
+SHAs, hashes): `results/test_run_log.md`.
 
-Full per-case results: `results/{A0,A,A2,B,C}_test.csv`. Ablation raw data:
-`results/ablations_summary.json`. Receipts (timestamps, git SHAs, hashes,
-one entry per run — nothing overwritten silently): `results/test_run_log.md`.
+**The hero case:** `memory_correction-01` ("current weekly on-call
+stipend?") is answered wrong ($200) by every baseline, including the two
+most capable — A0 (full corpus) and B (search-capable agent). The true
+value ($250) exists only in `TICKET-4521`, never given to any baseline.
+See `results/pretest-selfheal/memory_experiment.json` for the original
+minimal proof of this mechanism, pre-scale.
 
-### Human time & cost (kickoff doc's suggested secondary rows)
+**Human time & cost** (kickoff doc's suggested secondary rows):
 
 | | Simple baseline (A, static RAG) | Agent solution (C) |
 |---|---|---|
 | Cost per case | $0.0039 | $0.0043 |
-| Human time per case (modeled, disclosed — not measured) | ~5 min manual cross-check per case (15 chunks × 20s, or a 90s ticket cross-check for the 3 `memory_correction` cases a human would otherwise have to manually connect) | Same modeled baseline; the point is what SelfHeal automates away, not that either arm is "faster" for a human today |
+| Human time per case (modeled, disclosed — not measured) | ~5 min manual cross-check (15 chunks × 20s, or a 90s ticket cross-check for `memory_correction` cases) | Same modeled baseline — the point is what SelfHeal automates away, not raw speed |
 
-### What the hard case revealed
+## 7. Engineering discipline behind the numbers
 
-The pre-registered hero case — *"What is the current weekly on-call
-stipend for engineers?"* — is answered wrong ($200, the stale handbook
-figure) by **every single baseline, including the two most capable ones**:
-A0 (reads the whole corpus) and B (an agent with unlimited time to
-explore). The true value ($250) exists only in `TICKET-4521`, a synthetic
-support-ticket note in `data/correction_signals.json` that no baseline
-arm is ever given. SelfHeal RAG answers $250, citing `"MEMORY"`. This is
-the cleanest possible demonstration that "read more" and "think longer"
-are not the same capability as "have a channel to information that isn't
-in the document at all" — see `results/pretest-selfheal/memory_experiment.json`
-for the original, minimal proof of this mechanism, and Section 5 above for
-it holding at full scale on data the system never saw during development.
+**Fairness, made explicit** (kickoff doc's own requirement): all five arms
+share one prompt template, one model, byte-identical chunk rendering. The
+one deliberate asymmetry — only SelfHeal ever sees
+`correction_signals.json` — mirrors the real-world condition being
+modeled (a ticketing system nobody wired into the RAG index) and is
+exactly the capability under test, not a hidden advantage.
 
----
+**Human review, accurately scoped:** SelfHeal RAG never files, sends, or
+takes real-world action — every answer is informational output a human
+reads. `verifier.py` sets `requires_human_review: true` on an active
+override or an unresolvable citation error; a memory-sourced answer
+currently does **not** carry that flag, since `memory_writer.py` applies
+whatever it extracts immediately, with no confidence check. The design
+intent is maximal autonomy with strong-enough verification that most
+cases need nobody — not "review everything," which would defeat the point
+of self-healing. Today's code has neither a confidence gate nor an
+exception queue for that; see `PRODUCTION_ROADMAP.md` §4.
 
-## 6. How it's built (Agent Solution & Engineering)
+**Main failure mode (from `CHANGELOG.md`):** the first frozen-test run
+tied the static baseline — 0/3 on `memory_correction`, the exact category
+this was built for — because the self-improvement loop only ever
+discovered corrections for dev-split entities, and the frozen test split
+is deliberately entity-disjoint from dev. The fix (a live per-query heal
+path, not just an offline calibration pass) is what actually produced the
+categorical 0/3 → 3/3 result reported in §6.
 
-```mermaid
-flowchart LR
-    Q[question] --> R["retriever.py<br/>BM25, k=3"]
-    R --> G["generator.py"]
-    G --> V["verifier.py<br/>deterministic,<br/>LLM-free"]
-    V --> A[answer + citation]
+**Hot take:** a held-out test split doesn't just measure generalization —
+it will catch you gating a capability to the wrong scope, silently, as a
+disappointing number rather than a stack trace. That's a stronger argument
+for rigorous evaluation than any accuracy number by itself.
 
-    S[["data/correction_signals.json<br/>(ticket / audit feed)"]] -.->|"only SelfHeal reads this —<br/>the one asymmetry vs. every baseline"| MW["memory_writer.py<br/>heal_entities()"]
-    MW <-->|"read / write"| M[("advanced/memory.json")]
-    G -->|"per retrieved entity,<br/>every query"| MW
-    M -->|"MEMORY-cited override,<br/>if a correction exists"| G
+**How this was built:** concept selection used 3 rubric-blind judge
+panels (~100 subagent calls total, 51 candidate ideas), with the chosen
+concept adversarially grilled twice (5 attackers × 2 rounds, 46 blocking
+issues resolved) before any product code was written — including killing
+a prior front-runner concept (`archive/ledgerguard-pretest/`) after its
+own fair baseline solved it outright. Full paper trail, every decision
+dated: `PROCESS.md`, `PLAN.md`. Every kickoff requirement mapped to what
+satisfies it: `COMPLIANCE.md`.
 
-    classDef oracle fill:#3a2a1a,stroke:#c9822a,color:#f3d9b1;
-    classDef store fill:#1a2a3a,stroke:#4a90c2,color:#c9e3f5;
-    class S oracle
-    class M store
-```
+## 8. Reproducing this
 
-Four load-bearing components, each necessary — removing any one changes
-the measured result, not just the architecture diagram:
-
-1. **Persistent, live-self-healing memory** (`advanced/memory_writer.py`,
-   called by `advanced/generator.py` on every query, not just during
-   offline tuning). *Necessity, proven by the ablation above:* memory
-   OFF = 0/3 on `memory_correction`; ON = 3/3. This is the actual product
-   — everything else is infrastructure serving it.
-2. **Deterministic, LLM-free supersession-chain verifier**
-   (`advanced/verifier.py`). Parses raw corpus headers (never the oracle)
-   to find the current version of a fact and override a stale citation.
-   Unit-tested (`advanced/test_verifier.py`) against real corpus cases,
-   including one caught live: a version spanning two sibling chunks was
-   initially (wrongly) flagged "superseded" when only the wrong sibling
-   was cited — fixed to compare by version date, not chunk-id equality.
-3. **Structural BM25 retrieval with a tunable knob space**
-   (`advanced/retriever.py`; k ∈ {3,5,7,10}, an optional recency boost) —
-   the substrate the self-improvement loop tunes.
-4. **A real self-improvement loop, not a single pass**
-   (`advanced/tuner.py`): round-by-round dev-set diagnosis → plurality
-   failure category → one mapped action → keep only if dev accuracy
-   improves by ≥2 cases (memory writes are the one exception, kept
-   unconditionally since they're confirmed against a real signal, not a
-   guess). The loop's own output, `advanced/selfheal_changelog.md`, is a
-   changelog the *system* writes about itself.
-
-### The engineering process, not just the code
-
-`.claude/workflows/` holds two real, working Workflow-tool scripts —
-inspectable JavaScript with structured-output JSON schemas at every
-step, not pseudocode — that encode the orchestration methodology this
-project is built on:
-
-- **`hackathon-sprint.js`'s `grillDecision()`:** on every consequential
-  decision, 3 independent skeptics run in parallel, each explicitly
-  instructed to *"find the strongest reason it's wrong, not to be
-  agreeable."* Majority vote (≥2/3) flags `MAJORITY SAYS RECONSIDER`.
-  Deliberately **not** run on every prompt — grilling a README edit
-  multiplies cost without adding real scrutiny — only on picks that
-  matter (which approach, which direction).
-- **3-lens adversarial verify**, concurrent and report-only (lenses never
-  edit files directly — concurrent writers would clobber each other's
-  fixes), then one sequential fix pass: `correctness` / `edge-cases` /
-  `reproducibility` at Baseline Verify (the reproducibility lens wipes
-  caches/venvs and re-runs from clean state); `correctness` /
-  `regression-vs-baseline` / `edge-cases` at Advanced Verify.
-- **A reserved "creative seat":** in Advanced Ideation, the last panel
-  slot gets a different prompt — not "improve this," but "what would a
-  sharper competitor build instead" — judged on impact-vs-risk,
-  creativity, and user-value alignment together, not one technical score.
-- **`hackathon-fix.js`'s loop-until-dry:** a found bug is dropped only if
-  **both** of 2 independent refutation attempts agree it's refuted
-  (default-refuted if unreproducible, so a bug needs just one refuter to
-  fail reproducing it to count as real — a lenient-toward-flagging bar on
-  purpose). A refuted bug isn't permanently buried — it's
-  quarantined for 2 rounds, then eligible to resurface if still genuinely
-  present, guarding against naive dedup silently burying a true issue.
-  Stops after 2 consecutive dry rounds, capped at 8 as a safety valve,
-  plus a per-round meta-critic asking whether the hunt is converging or
-  just re-finding the same shallow things.
-
-**Honest about what actually ran where** (per `PLAN.md`'s own
-execution-mode note): once the concept was chosen, Phases 2–7 of this
-build ran **directly, phase-by-phase, in an interactive session** — not
-through an autonomous `hackathon-sprint.js` invocation — because
-judgment-heavy work (a chunk-boundary bug, a dev/test memory-gating gap)
-needed a human in the loop at each step, not a scripted pipeline. The
-scripts above are a real, reusable engineering artifact; they are not the
-literal execution log for this build. What **did** run at that scale:
-concept selection itself used **3 rubric-blind judge panels across the
-full process — 51 candidate ideas total** (LedgerGuard: 24 ideas across 2
-panels; SelfHeal RAG: 27 ideas in one larger, more targeted panel — see
-`CHANGELOG.md`'s concept-selection rows for the exact per-stage counts —
-**~100 Sonnet agents** overall), with SelfHeal RAG's own pick then
-**adversarially grilled twice (5 attackers × 2 rounds, 46 blocking issues
-found and resolved)** — including the empirical pre-test that killed the
-prior front-runner (`archive/ledgerguard-pretest/`, which had itself
-scored highest at 88.3 across its own two panels) when its own fair
-baseline solved it outright. Every bug in `PROCESS.md` (the chunk-
-splitting bug, the dev/test memory-gating gap, the sandbox `allowed_tools`
-gap) was caught the way `hackathon-fix.js` is *designed* to catch bugs —
-adversarial re-reading of actual per-case results before trusting an
-aggregate number — applied by hand, with a full dated paper trail, not by
-an autonomous script run.
-
-**Fairness, made explicit (kickoff doc's own requirement):** all five arms
-share one prompt template (`baseline/prompt_template.md`), the same model
-(`claude-sonnet-5`), and byte-identical chunk rendering
-(`advanced/build_index.py`). The ONE deliberate asymmetry: only SelfHeal
-RAG ever sees `data/correction_signals.json` — never the baselines,
-including A0's otherwise-total corpus access. This mirrors the real-world
-condition it's modeling (a ticketing system nobody wired into the RAG
-index) and is exactly the capability under test, not a hidden advantage.
-
-**Human review — accurate, not aspirational:** SelfHeal RAG never files,
-sends, or takes any real-world action; every answer is informational
-output a human reads. Within that: `advanced/verifier.py` sets
-`requires_human_review: true` when it actively overrides a stale citation
-(a real correction happening, worth a second look) or hits a citation/
-index error it can't resolve — a memory-sourced answer currently does
-**not** carry that flag, since the
-signal-extraction step (`advanced/memory_writer.py`) applies whatever it
-extracts immediately, with no confidence check and no gate at all. **The
-design intent is not "review everything"** — a self-healing system that
-needs a human on every correction isn't actually self-healing — it's
-maximal autonomy with strong-enough verification that most cases need
-nobody, and a *configurable* human-in-the-loop path for the exceptions
-(low confidence, real contradictions, high-impact changes). Today's code
-has neither the confidence gate nor the exception queue — that's a real,
-disclosed gap, not glossed over: see `PRODUCTION_ROADMAP.md` §4 for
-exactly what closing it takes, including the separate (also unbuilt)
-human-*evaluation* sampling layer for ongoing quality measurement, which
-is a different mechanism from per-output review.
-
-**Known limitations for production use:** this build demonstrates the
-self-healing *mechanism* on a synthetic corpus with hand-authored
-provenance metadata and a static, pre-labeled signal fixture — it is not
-a deployable connector. The biggest unproven piece is automatic
-entity/version resolution over real, messy documents (here it's given as
-ground truth; in reality it must be inferred). Concrete failure scenario
-if deployed as-is: a sarcastic or hypothetical Slack message gets
-extracted as a "correction" and silently served as fact, since nothing
-gates a memory write today. Full gap analysis, tied to actual code
-locations: `PRODUCTION_ROADMAP.md`.
-
-## 7. Reproducing this
-
-**Versions:** Python 3.11, Node 22 (unused by the eval path but present in
-this environment), `claude-agent-sdk` 0.2.147, `rank_bm25` (latest),
-`claude-sonnet-5` for every API call (baselines and advanced alike).
+**Versions:** Python 3.11, `claude-agent-sdk` 0.2.147, `rank_bm25`
+(latest), `claude-sonnet-5` for every API call.
 
 ```bash
 git clone <this repo> && cd hackathonaug28.08.26
 cp .env.example .env   # fill in ANTHROPIC_API_KEY
-make setup             # installs rank_bm25 + claude-agent-sdk
+make setup
 
-make verify-no-leak    # static oracle-isolation audit (no API calls)
+make verify-no-leak    # static oracle-isolation audit, no API calls
 
 python3 eval/generate_corpus.py   # regenerates data/corpus, fact_registry.json,
                                    #   correction_signals.json — deterministic
@@ -319,74 +342,88 @@ make eval                # eval/score.py — the results table above
 python3 eval/run_ablations.py   # the memory/verifier/hybrid ablations
 ```
 
-**Measured runtime & cost (this exact run, not estimated):** the official
-frozen test pass across all 5 arms took **7.4 minutes** and cost **$1.86**
-total (`results/test_run_log.md`); the Phase-4 dev loop (3 rounds, 24
-cases/round) adds a few more minutes and well under $1. A full clean
-reproduction (setup → corpus regen → dev loop → frozen test → eval) is
-comfortably under 15 minutes and under $3, far inside the kickoff
-document's own 40-minute/eval budget framing.
+**Determinism, precisely:** corpus generation, the dev/test split, grading,
+and hashing are deterministic and regenerate byte-for-byte
+(`make verify-no-leak` checks this statically). Live LLM inference is
+not guaranteed deterministic call-to-call — the *committed* results under
+`results/` are the reproducible artifact; a fresh live run may vary in
+individual predictions even with an identical prompt and `max_turns=1`.
 
-**CI** (`.github/workflows/ci.yml`) runs shellcheck, Python syntax checks,
+**Measured runtime & cost** (this exact run, not estimated): the official
+frozen-test pass across all 5 arms took **7.4 minutes** and cost **$1.86**
+total (`results/test_run_log.md`); the Phase-4 dev loop adds a few more
+minutes and well under $1. Full clean reproduction: comfortably under 15
+minutes and under $3.
+
+**CI** (`.github/workflows/ci.yml`): shellcheck, Python syntax checks,
 every deterministic unit test, and `make verify-no-leak` on every push,
-unconditionally. `make baseline`/`make advanced`/`make eval` (the
-API-calling targets) run too when `ANTHROPIC_API_KEY` is set as a repo
-secret, and are skipped with an explicit notice otherwise — never silently
-green.
+unconditionally. The API-calling targets run when `ANTHROPIC_API_KEY` is
+set as a repo secret, and are skipped with an explicit notice otherwise.
 
-## What's pre-built vs. built during the window
+## 9. Limitations
 
-Everything up to and including commit `5aa5839` (tag `pre-kickoff`) is
-scaffolding written *before* the problem was known: environment, the
-deploy-confirmation hook, the Makefile/CI shape, the agent-workflow
-scripts. Commit `49a647a` is where `PROBLEM.md` was filled in with the
-real kickoff document. Everything solving the actual problem — the
-concept selection process (3 design workflows, ~100 subagent calls, 2
-adversarial grill rounds), the pre-test gates, `data/`, `baseline/`,
-`advanced/`, and this README — was built after that point. `git log` is
-the full, unedited paper trail; `PROCESS.md` narrates the significant
-turns, including two real bugs found and fixed live (not polished away)
-and one prior concept (LedgerGuard, see `archive/ledgerguard-pretest/`)
-abandoned after its own fair baseline solved it outright.
+- Synthetic corpus with hand-authored provenance metadata — not a
+  deployable connector.
+- Frozen test N=16; the `memory_correction` slice is N=3. A dramatic-
+  looking 0/3→3/3 flip is still 3 data points — treat it as a clean
+  mechanism proof, not a large-sample statistical claim.
+- The correction channel's entities are pre-associated with known keys
+  (`correction_signals.json`'s `entity_key` matches the corpus taxonomy
+  exactly) — real entity/version resolution over messy documents is
+  unimplemented; see `PRODUCTION_ROADMAP.md` §2–3.
+- This demonstrates correction propagation from a known signal to a known
+  entity — **not** autonomous, general staleness detection across
+  arbitrary retrieved content.
+- The verifier is real and unit-tested, but showed zero held-out impact
+  and is disabled in the reported configuration (§3, §6) — kept and
+  disclosed as a negative result, not counted as a contribution.
+- SelfHeal does not lead on raw aggregate accuracy (§6) — its advantage is
+  categorical and scoped to `memory_correction`.
+- No confidence gate or human-exception queue on memory writes today
+  (§7) — a real deployment needs one before autonomous writes are safe
+  for HR/legal/finance content.
 
-## Structure
+## 10. Repository map
 
-```
-PROBLEM.md          kickoff document (full transcription)
-PLAN.md              the build runbook (rev 4) — every phase, every invariant
-PROCESS.md           the actual paper trail — what happened, in order, including bugs
-CHANGELOG.md         the judged improvement changelog
-COMPLIANCE.md        every kickoff requirement mapped to what satisfies it
-PRODUCTION_ROADMAP.md  honest gap analysis: prototype -> deployable product
-data/                corpus, fact registry (oracle), correction signals, frozen splits
-baseline/            Arms A0 / A / A2 / B
-advanced/            SelfHeal RAG: retriever, generator, verifier, tuner, memory
-eval/                generation, grading, ablations, the shared match rule
-results/             every number in this README, as committed JSON/CSV
-trajectories/        raw agent session logs for every arm
-scripts/             setup / run_baseline / run_advanced / the oracle-isolation audits
-archive/              the abandoned LedgerGuard concept, kept with its real numbers
-```
+| Path | Purpose |
+|---|---|
+| `advanced/` | SelfHeal RAG: `retriever.py`, `generator.py`, `verifier.py`, `memory_writer.py`, `tuner.py` |
+| `baseline/` | Arms A0 / A / A2 / B |
+| `data/` | Corpus, fact registry (oracle), correction signals, frozen dev/test splits |
+| `eval/` | Corpus/probe generation, grading, ablations, the shared match rule, taxonomy classifier |
+| `results/` | Every number in this README, as committed JSON/CSV |
+| `trajectories/` | Raw agent session logs, one file per case, unedited |
+| `scripts/` | `setup` / `run_baseline` / `run_advanced` / oracle-isolation audits |
+| `archive/` | The abandoned LedgerGuard concept, kept with its real numbers |
+| `video/` | Demo video source (`beats.html`), narration, build/QA scripts |
+| `.claude/workflows/` | The Workflow-tool scripts this build's engineering process actually used |
+| `PROBLEM.md` | Kickoff document (full transcription) |
+| `PLAN.md` | Build runbook (rev 4) — every phase, every invariant |
+| `PROCESS.md` | The actual paper trail — what happened, in order, including bugs |
+| `CHANGELOG.md` | The judged improvement changelog |
+| `COMPLIANCE.md` | Every kickoff requirement mapped to what satisfies it |
+| `PRODUCTION_ROADMAP.md` | Honest gap analysis: prototype → deployable product |
+| `AGENTS.md` | Tool-agnostic orientation for any coding agent picking this up |
 
-## Agent trajectories
+## 11. Production direction
 
-Every arm's raw session logs live in `trajectories/<arm>_<split>/`, one
-file per case, unedited. The pre-test/pivot trajectories (LedgerGuard,
-the concept-selection memory experiment) are under
-`trajectories/pretest*/`.
+Path to a real deployment, in order: multi-format ingestion connectors →
+ACL/permission-aware indexing → automatic entity/version resolution (the
+actual unbuilt IP, not the retrieval or self-heal loop) → confidence-gated
+autonomy with a human-exception queue → observability/QA sampling → a
+larger, continuously-updated eval set. Full gap analysis, tied to exact
+code locations: `PRODUCTION_ROADMAP.md`.
 
-## Video (≤5 min)
+## 12. Hackathon provenance
 
-**https://claude.ai/code/artifact/f2121890-60e5-4e0d-bf48-d11d08268d08**
-
-4:11, with synced ElevenLabs narration and real toggleable closed captions
-(no baked-in text, no background music), nine beats matching
-`VIDEO_SCRIPT.md`, claim-audited against the actual code and results before
-recording — including an honest negative result (the verifier component is
-disabled in the shipped config; the video labels its own demo of it as a
-targeted demonstration, not a frozen-test event). Every terminal block on
-screen is real, unedited command output captured live against this repo —
-recording source: `video/beats.html`.
+Built for the **micro1 Agentic Workflows Hackathon** (Aug 28–31, 2026).
+Everything up to commit `5aa5839` (tag `pre-kickoff`) is scaffolding
+written before the problem was known; `PROBLEM.md` was filled in at
+`49a647a`; everything solving the actual problem was built after that —
+`git log` is the unedited paper trail. Kickoff requirements ↔ what
+satisfies each: `COMPLIANCE.md`. Full engineering-process record (judge
+panels, adversarial grilling, the Workflow-tool scripts, every dated
+decision): `PLAN.md`, `PROCESS.md`. Demo video: `VIDEO_SCRIPT.md`.
 
 ## Ownership note
 
