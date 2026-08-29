@@ -1,0 +1,46 @@
+{
+ "final_verdict": "STOP_2ND_ATTEMPT",
+ "final_reason": "Second (scaled) gate run still not PROCEED (STOP_TRIVIAL: B-mini=6/6, A0-mini=6/6: baselines solve it trivially.). This is the 2nd failed attempt under CLAUDE.md's hard gate -- no third pass, consult the user.",
+ "corpus": {
+  "n_docs": null,
+  "n_chunks": 60,
+  "scaled_up": true
+ },
+ "run2_scaled": {
+  "A0": {
+   "n_correct": 6,
+   "n_total": 6,
+   "n_staleness_correct": 3,
+   "n_staleness_total": 3
+  },
+  "A": {
+   "n_correct": 5,
+   "n_total": 6,
+   "n_staleness_correct": 2,
+   "n_staleness_total": 3
+  },
+  "B": {
+   "n_correct": 6,
+   "n_total": 6,
+   "n_staleness_correct": 3,
+   "n_staleness_total": 3
+  },
+  "cost_usd": {
+   "A0": 0.145601,
+   "A": 0.023886,
+   "B": 0.1837606
+  },
+  "wall_s": {
+   "A0": 29.9,
+   "A": 20.46,
+   "B": 44.959999999999994
+  },
+  "n_chunks": 60
+ },
+ "budget_projection": {
+  "scale_factor": 4.13,
+  "projected_cost_usd": 1.46,
+  "projected_minutes": 6.57,
+  "budget_ok": true
+ }
+}

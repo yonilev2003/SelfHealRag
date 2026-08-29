@@ -1,0 +1,289 @@
+{
+ "A0": {
+  "n_correct": 6,
+  "n_total": 6,
+  "n_staleness_correct": 3,
+  "n_staleness_total": 3,
+  "rows": [
+   {
+    "probe_id": "mini-01",
+    "category": "contradiction",
+    "question": "What is the current VPN session timeout, in hours?",
+    "expected": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "predicted": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-02",
+    "category": "contradiction",
+    "question": "How many hours before a VPN session times out under the current policy?",
+    "expected": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "predicted": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-03",
+    "category": "contradiction",
+    "question": "What is the current customer refund cap, in USD, that a rep can approve without manager sign-off?",
+    "expected": {
+     "value": "750",
+     "chunk_id": "finance-refund-v2-c01"
+    },
+    "predicted": {
+     "value": "750",
+     "chunk_id": "finance-refund-v2-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-04",
+    "category": "near_dup",
+    "question": "What is the Sales team's expense cap for a client dinner, in USD?",
+    "expected": {
+     "value": "200",
+     "chunk_id": "sales-expense-v1-c01"
+    },
+    "predicted": {
+     "value": "200",
+     "chunk_id": "sales-expense-v1-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-05",
+    "category": "atomic",
+    "question": "How many days per week can employees work remotely?",
+    "expected": {
+     "value": "3",
+     "chunk_id": "hr-remote-v1-c01"
+    },
+    "predicted": {
+     "value": "3",
+     "chunk_id": "hr-remote-v1-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-06",
+    "category": "atomic",
+    "question": "Every how many years is company IT equipment refreshed?",
+    "expected": {
+     "value": "3",
+     "chunk_id": "it-equip-v1-c01"
+    },
+    "predicted": {
+     "value": "3",
+     "chunk_id": "it-equip-v1-c01"
+    },
+    "correct": true
+   }
+  ]
+ },
+ "A": {
+  "n_correct": 5,
+  "n_total": 6,
+  "n_staleness_correct": 2,
+  "n_staleness_total": 3,
+  "rows": [
+   {
+    "probe_id": "mini-01",
+    "category": "contradiction",
+    "question": "What is the current VPN session timeout, in hours?",
+    "expected": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "predicted": {
+     "value": "unknown",
+     "chunk_id": "it-vpn-v2-c01"
+    },
+    "correct": false
+   },
+   {
+    "probe_id": "mini-02",
+    "category": "contradiction",
+    "question": "How many hours before a VPN session times out under the current policy?",
+    "expected": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "predicted": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-03",
+    "category": "contradiction",
+    "question": "What is the current customer refund cap, in USD, that a rep can approve without manager sign-off?",
+    "expected": {
+     "value": "750",
+     "chunk_id": "finance-refund-v2-c01"
+    },
+    "predicted": {
+     "value": "750",
+     "chunk_id": "finance-refund-v2-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-04",
+    "category": "near_dup",
+    "question": "What is the Sales team's expense cap for a client dinner, in USD?",
+    "expected": {
+     "value": "200",
+     "chunk_id": "sales-expense-v1-c01"
+    },
+    "predicted": {
+     "value": "200",
+     "chunk_id": "sales-expense-v1-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-05",
+    "category": "atomic",
+    "question": "How many days per week can employees work remotely?",
+    "expected": {
+     "value": "3",
+     "chunk_id": "hr-remote-v1-c01"
+    },
+    "predicted": {
+     "value": "3",
+     "chunk_id": "hr-remote-v1-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-06",
+    "category": "atomic",
+    "question": "Every how many years is company IT equipment refreshed?",
+    "expected": {
+     "value": "3",
+     "chunk_id": "it-equip-v1-c01"
+    },
+    "predicted": {
+     "value": "3",
+     "chunk_id": "it-equip-v1-c01"
+    },
+    "correct": true
+   }
+  ]
+ },
+ "B": {
+  "n_correct": 6,
+  "n_total": 6,
+  "n_staleness_correct": 3,
+  "n_staleness_total": 3,
+  "rows": [
+   {
+    "probe_id": "mini-01",
+    "category": "contradiction",
+    "question": "What is the current VPN session timeout, in hours?",
+    "expected": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "predicted": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-02",
+    "category": "contradiction",
+    "question": "How many hours before a VPN session times out under the current policy?",
+    "expected": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "predicted": {
+     "value": "4",
+     "chunk_id": "it-vpn-v2-c02"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-03",
+    "category": "contradiction",
+    "question": "What is the current customer refund cap, in USD, that a rep can approve without manager sign-off?",
+    "expected": {
+     "value": "750",
+     "chunk_id": "finance-refund-v2-c01"
+    },
+    "predicted": {
+     "value": "750",
+     "chunk_id": "finance-refund-v2-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-04",
+    "category": "near_dup",
+    "question": "What is the Sales team's expense cap for a client dinner, in USD?",
+    "expected": {
+     "value": "200",
+     "chunk_id": "sales-expense-v1-c01"
+    },
+    "predicted": {
+     "value": "200",
+     "chunk_id": "sales-expense-v1-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-05",
+    "category": "atomic",
+    "question": "How many days per week can employees work remotely?",
+    "expected": {
+     "value": "3",
+     "chunk_id": "hr-remote-v1-c01"
+    },
+    "predicted": {
+     "value": "3",
+     "chunk_id": "hr-remote-v1-c01"
+    },
+    "correct": true
+   },
+   {
+    "probe_id": "mini-06",
+    "category": "atomic",
+    "question": "Every how many years is company IT equipment refreshed?",
+    "expected": {
+     "value": "3",
+     "chunk_id": "it-equip-v1-c01"
+    },
+    "predicted": {
+     "value": "3",
+     "chunk_id": "it-equip-v1-c01"
+    },
+    "correct": true
+   }
+  ]
+ },
+ "cost_usd": {
+  "A0": 0.145601,
+  "A": 0.023886,
+  "B": 0.1837606
+ },
+ "wall_s": {
+  "A0": 29.9,
+  "A": 20.46,
+  "B": 44.959999999999994
+ },
+ "n_chunks": 60
+}
