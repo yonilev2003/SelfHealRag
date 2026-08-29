@@ -1,0 +1,17 @@
+probe_id,category,question,expected_value,expected_chunk_id,predicted_value,predicted_chunk_id,correct
+atomic-01,atomic,How many days of paid bereavement leave can an employee take?,5,hr_bereavement_leave-c01,5,hr_bereavement_leave-c01,True
+atomic-02,atomic,Within how many hours of an employee's last day does IT revoke system access?,4,it_offboarding_sla-c01,4,it_offboarding_sla-c01,True
+atomic-03,atomic,What is the daily per diem for domestic business travel?,75,finance_per_diem-c01,75,finance_per_diem-c01,True
+contradiction-01,contradiction,"What is the current VPN session timeout, in hours?",4,it_vpn_session_timeout_hours_v2-c01,4,it_vpn_session_timeout_hours_v2-c01,True
+contradiction-02,contradiction,How many PTO days does an employee currently accrue per month?,1.5,hr_pto_accrual_days_per_month_v2-c01,1.5,hr_pto_accrual_days_per_month_v2-c01,True
+contradiction-03,contradiction,How many days does an employee currently have to submit an expense report?,14,finance_expense_report_deadline_days_v2-c01,14,finance_expense_report_deadline_days_v2-c01,True
+contradiction-04,contradiction,How many days is the current password rotation requirement?,180,it_password_rotation_days_v2-c01,180,it_password_rotation_days_v2-c01,True
+contradiction-09,contradiction,"What is the current customer refund cap that a rep can approve without manager sign-off, in USD?",900,finance_refund_cap_usd_v3-c01,900,finance_refund_cap_usd_v3-c01,True
+memory_correction-01,memory_correction,"What is the current weekly on-call stipend for engineers, in USD?",250,MEMORY,200,eng_oncall_stipend_usd-c01,False
+memory_correction-02,memory_correction,"What is the current weekend shift differential for support agents, in percent?",15,MEMORY,10,support_weekend_shift_diff_pct-c01,False
+memory_correction-03,memory_correction,"What is the current monthly parking reimbursement cap, in USD?",120,MEMORY,80,facilities_parking_reimbursement_usd-c01,False
+multi_hop-01,multi_hop,"New senior engineer onboarding budget, in USD?",2500,onboarding_base_equipment_budget_usd-c01+onboarding_senior_tier_bonus_usd-c01,2500,onboarding_base_equipment_budget_usd-c01+onboarding_senior_tier_bonus_usd-c01,True
+multi_hop-04,multi_hop,"Total relocation package for an out-of-state new hire (3-hop), in USD?",5100,relocation_moving_stipend_usd-c01+relocation_temp_housing_weeks-c01+relocation_travel_reimbursement_usd-c01,5100,relocation_moving_stipend_usd-c01+relocation_temp_housing_weeks-c01+relocation_travel_reimbursement_usd-c01,True
+near_dup-01,near_dup,"What is the Sales team's expense cap for a client dinner, in USD?",200,sales_client_dinner_cap_usd-c01,200,sales_client_dinner_cap_usd-c01,True
+near_dup-02,near_dup,How many weeks of paid leave does a new parent receive?,12,hr_new_parent_leave_weeks-c01,12,hr_new_parent_leave_weeks-c01,True
+near_dup-03,near_dup,How many hours per day does a standard employee badge grant building access?,16,it_badge_access_hours_standard-c01,16,it_badge_access_hours_standard-c01,True
