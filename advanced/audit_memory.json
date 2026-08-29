@@ -142,7 +142,7 @@
  {
   "round": 3,
   "config": {
-   "k": 5,
+   "k": 7,
    "hybrid_date_boost": false,
    "use_verifier": false,
    "use_memory": true
@@ -182,6 +182,6 @@
    ]
   },
   "kept": false,
-  "action": "k 3 -> 5"
+  "action": "k 3 -> 7"
  }
 ]

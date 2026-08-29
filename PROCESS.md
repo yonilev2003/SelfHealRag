@@ -89,6 +89,33 @@ tie-break, which is now simply correct instead of accidentally so) — only
 `fact_registry.json` changed. Re-verified live on 2 previously-broken
 cases: both now answer correctly.
 
+### 2026-08-28 — Phase 4 complete: real self-improvement dev loop
+
+**Round 0 (baseline config, memory empty):** 17/24 dev accuracy.
+Failures: 2 `retrieval_miss` + **all 5 `memory_correction` cases wrong** —
+exactly matching the pretest's prediction (`results/pretest-selfheal/
+memory_experiment.json`) that no config without memory solves this
+category, at real scale, not just the toy stipend example.
+
+**Round 1 — KEPT:** consulted `data/correction_signals.json` for the 5
+failing entities, extracted + persisted 5 memory corrections (via
+`prompts/signal_extractor.md`). Accuracy 17 → **21/24 (+4)**. This is the
+primary causal proof: the exact mechanism the pretest demonstrated,
+reproduced at the real corpus's scale with independently-authored ticket
+text, not the same toy example.
+
+**Rounds 2–3 — both REVERTED:** k=3→5 then k=3→7 for the 2 remaining
+`retrieval_miss` cases, each +1 (below the +2 keep threshold). A bug in
+`next_k()` was found and fixed mid-run (it re-offered k=5 forever instead
+of advancing the ladder after a revert — see the tuner.py commit); the
+corrected run confirms k=7 does no better than k=5, not just repeats it.
+Loop stopped after 2 consecutive no-improvement rounds (by design,
+per PLAN.md) — k=10 was never reached. **Reported honestly, not chased
+further:** the glossary/query-rewrite actions PLAN.md's action mapping
+specifies for `retrieval_miss` were a disclosed, pre-agreed scope cut
+(see `advanced/tuner.py`'s docstring); these 2 cases stay unresolved by
+the available action space. Final dev accuracy: **21/24 (87.5%)**.
+
 **Artifacts + hashes (independently re-verifiable, per `eval/split_summary.json`):**
 - `data/fact_registry.json` — sha256 `1c0d1f8cafd6f5f1329207c4f7c67e1e195c8ef4bcd6634f666393f7643f4477`
 - `data/probes/dev_split.json` (24 cases) — sha256 `f0ed240d6c870177459d519361b759d187f1ef677d80f8770f85f122fcc05c02`

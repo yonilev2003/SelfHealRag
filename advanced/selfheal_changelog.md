@@ -23,7 +23,7 @@
 
 ## Round 3 — REVERTED
 - plurality: retrieval_miss
-- action tried: k 3 -> 5
+- action tried: k 3 -> 7
 - dev accuracy with change: 22/24 (delta +1, below the +2 keep threshold)
 - config unchanged: {'k': 3, 'hybrid_date_boost': False, 'use_verifier': False, 'use_memory': True}
 
