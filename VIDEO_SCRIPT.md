@@ -1,44 +1,41 @@
-# Video script (≤5:00) — SelfHeal RAG
+# Video script (4:11) — SelfHeal RAG, V3
 
 Real numbers, real commands. Every beat below runs against files already
-committed in this repo — nothing here is staged or simulated.
+committed in this repo — nothing here is staged or simulated, except beat 5
+(the verifier), which is explicitly labeled on screen as a targeted
+demonstration, not a frozen-test evaluation event (see that beat's notes).
 
-## Beat 1 — Cold open (0:00–0:30)
+## Beat 1 — Cold open (0:00–0:11)
+
+Screen: `$250` vs the AI's stale `$200` answer, no context yet — the hook.
+
+**VO:** "Your company changed the price to two hundred fifty dollars.
+Yesterday. Your AI still confidently tells every employee... two hundred."
+
+## Beat 2 — Evidence (0:11–0:27)
 
 Screen: side-by-side of `data/corpus/eng_oncall_stipend_usd.md` (states
 "$200") and `data/correction_signals.json`'s `TICKET-4521` entry ("approved
 raising... from $200 to $250... handbook not yet updated").
 
-**VO:** "This is a real failure mode for any company RAG bot: a fact
-changes, the change is recorded somewhere — a ticket, an audit note — and
-the document the bot actually reads never gets updated. The bot then
-answers confidently, and wrong."
+**VO:** "Here's the evidence. On the left, the handbook — still says two
+hundred. On the right, the finance ticket that actually approved the raise
+— two hundred fifty. Nobody updated the handbook."
 
-## Beat 2 — Problem, baselines failing on camera (0:30–1:15)
+## Beat 3 — Baselines fail on camera (0:27–0:60)
 
-Run live (or sped up 2×, disclosed on screen):
-```bash
-python3 -c "
-import asyncio,sys,json
-sys.path.insert(0,'baseline'); sys.path.insert(0,'advanced'); sys.path.insert(0,'eval')
-from build_index import load_corpus
-import run_A0_fullcontext as A0, run_B_generalist as B
-async def main():
-    chunks = load_corpus()
-    q = 'What is the current weekly on-call stipend for engineers, in USD?'
-    r0 = await A0.run_case(chunks, q)
-    print('A0 (full 81-chunk corpus in one call):', r0['predicted'])
-    rb = await B.run_case(__import__('pathlib').Path('data/corpus'), q)
-    print('B (unrestricted agent):', rb['predicted'])
-asyncio.run(main())
-"
-```
-**VO:** "Full context — wrong. An agent with unlimited time to read every
-document — also wrong. Same $200. Neither extra reading nor extra
-reasoning time helps, because the right answer literally isn't in the
-corpus."
+Real output, `run_A0.py` (full 81-chunk corpus) and `run_B.py` (generalist
+agent, `Read`/`Grep`/`Glob` only, sandboxed to a copy of `data/corpus/`,
+capped at 25 turns / 8 minutes per `baseline/run_B_generalist.py`) both
+answer `{'value': '200'}`.
 
-## Beat 3 — One genuine, unedited SelfHeal run (1:15–2:45)
+**VO:** "Two strong baselines. Same wrong answer. Full context — every
+document, one call — still two hundred. An agent free to search and read
+across those same documents, however it likes — also two hundred. More
+reading doesn't fix this, because the right answer simply isn't written
+down anywhere in the documents."
+
+## Beat 4 — SelfHeal fires, live (0:60–1:40)
 
 ```bash
 python3 -c "
@@ -54,19 +51,18 @@ async def main():
 asyncio.run(main())
 "
 ```
-Show the `advanced/memory_writer.py` self-heal happening live in the
-terminal (the extraction call + `advanced/memory.json` gaining the new
-entry), then the final answer: `{"value": "250", "chunk_id": "MEMORY"}`.
+Show `advanced/memory_writer.py`'s self-heal happening live (the entity
+isn't in `memory.json` yet, the correction-signal lookup, the write), then
+the final answer: `{"value": "250", "chunk_id": "MEMORY"}`.
 
-**VO:** "SelfHeal checks a signal feed no baseline gets — a stand-in for
-the ticket system a real company's RAG bot was never connected to — finds
-the correction, persists it, and cites where it came from. This isn't a
-one-time trick: it self-heals continuously as it serves queries, not only
-during offline tuning — that continuous-healing property is itself
-something this build got wrong on the first try and fixed live (see the
-changelog beat)."
+**VO:** "Now watch what happens differently. The entity isn't in memory
+yet — so instead of guessing, SelfHeal checks a signal feed no baseline
+ever gets: a stand-in for the ticket system this bot was never connected
+to. Found it. Ticket 4521. Writing it to memory, right now, live. Final
+answer: two hundred fifty, cited as memory. This check runs on each query
+— not just once, during tuning."
 
-## Beat 4 — The verifier catching a stale citation (2:45–3:45)
+## Beat 5 — The verifier: a targeted demo, not a claimed contribution (1:40–2:11)
 
 ```bash
 python3 -c "
@@ -80,82 +76,141 @@ pred = {'value': '8', 'chunk_id': 'it_vpn_session_timeout_hours_v1-c01'}
 print(json.dumps(verify(chunks, pred, idx), indent=1))
 "
 ```
-**VO:** "Independent of memory, a deterministic verifier catches stale
-citations on in-document policy revisions — the corpus's own supersession
-chains — and overrides them with a reason."
+On screen, this beat is labeled **"Targeted verifier demo"**, not framed as
+something that happened during the frozen-test evaluation shown in Beat 6
+— because it didn't. `advanced/final_config.json` (the shipped config) has
+`use_verifier: false`, and `results/ablations_summary.json`'s explicit
+verifier-ON ablation shows byte-identical predictions to verifier-OFF
+across every one of the 16 frozen-test cases — the verifier never actually
+fired there. This is deliberately disclosed on screen and in the VO, not
+glossed over.
 
-## Beat 5 — Frozen-test comparison + changelog + removed experiment (3:45–4:30)
+**VO:** "I also built a deterministic verifier for stale citations. No
+model call, no guessing. On this targeted revision case, it correctly
+replaces the stale citation with the current one. But here's the important
+part: on the frozen sixteen-case evaluation, it changed exactly zero
+outputs. So it's disabled in the shipped accuracy configuration. Not every
+component earns its place."
 
-Screen: the results table from README.md Section 5. Point at
-`memory_correction: 0/3 across every baseline → 3/3`. Then
-`CHANGELOG.md`'s **removed experiment**: LedgerGuard, killed by its own
-fair baseline (a plain agent with tools reconciled revenue to the cent,
-20× cheaper than orchestration would have measured against) —
-`archive/ledgerguard-pretest/README.md`.
+## Beat 6 — Frozen-test proof (2:11–2:46)
 
-**VO:** "The change that moved the number wasn't a smarter prompt or a
-retrieval tweak — every other ablation we tried showed zero difference on
-held-out data. It was giving the system exactly one new resource: a
-channel to information that isn't in its own documents. And we didn't
-start here — our first concept died to the same lesson this one almost
-repeated."
+Screen: the results table from README.md Section 5, progressively revealed
+row by row. `memory_correction: 0/3 across every baseline → 3/3`, and the
+memory ON/OFF ablation confirming it — both explicitly scoped to the
+`memory_correction` category, not overall accuracy (SelfHeal does **not**
+win on raw aggregate — 11/16 vs. A0's 13/16).
 
-## Beat 6 — Hot take (4:30–5:00)
+**VO:** "Here's the proof, on sixteen test cases the system never saw
+during development. Every baseline: zero out of three, on the
+memory-correction category this was built for. SelfHeal: three for three.
+Flip memory off, change nothing else — back to zero, on those same three
+cases. One capability. For this category, that's the entire difference."
 
-**VO:** "The first time we ran the frozen test, SelfHeal tied the plain
-baseline — 0 out of 3 on the exact case it was built for. Not a crash, not
-an error — just a disappointing number, the kind you could rationalize
+## Beat 7 — Why this matters at scale (2:46–3:05)
+
+**VO:** "Think about the scale for a second. One employee getting the
+wrong number is an annoyance. Ten thousand employees getting it — that's
+not a bug anymore. That's an operating-system problem for your company's
+own knowledge." (Thought experiment only — no invented savings, customer
+counts, or deployment numbers.)
+
+## Beat 8 — The lesson / hot take (3:05–3:42)
+
+Screen: `CHANGELOG.md`'s Main Failure Mode + Hot Take.
+
+**VO:** "The first time I ran this frozen test, SelfHeal tied the
+baseline. Zero out of three, on the exact case it was built for. Not a
+crash — just a quiet, forgettable number, the kind you could rationalize
 away under deadline pressure. The bug: memory only ever learned from
-training-time data, not from what it was actually being asked live. A
-held-out test split doesn't just measure whether you generalize — it will
-catch you gating a capability to the wrong scope, silently, as a boring
-number instead of a stack trace. That's the lesson."
+training-time data, never from what it was actually being asked, live. A
+good held-out test doesn't just measure whether you generalize — it
+catches you lying to yourself about scope. Silently."
+
+## Beat 9 — Closing / vision (3:42–4:11)
+
+Screen: closer text + explicit `.vision-tag`: "vision, not yet built — see
+PRODUCTION_ROADMAP.md".
+
+**VO:** "A RAG system that retrieves information is useful. A system that
+can recover when what it retrieves is contradicted by a newer signal —
+that's something I'd actually trust inside a company. The production
+vision is broader: organizational memory that can reason about versions,
+permissions, and conflicting knowledge. That part isn't built yet. This is
+the prototype that demonstrates the mechanism on the frozen evaluation."
 
 ---
 
-**Recording notes:** terminal capture via `script`/asciinema or a
-Playwright-recorded browser terminal; real command output, no post-hoc
-editing of numbers. Total target: 4:30–5:00. Host as an unlisted/private
-link or a claude.ai Artifact; final URL goes in the submission form and
-this file.
+## How V3 was actually built (claim-audited, not just re-recorded)
 
-## Final: how this was actually recorded
+V3 replaced V2 after a dedicated claim-audit pass (chapter-by-chapter
+against `REVIEW_FINDINGS.md`, `advanced/*.py`, the baseline arm scripts,
+`results/ablations_summary.json`, `results/results_table.json`, and
+`README.md`) surfaced real overclaim risk in the pre-audit draft. Fixed,
+with both the narration and the matching on-screen text:
 
-Every beat's terminal output above is real, captured live against this
-repo (see `PROCESS.md` for the exact commands run). `video/beats.html` is
-the recording source — six auto-advancing sections timed to the beats
-above, driven by a JS clock (no manual clicking, no editing cuts). It was
-recorded via Playwright against the pre-installed Chromium
-(`record_video_dir`, 1280×720, 304s real-time capture), then re-encoded
-with the pre-installed ffmpeg (`-c:v libvpx -b:v 260k -r 12 -crf 30 -an`,
-~260kbps/12fps/no audio) to fit as a `data:` URI inside a single-page
-Artifact under its 16MB cap.
+- **The verifier** was framed as an active "always on" safety net. It
+  isn't — `advanced/final_config.json` has `use_verifier: false`, and it
+  changed zero outputs across every `results/C_*.json` file, including the
+  explicit verifier-ON ablation. Reframed as a real, tested, but
+  disabled-in-production negative result — arguably a stronger signal of
+  engineering discipline than pretending it was load-bearing.
+- **Arm B** ("free to search and read... however it likes") was
+  "unrestricted agent, unlimited reads" — `baseline/run_B_generalist.py`
+  actually caps it at 25 turns / 8 minutes and disallows `Bash`/`Write`/
+  `Edit`.
+- **"0/3 → 3/3"** is now explicitly scoped to the `memory_correction`
+  category everywhere it's said or shown (SelfHeal does not win on raw
+  aggregate — disclosed, not hidden).
+- **The closing line** ("knows when its own knowledge has expired") implied
+  general staleness detection; the mechanism is a signal-triggered
+  correction lookup. Replaced with a claim the code actually supports, and
+  "demonstrates the mechanism" instead of "proves it works" (n=3 on
+  `memory_correction`, confidence without overclaiming).
+- "Not a lookup trick" and "continuously" (implying a background daemon)
+  were dropped as unnecessary editorializing not worth the fight.
 
-**Narration, added after the fact via the ElevenLabs connector** (the
-local ffmpeg build has no audio encoder at all, so this happens as a
-separate JS-synced audio layer on the hosting page, not muxed into the
-video file itself): 6 per-beat narration clips (`eleven_multilingual_v2`,
-voice "River — Relaxed, Neutral, Informative", picked for a calm,
-technical-explainer tone rather than a promotional one) generated from
-the exact VO lines above, each independently confirmed to fit its beat's
-on-screen window before use. Triggered by a small JS listener on the
-video's own `timeupdate` event, keyed to the exact beat boundaries above.
+## How it was recorded
 
-**Two rounds of real user feedback drove the final cut.** A first pass
-also added a generated instrumental bed (`eleven_music_v2`); on watching
-it, the music read as generic "AI polish" that competed with the
-narration rather than supporting it — cut entirely rather than kept out
-of inertia. The video was then re-recorded a second time (same 300s
-timeline and beat boundaries, so the already-generated narration stayed
-valid) with: a redesigned opening that leads with the $200-vs-$250
-conflict in the first seconds rather than working up to it; a persistent
-pipeline-stepper (Problem → Baselines fail → SelfHeal fires → Verifier →
-Frozen test → The lesson) so viewers can track story position without
-technical background; pulse-highlighted key values; and dimmed JSON
-structure vs. bold value lines so the point reads without parsing every
-line. On-screen captions changed from baked-in text (which can never be
-turned off) to a real `<track kind="subtitles">` WebVTT track, native
-CC-toggle, short phrase-length cues timed to the actual narration instead
-of one long paragraph per beat.
+`video/beats.html` — rewritten for V3: 9 auto-advancing sections (Cold
+open, Evidence, Baselines fail, SelfHeal fires, Verifier, Frozen test,
+Scale, The lesson, Closing/vision), a 9-item pipeline stepper, staged
+sub-reveals in the SelfHeal and frozen-test beats, driven by a JS clock —
+no manual clicking, no editing cuts. Recorded via Playwright against the
+pre-installed Chromium (`record_video_dir`, 1280×720, ~254s real-time
+capture — `video/record_v3.py`), re-encoded with the pre-installed ffmpeg
+(`-c:v libvpx -crf 32 -b:v 0 -an`) to ~3.1MB.
 
-**Hosted video: https://claude.ai/code/artifact/42418c8e-e0fd-4ce8-90c9-fd7eca0ccaf0**
+**Narration:** 9 clips via the ElevenLabs MCP connector (`eleven_v3`,
+voice "Joel — Natural and reassuring", picked on ElevenLabs' own metadata
+— warm/grounded/"trust and authenticity" framing — since audio can't be
+judged by ear directly; confirmed acceptable against a 10-second sample
+before committing to all 9). Real durations measured (`mutagen`) once
+generated: 11.15 / 16.20 / 32.29 / 40.05 / 31.32 / 34.69 / 19.33 / 36.68 /
+29.47 seconds — total 251.17s. `video/beats.html`'s timeline was trued up
+from a provisional word-count estimate to these exact numbers, back-to-back
+with zero inter-beat gap (no accidental dead air).
+
+**Final assembly** (`video/build_v3_page.py`): video + all 9 narration
+clips + a 48-cue WebVTT caption track (proportional to per-clause character
+length within each beat's real window) assembled into
+`video/demo_page_v3.html`, mirroring `video/demo_page.html`'s audio-sync
+pattern — a `BOUNDS` array plus a `syncToTime()` handler on the video's
+`play`/`pause`/`seeking`/`timeupdate` events — extended from 6 beats to 9.
+Page size: 9.85MB, under the 16MB Artifact cap.
+
+**QA** (`video/qa_v3.py`, Playwright): cold-start sync, pause/resume,
+mid-beat seek, seek near the very end, caption toggle (`textTrack.mode`
+showing/hidden) all verified correct. Caught and fixed two real bugs in
+this pass: a narration-track array built from a Python list's `str()`
+representation (produced malformed JS, so every `getElementById` call
+returned `null` and no narration ever played — audio silently broken
+until this was caught), and an external Google Fonts fetch failing with
+`ERR_CONNECTION_RESET` in this sandbox (removed; system font stack used
+instead). Zero console errors in the final pass. Also caught, during
+visual review of the recorded video (not just narration text), that three
+on-screen captions still had the pre-audit wording after the narration
+itself had already been fixed — beat 9's closer, beat 5's verifier label,
+and beat 6's scope qualifier — fixed all three so what's shown matches
+what's said.
+
+**Hosted video: https://claude.ai/code/artifact/f2121890-60e5-4e0d-bf48-d11d08268d08**

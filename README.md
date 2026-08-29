@@ -377,13 +377,16 @@ the concept-selection memory experiment) are under
 
 ## Video (≤5 min)
 
-**https://claude.ai/code/artifact/42418c8e-e0fd-4ce8-90c9-fd7eca0ccaf0**
+**https://claude.ai/code/artifact/f2121890-60e5-4e0d-bf48-d11d08268d08**
 
-5:04, with synced ElevenLabs narration and real toggleable closed captions
-(no baked-in text, no background music), six beats matching
-`VIDEO_SCRIPT.md`. Every terminal block on screen
-is real, unedited command output captured live
-against this repo — recording source: `video/beats.html`.
+4:11, with synced ElevenLabs narration and real toggleable closed captions
+(no baked-in text, no background music), nine beats matching
+`VIDEO_SCRIPT.md`, claim-audited against the actual code and results before
+recording — including an honest negative result (the verifier component is
+disabled in the shipped config; the video labels its own demo of it as a
+targeted demonstration, not a frozen-test event). Every terminal block on
+screen is real, unedited command output captured live against this repo —
+recording source: `video/beats.html`.
 
 ## Ownership note
 
