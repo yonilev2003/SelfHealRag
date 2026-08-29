@@ -34,7 +34,7 @@ aggregate), in [Section 6](#6-results).
 
 ### Demo
 
-The native GitHub video attachment will go here.
+<video src="https://github.com/user-attachments/assets/af85d5fd-8e7d-4ea8-8a30-2c0806af9c2c" width="100%" controls></video>
 
 ## 2. System architecture
 
