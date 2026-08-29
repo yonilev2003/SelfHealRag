@@ -1,0 +1,50 @@
+[
+ {
+  "probe_id": "mini-01",
+  "question": "What is the current VPN session timeout, in hours?",
+  "expected_value": "4",
+  "expected_chunk_id": "it-vpn-v2-c02",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession"
+ },
+ {
+  "probe_id": "mini-02",
+  "question": "How many hours before a VPN session times out under the current policy?",
+  "expected_value": "4",
+  "expected_chunk_id": "it-vpn-v2-c02",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession"
+ },
+ {
+  "probe_id": "mini-03",
+  "question": "What is the current customer refund cap, in USD, that a rep can approve without manager sign-off?",
+  "expected_value": "750",
+  "expected_chunk_id": "finance-refund-v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "implicit_supersession"
+ },
+ {
+  "probe_id": "mini-04",
+  "question": "What is the Sales team's expense cap for a client dinner, in USD?",
+  "expected_value": "200",
+  "expected_chunk_id": "sales-expense-v1-c01",
+  "category": "near_dup",
+  "trap_subtype": "none"
+ },
+ {
+  "probe_id": "mini-05",
+  "question": "How many days per week can employees work remotely?",
+  "expected_value": "3",
+  "expected_chunk_id": "hr-remote-v1-c01",
+  "category": "atomic",
+  "trap_subtype": "none"
+ },
+ {
+  "probe_id": "mini-06",
+  "question": "Every how many years is company IT equipment refreshed?",
+  "expected_value": "3",
+  "expected_chunk_id": "it-equip-v1-c01",
+  "category": "atomic",
+  "trap_subtype": "none"
+ }
+]

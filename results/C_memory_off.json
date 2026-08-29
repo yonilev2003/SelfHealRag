@@ -1,0 +1,450 @@
+{
+ "atomic-01": {
+  "predicted": {
+   "value": "5",
+   "chunk_id": "hr_bereavement_leave-c01"
+  },
+  "generator_predicted": {
+   "value": "5",
+   "chunk_id": "hr_bereavement_leave-c01"
+  },
+  "retrieved_chunk_ids": [
+   "hr_bereavement_leave-c01",
+   "hr_new_parent_leave_weeks-c01",
+   "hr_caregiver_leave_weeks-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0037229999999999997,
+  "wall_s": 2.8,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "atomic-02": {
+  "predicted": {
+   "value": "4",
+   "chunk_id": "it_offboarding_sla-c01"
+  },
+  "generator_predicted": {
+   "value": "4",
+   "chunk_id": "it_offboarding_sla-c01"
+  },
+  "retrieved_chunk_ids": [
+   "it_offboarding_sla-c01",
+   "it_badge_access_hours_standard-c01",
+   "it_badge_access_hours_contractor-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0037229999999999997,
+  "wall_s": 2.54,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "atomic-03": {
+  "predicted": {
+   "value": "75",
+   "chunk_id": "finance_per_diem-c01+finance_travel_per_diem_usd-c01"
+  },
+  "generator_predicted": {
+   "value": "75",
+   "chunk_id": "finance_per_diem-c01+finance_travel_per_diem_usd-c01"
+  },
+  "retrieved_chunk_ids": [
+   "finance_per_diem-c01",
+   "finance_travel_per_diem_usd-c01",
+   "finance_conference_lodging_cap_usd_per_night-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.003772,
+  "wall_s": 2.65,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "contradiction-01": {
+  "predicted": {
+   "value": "4",
+   "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+  },
+  "generator_predicted": {
+   "value": "4",
+   "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+  },
+  "retrieved_chunk_ids": [
+   "it_vpn_session_timeout_hours_v1-c01",
+   "it_vpn_session_timeout_hours_v2-c01",
+   "finance_expense_report_deadline_days_v2-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0037740000000000004,
+  "wall_s": 2.5,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "contradiction-02": {
+  "predicted": {
+   "value": "1.25",
+   "chunk_id": "hr_base_pto_days-c01"
+  },
+  "generator_predicted": {
+   "value": "1.25",
+   "chunk_id": "hr_base_pto_days-c01"
+  },
+  "retrieved_chunk_ids": [
+   "hr_tenure_bonus_pto_days_per_5yr-c01",
+   "hr_base_pto_days-c01",
+   "eng_incident_postmortem_days-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0046440000000000006,
+  "wall_s": 3.62,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "contradiction-03": {
+  "predicted": {
+   "value": "unknown",
+   "chunk_id": ""
+  },
+  "generator_predicted": {
+   "value": "unknown",
+   "chunk_id": ""
+  },
+  "retrieved_chunk_ids": [
+   "eng_team_lunch_cap_usd-c01",
+   "sales_client_dinner_cap_usd-c01",
+   "hr_bereavement_leave-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.003617,
+  "wall_s": 2.65,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "contradiction-04": {
+  "predicted": {
+   "value": "180",
+   "chunk_id": "it_password_rotation_days_v2-c01"
+  },
+  "generator_predicted": {
+   "value": "180",
+   "chunk_id": "it_password_rotation_days_v2-c01"
+  },
+  "retrieved_chunk_ids": [
+   "it_password_rotation_days_v1-c01",
+   "it_password_rotation_days_v2-c01",
+   "eng_incident_postmortem_days-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0036759999999999996,
+  "wall_s": 2.6,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "contradiction-09": {
+  "predicted": {
+   "value": "900",
+   "chunk_id": "finance_refund_cap_usd_v3-c01"
+  },
+  "generator_predicted": {
+   "value": "900",
+   "chunk_id": "finance_refund_cap_usd_v3-c01"
+  },
+  "retrieved_chunk_ids": [
+   "finance_refund_cap_usd_v1-c01",
+   "finance_refund_cap_usd_v2-c01",
+   "finance_refund_cap_usd_v3-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.003706,
+  "wall_s": 2.64,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "memory_correction-01": {
+  "predicted": {
+   "value": "200",
+   "chunk_id": "eng_oncall_stipend_usd-c01"
+  },
+  "generator_predicted": {
+   "value": "200",
+   "chunk_id": "eng_oncall_stipend_usd-c01"
+  },
+  "retrieved_chunk_ids": [
+   "eng_oncall_stipend_usd-c01",
+   "eng_oncall_rotation_days_v1-c01",
+   "benefits_gym_stipend_usd-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0037489999999999997,
+  "wall_s": 2.68,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "memory_correction-02": {
+  "predicted": {
+   "value": "10",
+   "chunk_id": "support_weekend_shift_diff_pct-c01"
+  },
+  "generator_predicted": {
+   "value": "10",
+   "chunk_id": "support_weekend_shift_diff_pct-c01"
+  },
+  "retrieved_chunk_ids": [
+   "support_weekend_shift_diff_pct-c01",
+   "support.knowledge_base_owner_note-c01",
+   "support_csat_target-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0037349999999999996,
+  "wall_s": 2.93,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "memory_correction-03": {
+  "predicted": {
+   "value": "80",
+   "chunk_id": "facilities_parking_reimbursement_usd-c01"
+  },
+  "generator_predicted": {
+   "value": "80",
+   "chunk_id": "facilities_parking_reimbursement_usd-c01"
+  },
+  "retrieved_chunk_ids": [
+   "facilities_parking_reimbursement_usd-c01",
+   "relocation_travel_reimbursement_usd-c01",
+   "finance_expense_report_deadline_days_v2-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.003738,
+  "wall_s": 2.65,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "multi_hop-01": {
+  "predicted": {
+   "value": "700",
+   "chunk_id": "onboarding_senior_tier_bonus_usd-c01"
+  },
+  "generator_predicted": {
+   "value": "700",
+   "chunk_id": "onboarding_senior_tier_bonus_usd-c01"
+  },
+  "retrieved_chunk_ids": [
+   "onboarding_senior_tier_bonus_usd-c01",
+   "hr_new_parent_leave_weeks-c01",
+   "it.software_request_process_note-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0053159999999999995,
+  "wall_s": 3.93,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "multi_hop-04": {
+  "predicted": {
+   "value": "500",
+   "chunk_id": "relocation_travel_reimbursement_usd-c01"
+  },
+  "generator_predicted": {
+   "value": "500",
+   "chunk_id": "relocation_travel_reimbursement_usd-c01"
+  },
+  "retrieved_chunk_ids": [
+   "relocation_travel_reimbursement_usd-c01",
+   "hr_bereavement_leave-c01",
+   "it.software_request_process_note-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.004822,
+  "wall_s": 3.42,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "near_dup-01": {
+  "predicted": {
+   "value": "200",
+   "chunk_id": "sales_client_dinner_cap_usd-c01"
+  },
+  "generator_predicted": {
+   "value": "200",
+   "chunk_id": "sales_client_dinner_cap_usd-c01"
+  },
+  "retrieved_chunk_ids": [
+   "sales_client_dinner_cap_usd-c01",
+   "finance_expense_report_deadline_days_v2-c01",
+   "sales_deal_approval_threshold_usd-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0037689999999999998,
+  "wall_s": 2.7,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "near_dup-02": {
+  "predicted": {
+   "value": "12",
+   "chunk_id": "hr_new_parent_leave_weeks-c01"
+  },
+  "generator_predicted": {
+   "value": "12",
+   "chunk_id": "hr_new_parent_leave_weeks-c01"
+  },
+  "retrieved_chunk_ids": [
+   "hr_new_parent_leave_weeks-c01",
+   "relocation_temp_housing_weeks-c01",
+   "hr_caregiver_leave_weeks-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0036940000000000002,
+  "wall_s": 2.53,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ },
+ "near_dup-03": {
+  "predicted": {
+   "value": "16",
+   "chunk_id": "it_badge_access_hours_standard-c01"
+  },
+  "generator_predicted": {
+   "value": "16",
+   "chunk_id": "it_badge_access_hours_standard-c01"
+  },
+  "retrieved_chunk_ids": [
+   "it_badge_access_hours_standard-c01",
+   "it_badge_access_hours_contractor-c01",
+   "facilities.mail_room_hours-c01"
+  ],
+  "verifier": {
+   "overridden": false,
+   "reason": "verifier disabled",
+   "requires_human_review": false
+  },
+  "total_cost_usd": 0.0036880000000000003,
+  "wall_s": 2.66,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": false
+  }
+ }
+}

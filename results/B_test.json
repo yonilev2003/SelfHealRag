@@ -1,0 +1,231 @@
+{
+ "atomic-01": {
+  "wall_s": 7.61,
+  "predicted": {
+   "value": "5",
+   "chunk_id": "hr_bereavement_leave-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.14577400000000004,
+  "duration_ms": 6471,
+  "num_turns": 4
+ },
+ "atomic-02": {
+  "wall_s": 5.54,
+  "predicted": {
+   "value": "4",
+   "chunk_id": "it_offboarding_sla-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.0326052,
+  "duration_ms": 4295,
+  "num_turns": 3
+ },
+ "atomic-03": {
+  "wall_s": 8.37,
+  "predicted": {
+   "value": "75",
+   "chunk_id": "finance_travel_per_diem_usd-c01+finance_per_diem-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.04873540000000001,
+  "duration_ms": 7228,
+  "num_turns": 6
+ },
+ "contradiction-01": {
+  "wall_s": 5.38,
+  "predicted": {
+   "value": "4",
+   "chunk_id": "it_vpn_session_timeout_hours_v2-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.033899399999999996,
+  "duration_ms": 4181,
+  "num_turns": 4
+ },
+ "contradiction-02": {
+  "wall_s": 8.19,
+  "predicted": {
+   "value": "1.5",
+   "chunk_id": "hr_pto_accrual_days_per_month_v2-c01"
+  },
+  "denied_tool_calls": [
+   {
+    "tool": "Read",
+    "arg": "/hr_pto_accrual_days_per_month_v1.md",
+    "resolved": "/hr_pto_accrual_days_per_month_v1.md"
+   },
+   {
+    "tool": "Read",
+    "arg": "/hr_pto_accrual_days_per_month_v2.md",
+    "resolved": "/hr_pto_accrual_days_per_month_v2.md"
+   },
+   {
+    "tool": "Read",
+    "arg": "/hr_base_pto_days.md",
+    "resolved": "/hr_base_pto_days.md"
+   },
+   {
+    "tool": "Read",
+    "arg": "/hr_tenure_bonus_pto_days_per_5yr.md",
+    "resolved": "/hr_tenure_bonus_pto_days_per_5yr.md"
+   }
+  ],
+  "cap_hit": false,
+  "total_cost_usd": 0.0520126,
+  "duration_ms": 6883,
+  "num_turns": 9
+ },
+ "contradiction-03": {
+  "wall_s": 5.21,
+  "predicted": {
+   "value": "14",
+   "chunk_id": "finance_expense_report_deadline_days_v2-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.033839799999999996,
+  "duration_ms": 4060,
+  "num_turns": 4
+ },
+ "contradiction-04": {
+  "wall_s": 5.34,
+  "predicted": {
+   "value": "180",
+   "chunk_id": "it_password_rotation_days_v2-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.033826600000000005,
+  "duration_ms": 4206,
+  "num_turns": 4
+ },
+ "contradiction-09": {
+  "wall_s": 8.93,
+  "predicted": {
+   "value": "900",
+   "chunk_id": "finance_refund_cap_usd_v3-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.0456116,
+  "duration_ms": 7797,
+  "num_turns": 6
+ },
+ "memory_correction-01": {
+  "wall_s": 8.46,
+  "predicted": {
+   "value": "200",
+   "chunk_id": "eng_oncall_stipend_usd-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.0454492,
+  "duration_ms": 7224,
+  "num_turns": 6
+ },
+ "memory_correction-02": {
+  "wall_s": 7.36,
+  "predicted": {
+   "value": "10",
+   "chunk_id": "support_weekend_shift_diff_pct-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.0456308,
+  "duration_ms": 5962,
+  "num_turns": 4
+ },
+ "memory_correction-03": {
+  "wall_s": 7.07,
+  "predicted": {
+   "value": "80",
+   "chunk_id": "facilities_parking_reimbursement_usd-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.041029399999999994,
+  "duration_ms": 5929,
+  "num_turns": 4
+ },
+ "multi_hop-01": {
+  "wall_s": 9.94,
+  "predicted": {
+   "value": "2500",
+   "chunk_id": "onboarding_base_equipment_budget_usd-c01+onboarding_senior_tier_bonus_usd-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.051612200000000004,
+  "duration_ms": 8561,
+  "num_turns": 7
+ },
+ "multi_hop-04": {
+  "wall_s": 12.8,
+  "predicted": {
+   "value": "5100",
+   "chunk_id": "relocation_moving_stipend_usd-c01+relocation_temp_housing_weeks-c01+relocation_travel_reimbursement_usd-c01"
+  },
+  "denied_tool_calls": [
+   {
+    "tool": "Read",
+    "arg": "/root/relocation_moving_stipend_usd.md",
+    "resolved": "/root/relocation_moving_stipend_usd.md"
+   },
+   {
+    "tool": "Read",
+    "arg": "/root/relocation_temp_housing_weeks.md",
+    "resolved": "/root/relocation_temp_housing_weeks.md"
+   },
+   {
+    "tool": "Read",
+    "arg": "/root/relocation_travel_reimbursement_usd.md",
+    "resolved": "/root/relocation_travel_reimbursement_usd.md"
+   }
+  ],
+  "cap_hit": false,
+  "total_cost_usd": 0.06266240000000001,
+  "duration_ms": 11470,
+  "num_turns": 9
+ },
+ "near_dup-01": {
+  "wall_s": 8.24,
+  "predicted": {
+   "value": "200",
+   "chunk_id": "sales_client_dinner_cap_usd-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.041263,
+  "duration_ms": 7098,
+  "num_turns": 4
+ },
+ "near_dup-02": {
+  "wall_s": 7.71,
+  "predicted": {
+   "value": "12",
+   "chunk_id": "hr_new_parent_leave_weeks-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.042246000000000006,
+  "duration_ms": 6574,
+  "num_turns": 4
+ },
+ "near_dup-03": {
+  "wall_s": 6.7,
+  "predicted": {
+   "value": "16",
+   "chunk_id": "it_badge_access_hours_standard-c01"
+  },
+  "denied_tool_calls": [],
+  "cap_hit": false,
+  "total_cost_usd": 0.040154800000000004,
+  "duration_ms": 5534,
+  "num_turns": 4
+ }
+}

@@ -1,0 +1,577 @@
+[
+ {
+  "chunk_id": "hr_bereavement_leave-c01",
+  "entity_key": "hr.bereavement_leave_days",
+  "value": "5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_offboarding_sla-c01",
+  "entity_key": "it.offboarding_access_revoke_hours",
+  "value": "4",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_per_diem-c01",
+  "entity_key": "finance.travel_per_diem_usd",
+  "value": "75",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal_ip_assignment-c01",
+  "entity_key": "legal.ip_assignment_scope",
+  "value": "work-related",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales_quota_reset-c01",
+  "entity_key": "sales.quota_reset_cadence",
+  "value": "quarterly",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng_code_review_min-c01",
+  "entity_key": "eng.code_review_min_approvals",
+  "value": "1",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "facilities_desk_ratio-c01",
+  "entity_key": "facilities.desk_booking_ratio",
+  "value": "1.5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "support_csat_target-c01",
+  "entity_key": "support.csat_target_pct",
+  "value": "90",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_vpn_session_timeout_hours_v1-c01",
+  "entity_key": "it.vpn_session_timeout_hours",
+  "value": "8",
+  "effective_date": "2026-01-10",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_vpn_session_timeout_hours_v2-c01",
+  "entity_key": "it.vpn_session_timeout_hours",
+  "value": "4",
+  "effective_date": "2026-05-01",
+  "supersedes_id": "it_vpn_session_timeout_hours_v1-c01"
+ },
+ {
+  "chunk_id": "hr_pto_accrual_days_per_month_v1-c01",
+  "entity_key": "hr.pto_accrual_days_per_month",
+  "value": "1.25",
+  "effective_date": "2026-01-05",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_pto_accrual_days_per_month_v2-c01",
+  "entity_key": "hr.pto_accrual_days_per_month",
+  "value": "1.5",
+  "effective_date": "2026-04-15",
+  "supersedes_id": "hr_pto_accrual_days_per_month_v1-c01"
+ },
+ {
+  "chunk_id": "finance_expense_report_deadline_days_v1-c01",
+  "entity_key": "finance.expense_report_deadline_days",
+  "value": "30",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_expense_report_deadline_days_v2-c01",
+  "entity_key": "finance.expense_report_deadline_days",
+  "value": "14",
+  "effective_date": "2026-06-01",
+  "supersedes_id": "finance_expense_report_deadline_days_v1-c01"
+ },
+ {
+  "chunk_id": "it_password_rotation_days_v1-c01",
+  "entity_key": "it.password_rotation_days",
+  "value": "90",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_password_rotation_days_v2-c01",
+  "entity_key": "it.password_rotation_days",
+  "value": "180",
+  "effective_date": "2026-05-20",
+  "supersedes_id": "it_password_rotation_days_v1-c01"
+ },
+ {
+  "chunk_id": "sales_deal_discount_max_pct_v1-c01",
+  "entity_key": "sales.deal_discount_max_pct",
+  "value": "10",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales_deal_discount_max_pct_v2-c01",
+  "entity_key": "sales.deal_discount_max_pct",
+  "value": "15",
+  "effective_date": "2026-06-10",
+  "supersedes_id": "sales_deal_discount_max_pct_v1-c01"
+ },
+ {
+  "chunk_id": "hr_remote_work_days_per_week_v1-c01",
+  "entity_key": "hr.remote_work_days_per_week",
+  "value": "2",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_remote_work_days_per_week_v2-c01",
+  "entity_key": "hr.remote_work_days_per_week",
+  "value": "3",
+  "effective_date": "2026-07-01",
+  "supersedes_id": "hr_remote_work_days_per_week_v1-c01"
+ },
+ {
+  "chunk_id": "eng_oncall_rotation_days_v1-c01",
+  "entity_key": "eng.oncall_rotation_days",
+  "value": "14",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng_oncall_rotation_days_v2-c01",
+  "entity_key": "eng.oncall_rotation_days",
+  "value": "7",
+  "effective_date": "2026-05-15",
+  "supersedes_id": "eng_oncall_rotation_days_v1-c01"
+ },
+ {
+  "chunk_id": "support_first_response_sla_hours_v1-c01",
+  "entity_key": "support.first_response_sla_hours",
+  "value": "24",
+  "effective_date": "2026-01-20",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "support_first_response_sla_hours_v2-c01",
+  "entity_key": "support.first_response_sla_hours",
+  "value": "12",
+  "effective_date": "2026-04-10",
+  "supersedes_id": "support_first_response_sla_hours_v1-c01"
+ },
+ {
+  "chunk_id": "finance_refund_cap_usd_v1-c01",
+  "entity_key": "finance.refund_cap_usd",
+  "value": "500",
+  "effective_date": "2026-01-05",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_refund_cap_usd_v2-c01",
+  "entity_key": "finance.refund_cap_usd",
+  "value": "750",
+  "effective_date": "2026-06-15",
+  "supersedes_id": "finance_refund_cap_usd_v1-c01"
+ },
+ {
+  "chunk_id": "finance_refund_cap_usd_v3-c01",
+  "entity_key": "finance.refund_cap_usd",
+  "value": "900",
+  "effective_date": "2026-08-01",
+  "supersedes_id": "finance_refund_cap_usd_v2-c01"
+ },
+ {
+  "chunk_id": "compliance_data_retention_months_v1-c01",
+  "entity_key": "compliance.data_retention_months",
+  "value": "24",
+  "effective_date": "2026-02-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "compliance_data_retention_months_v2-c01",
+  "entity_key": "compliance.data_retention_months",
+  "value": "36",
+  "effective_date": "2026-07-20",
+  "supersedes_id": "compliance_data_retention_months_v1-c01"
+ },
+ {
+  "chunk_id": "it_laptop_refresh_years_v1-c01",
+  "entity_key": "it.laptop_refresh_years",
+  "value": "4",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_laptop_refresh_years_v2-c01",
+  "entity_key": "it.laptop_refresh_years",
+  "value": "3",
+  "effective_date": "2026-06-01",
+  "supersedes_id": "it_laptop_refresh_years_v1-c01"
+ },
+ {
+  "chunk_id": "legal_contractor_nda_years_v1-c01",
+  "entity_key": "legal.contractor_nda_years",
+  "value": "2",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal_contractor_nda_years_v2-c01",
+  "entity_key": "legal.contractor_nda_years",
+  "value": "5",
+  "effective_date": "2026-05-01",
+  "supersedes_id": "legal_contractor_nda_years_v1-c01"
+ },
+ {
+  "chunk_id": "sales_client_dinner_cap_usd-c01",
+  "entity_key": "sales.client_dinner_cap_usd",
+  "value": "200",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng_team_lunch_cap_usd-c01",
+  "entity_key": "eng.team_lunch_cap_usd",
+  "value": "150",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_new_parent_leave_weeks-c01",
+  "entity_key": "hr.new_parent_leave_weeks",
+  "value": "12",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_caregiver_leave_weeks-c01",
+  "entity_key": "hr.caregiver_leave_weeks",
+  "value": "4",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_badge_access_hours_standard-c01",
+  "entity_key": "it.badge_access_hours_standard",
+  "value": "16",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_badge_access_hours_contractor-c01",
+  "entity_key": "it.badge_access_hours_contractor",
+  "value": "10",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_po_auto_approve_usd-c01",
+  "entity_key": "finance.po_auto_approve_usd",
+  "value": "1000",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_expense_auto_approve_usd-c01",
+  "entity_key": "finance.expense_auto_approve_usd",
+  "value": "50",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "support_escalation_response_minutes-c01",
+  "entity_key": "support.escalation_response_minutes",
+  "value": "30",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "support_standard_response_minutes-c01",
+  "entity_key": "support.standard_response_minutes",
+  "value": "240",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales_commission_accelerator_pct-c01",
+  "entity_key": "sales.commission_accelerator_pct",
+  "value": "12",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales_commission_base_pct-c01",
+  "entity_key": "sales.commission_base_pct",
+  "value": "8",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng_incident_postmortem_days-c01",
+  "entity_key": "eng.incident_postmortem_days",
+  "value": "5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng_incident_page_response_minutes-c01",
+  "entity_key": "eng.incident_page_response_minutes",
+  "value": "15",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal_vendor_contract_review_days-c01",
+  "entity_key": "legal.vendor_contract_review_days",
+  "value": "10",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal_customer_contract_review_days-c01",
+  "entity_key": "legal.customer_contract_review_days",
+  "value": "5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "onboarding_base_equipment_budget_usd-c01",
+  "entity_key": "onboarding.base_equipment_budget_usd",
+  "value": "1800",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "onboarding_senior_tier_bonus_usd-c01",
+  "entity_key": "onboarding.senior_tier_bonus_usd",
+  "value": "700",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_base_pto_days-c01",
+  "entity_key": "hr.base_pto_days",
+  "value": "15",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_tenure_bonus_pto_days_per_5yr-c01",
+  "entity_key": "hr.tenure_bonus_pto_days_per_5yr",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_travel_per_diem_usd-c01",
+  "entity_key": "finance.travel_per_diem_usd",
+  "value": "75",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_conference_lodging_cap_usd_per_night-c01",
+  "entity_key": "finance.conference_lodging_cap_usd_per_night",
+  "value": "220",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "relocation_moving_stipend_usd-c01",
+  "entity_key": "relocation.moving_stipend_usd",
+  "value": "3000",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "relocation_temp_housing_weeks-c01",
+  "entity_key": "relocation.temp_housing_weeks",
+  "value": "1600",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "relocation_travel_reimbursement_usd-c01",
+  "entity_key": "relocation.travel_reimbursement_usd",
+  "value": "500",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng_oncall_stipend_usd-c01",
+  "entity_key": "eng.oncall_stipend_usd",
+  "value": "250",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null,
+  "stale_documented_value": "200"
+ },
+ {
+  "chunk_id": "support_weekend_shift_diff_pct-c01",
+  "entity_key": "support.weekend_shift_diff_pct",
+  "value": "15",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null,
+  "stale_documented_value": "10"
+ },
+ {
+  "chunk_id": "facilities_parking_reimbursement_usd-c01",
+  "entity_key": "facilities.parking_reimbursement_usd",
+  "value": "120",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null,
+  "stale_documented_value": "80"
+ },
+ {
+  "chunk_id": "benefits_gym_stipend_usd-c01",
+  "entity_key": "benefits.gym_stipend_usd",
+  "value": "100",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null,
+  "stale_documented_value": "60"
+ },
+ {
+  "chunk_id": "it_hardware_request_sla_days-c01",
+  "entity_key": "it.hardware_request_sla_days",
+  "value": "2",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null,
+  "stale_documented_value": "5"
+ },
+ {
+  "chunk_id": "sales_deal_approval_threshold_usd-c01",
+  "entity_key": "sales.deal_approval_threshold_usd",
+  "value": "75000",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null,
+  "stale_documented_value": "50000"
+ },
+ {
+  "chunk_id": "legal_nda_duration_years-c01",
+  "entity_key": "legal.nda_duration_years",
+  "value": "5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null,
+  "stale_documented_value": "3"
+ },
+ {
+  "chunk_id": "eng_oncall_rotation_pay_multiplier-c01",
+  "entity_key": "eng.oncall_rotation_pay_multiplier",
+  "value": "2.0",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null,
+  "stale_documented_value": "1.5"
+ },
+ {
+  "chunk_id": "marketing.brand_review_cadence-c01",
+  "entity_key": "marketing.brand_review_cadence",
+  "value": "quarterly",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal.trademark_renewal_note-c01",
+  "entity_key": "legal.trademark_renewal_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "facilities.bike_storage_spots-c01",
+  "entity_key": "facilities.bike_storage_spots",
+  "value": "20",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr.employee_referral_bonus_usd-c01",
+  "entity_key": "hr.employee_referral_bonus_usd",
+  "value": "2000",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it.software_request_process_note-c01",
+  "entity_key": "it.software_request_process_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales.territory_assignment_note-c01",
+  "entity_key": "sales.territory_assignment_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance.invoice_payment_terms_days-c01",
+  "entity_key": "finance.invoice_payment_terms_days",
+  "value": "45",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng.design_doc_review_note-c01",
+  "entity_key": "eng.design_doc_review_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "support.knowledge_base_owner_note-c01",
+  "entity_key": "support.knowledge_base_owner_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "compliance.vendor_security_review_note-c01",
+  "entity_key": "compliance.vendor_security_review_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "facilities.mail_room_hours-c01",
+  "entity_key": "facilities.mail_room_hours",
+  "value": "9am-5pm weekdays",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr.performance_review_cadence-c01",
+  "entity_key": "hr.performance_review_cadence",
+  "value": "semi-annual",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it.incident_status_page_note-c01",
+  "entity_key": "it.incident_status_page_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal.data_processing_agreement_note-c01",
+  "entity_key": "legal.data_processing_agreement_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales.demo_environment_note-c01",
+  "entity_key": "sales.demo_environment_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ }
+]

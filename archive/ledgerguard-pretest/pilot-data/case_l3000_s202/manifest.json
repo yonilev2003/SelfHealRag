@@ -1,0 +1,195 @@
+{
+ "case_id": "case_l3000_s202",
+ "generator_version": "1.0",
+ "seed": 202,
+ "n_orders": 3000,
+ "month": "2026-07",
+ "true_total_usd": 810725.15,
+ "n_countable_charges": 2802,
+ "n_countable_refunds": 150,
+ "corruption_log": [
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-00090",
+   "payment_ids": [
+    "PAY-0202-000097",
+    "PAY-0202-003148"
+   ],
+   "naive_overstatement_usd": 418.25
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-01700",
+   "payment_ids": [
+    "PAY-0202-001790",
+    "PAY-0202-003149"
+   ],
+   "naive_overstatement_usd": 151.85
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-02506",
+   "payment_ids": [
+    "PAY-0202-002637",
+    "PAY-0202-003150"
+   ],
+   "naive_overstatement_usd": 441.5
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-01463",
+   "payment_ids": [
+    "PAY-0202-001543",
+    "PAY-0202-003151"
+   ],
+   "naive_overstatement_usd": 93.52
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-00598",
+   "payment_ids": [
+    "PAY-0202-000631",
+    "PAY-0202-003152"
+   ],
+   "naive_overstatement_usd": 231.8
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-02327",
+   "payment_ids": [
+    "PAY-0202-002445",
+    "PAY-0202-003153"
+   ],
+   "naive_overstatement_usd": 204.5
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-02854",
+   "payment_ids": [
+    "PAY-0202-002990",
+    "PAY-0202-003154"
+   ],
+   "naive_overstatement_usd": 210.04
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-02473",
+   "payment_ids": [
+    "PAY-0202-002603",
+    "PAY-0202-003155"
+   ],
+   "naive_overstatement_usd": 89.96
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-01876",
+   "payment_ids": [
+    "PAY-0202-001975",
+    "PAY-0202-003156"
+   ],
+   "naive_overstatement_usd": 252.94
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0202-00798",
+   "payment_ids": [
+    "PAY-0202-000845",
+    "PAY-0202-003157"
+   ],
+   "naive_overstatement_usd": 378.05
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0202-00395",
+   "payment_id": "PAY-0202-000414",
+   "naive_understatement_usd_if_orphans_excluded": 37.33
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0202-01540",
+   "payment_id": "PAY-0202-001623",
+   "naive_understatement_usd_if_orphans_excluded": 361.68
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0202-01085",
+   "payment_id": "PAY-0202-001152",
+   "naive_understatement_usd_if_orphans_excluded": 371.8
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0202-01301",
+   "payment_id": "PAY-0202-001377",
+   "naive_understatement_usd_if_orphans_excluded": 411.97
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0202-00432",
+   "payment_id": "PAY-0202-000451",
+   "naive_understatement_usd_if_orphans_excluded": 147.94
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0202-02682",
+   "payment_id": "PAY-0202-002816",
+   "naive_understatement_usd_if_orphans_excluded": 51.38
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0202-02885",
+   "payment_id": "PAY-0202-003027",
+   "naive_understatement_usd_if_orphans_excluded": 192.73
+  },
+  {
+   "type": "test_transactions",
+   "count": 20,
+   "naive_overstatement_usd": 4302.29
+  },
+  {
+   "type": "noncaptured_rows_present",
+   "count": 175,
+   "naive_overstatement_usd": 52103.9
+  },
+  {
+   "type": "refund_sign_trap",
+   "note": "refunds appear as positive gross_amount and must be subtracted",
+   "count": 151
+  },
+  {
+   "type": "orders_without_payment_timing",
+   "count": 30,
+   "order_ids": [
+    "ORD-0202-00047",
+    "ORD-0202-00151",
+    "ORD-0202-00159",
+    "ORD-0202-00188",
+    "ORD-0202-00411",
+    "ORD-0202-00527",
+    "ORD-0202-00726",
+    "ORD-0202-00727",
+    "ORD-0202-00789",
+    "ORD-0202-00877",
+    "ORD-0202-01024",
+    "ORD-0202-01047",
+    "ORD-0202-01073",
+    "ORD-0202-01115",
+    "ORD-0202-01345",
+    "ORD-0202-01563",
+    "ORD-0202-01656",
+    "ORD-0202-01754",
+    "ORD-0202-01842",
+    "ORD-0202-01917",
+    "ORD-0202-01945",
+    "ORD-0202-01964",
+    "ORD-0202-02031",
+    "ORD-0202-02154",
+    "ORD-0202-02157",
+    "ORD-0202-02585",
+    "ORD-0202-02651",
+    "ORD-0202-02709",
+    "ORD-0202-02919",
+    "ORD-0202-02949"
+   ]
+  }
+ ]
+}

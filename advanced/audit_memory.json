@@ -1,0 +1,187 @@
+[
+ {
+  "round": 0,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": true
+  },
+  "dev_accuracy": 17,
+  "failure_counts_by_taxonomy": {
+   "retrieval_miss": 2,
+   "memory_correction_missed": 5
+  },
+  "case_ids_by_taxonomy": {
+   "correct": [
+    "atomic-04",
+    "atomic-05",
+    "atomic-06",
+    "atomic-07",
+    "atomic-08",
+    "contradiction-05",
+    "contradiction-06",
+    "contradiction-07",
+    "contradiction-08",
+    "contradiction-10",
+    "contradiction-12",
+    "multi_hop-02",
+    "near_dup-04",
+    "near_dup-05",
+    "near_dup-06",
+    "near_dup-07",
+    "near_dup-08"
+   ],
+   "retrieval_miss": [
+    "contradiction-11",
+    "multi_hop-03"
+   ],
+   "memory_correction_missed": [
+    "memory_correction-04",
+    "memory_correction-05",
+    "memory_correction-06",
+    "memory_correction-07",
+    "memory_correction-08"
+   ]
+  },
+  "kept": true
+ },
+ {
+  "round": 1,
+  "config": {
+   "k": 3,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": true
+  },
+  "dev_accuracy": 21,
+  "failure_counts_by_taxonomy": {
+   "retrieval_miss": 2,
+   "wrong_value_other": 1
+  },
+  "case_ids_by_taxonomy": {
+   "correct": [
+    "atomic-04",
+    "atomic-05",
+    "atomic-06",
+    "atomic-07",
+    "atomic-08",
+    "contradiction-05",
+    "contradiction-06",
+    "contradiction-07",
+    "contradiction-08",
+    "contradiction-10",
+    "contradiction-12",
+    "memory_correction-04",
+    "memory_correction-05",
+    "memory_correction-06",
+    "memory_correction-07",
+    "memory_correction-08",
+    "near_dup-04",
+    "near_dup-05",
+    "near_dup-06",
+    "near_dup-07",
+    "near_dup-08"
+   ],
+   "retrieval_miss": [
+    "contradiction-11",
+    "multi_hop-03"
+   ],
+   "wrong_value_other": [
+    "multi_hop-02"
+   ]
+  },
+  "kept": true,
+  "action": "consulted the correction-signal feed for 5 case(s), wrote 5 new memory entries"
+ },
+ {
+  "round": 2,
+  "config": {
+   "k": 5,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": true
+  },
+  "dev_accuracy": 22,
+  "failure_counts_by_taxonomy": {
+   "retrieval_miss": 2
+  },
+  "case_ids_by_taxonomy": {
+   "correct": [
+    "atomic-04",
+    "atomic-05",
+    "atomic-06",
+    "atomic-07",
+    "atomic-08",
+    "contradiction-05",
+    "contradiction-06",
+    "contradiction-07",
+    "contradiction-08",
+    "contradiction-10",
+    "contradiction-12",
+    "memory_correction-04",
+    "memory_correction-05",
+    "memory_correction-06",
+    "memory_correction-07",
+    "memory_correction-08",
+    "multi_hop-02",
+    "near_dup-04",
+    "near_dup-05",
+    "near_dup-06",
+    "near_dup-07",
+    "near_dup-08"
+   ],
+   "retrieval_miss": [
+    "contradiction-11",
+    "multi_hop-03"
+   ]
+  },
+  "kept": false,
+  "action": "k 3 -> 5"
+ },
+ {
+  "round": 3,
+  "config": {
+   "k": 7,
+   "hybrid_date_boost": false,
+   "use_verifier": false,
+   "use_memory": true
+  },
+  "dev_accuracy": 22,
+  "failure_counts_by_taxonomy": {
+   "retrieval_miss": 2
+  },
+  "case_ids_by_taxonomy": {
+   "correct": [
+    "atomic-04",
+    "atomic-05",
+    "atomic-06",
+    "atomic-07",
+    "atomic-08",
+    "contradiction-05",
+    "contradiction-06",
+    "contradiction-07",
+    "contradiction-08",
+    "contradiction-10",
+    "contradiction-12",
+    "memory_correction-04",
+    "memory_correction-05",
+    "memory_correction-06",
+    "memory_correction-07",
+    "memory_correction-08",
+    "multi_hop-02",
+    "near_dup-04",
+    "near_dup-05",
+    "near_dup-06",
+    "near_dup-07",
+    "near_dup-08"
+   ],
+   "retrieval_miss": [
+    "contradiction-11",
+    "multi_hop-03"
+   ]
+  },
+  "kept": false,
+  "action": "k 3 -> 7"
+ }
+]

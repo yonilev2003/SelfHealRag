@@ -1,0 +1,242 @@
+[
+ {
+  "probe_id": "atomic-04",
+  "question": "What is the scope of IP assignment under the standard employment agreement?",
+  "expected_value": "work-related",
+  "expected_chunk_id": "legal_ip_assignment-c01",
+  "category": "atomic",
+  "trap_subtype": "none",
+  "entity_key": "legal.ip_assignment_scope",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "atomic-05",
+  "question": "How often are sales quotas reset?",
+  "expected_value": "quarterly",
+  "expected_chunk_id": "sales_quota_reset-c01",
+  "category": "atomic",
+  "trap_subtype": "none",
+  "entity_key": "sales.quota_reset_cadence",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "atomic-06",
+  "question": "How many approving reviews does a pull request to main need before merge?",
+  "expected_value": "1",
+  "expected_chunk_id": "eng_code_review_min-c01",
+  "category": "atomic",
+  "trap_subtype": "none",
+  "entity_key": "eng.code_review_min_approvals",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "atomic-07",
+  "question": "What is the bookable-desk-to-headcount ratio at the downtown office?",
+  "expected_value": "1.5",
+  "expected_chunk_id": "facilities_desk_ratio-c01",
+  "category": "atomic",
+  "trap_subtype": "none",
+  "entity_key": "facilities.desk_booking_ratio",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "atomic-08",
+  "question": "What is the support team's CSAT target percentage?",
+  "expected_value": "90",
+  "expected_chunk_id": "support_csat_target-c01",
+  "category": "atomic",
+  "trap_subtype": "none",
+  "entity_key": "support.csat_target_pct",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-05",
+  "question": "What is the current maximum discretionary discount a sales rep can apply, in percent?",
+  "expected_value": "15",
+  "expected_chunk_id": "sales_deal_discount_max_pct_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "sales.deal_discount_max_pct",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-06",
+  "question": "How many days per week can employees currently work remotely?",
+  "expected_value": "3",
+  "expected_chunk_id": "hr_remote_work_days_per_week_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "hr.remote_work_days_per_week",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-07",
+  "question": "How many days does the current on-call rotation last?",
+  "expected_value": "7",
+  "expected_chunk_id": "eng_oncall_rotation_days_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "eng.oncall_rotation_days",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-08",
+  "question": "What is the current first-response SLA for support tickets, in hours?",
+  "expected_value": "12",
+  "expected_chunk_id": "support_first_response_sla_hours_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "support.first_response_sla_hours",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-10",
+  "question": "How many months is customer data currently retained after account closure?",
+  "expected_value": "36",
+  "expected_chunk_id": "compliance_data_retention_months_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "compliance.data_retention_months",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-11",
+  "question": "Every how many years are laptops currently refreshed?",
+  "expected_value": "3",
+  "expected_chunk_id": "it_laptop_refresh_years_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "it.laptop_refresh_years",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-12",
+  "question": "What is the current confidentiality period for a contractor NDA, in years?",
+  "expected_value": "5",
+  "expected_chunk_id": "legal_contractor_nda_years_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "legal.contractor_nda_years",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "memory_correction-04",
+  "question": "What is the current monthly wellness stipend cap, in USD?",
+  "expected_value": "100",
+  "expected_chunk_id": "MEMORY",
+  "category": "memory_correction",
+  "trap_subtype": "stale_no_memory",
+  "entity_key": "benefits.gym_stipend_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "memory_correction-05",
+  "question": "Within how many business days is a hardware request currently fulfilled?",
+  "expected_value": "2",
+  "expected_chunk_id": "MEMORY",
+  "category": "memory_correction",
+  "trap_subtype": "stale_no_memory",
+  "entity_key": "it.hardware_request_sla_days",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "memory_correction-06",
+  "question": "What is the current director-approval threshold for deals, in USD (ACV)?",
+  "expected_value": "75000",
+  "expected_chunk_id": "MEMORY",
+  "category": "memory_correction",
+  "trap_subtype": "stale_no_memory",
+  "entity_key": "sales.deal_approval_threshold_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "memory_correction-07",
+  "question": "What is the current confidentiality term in the standard NDA template, in years?",
+  "expected_value": "5",
+  "expected_chunk_id": "MEMORY",
+  "category": "memory_correction",
+  "trap_subtype": "stale_no_memory",
+  "entity_key": "legal.nda_duration_years",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "memory_correction-08",
+  "question": "What is the current holiday on-call pay multiplier for engineers?",
+  "expected_value": "2.0",
+  "expected_chunk_id": "MEMORY",
+  "category": "memory_correction",
+  "trap_subtype": "stale_no_memory",
+  "entity_key": "eng.oncall_rotation_pay_multiplier",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "multi_hop-02",
+  "question": "Total annual PTO for an employee with 5 years of tenure?",
+  "expected_value": "18",
+  "expected_chunk_id": "hr_base_pto_days-c01+hr_tenure_bonus_pto_days_per_5yr-c01",
+  "category": "multi_hop",
+  "trap_subtype": "2hop",
+  "entity_key": "derived.total_pto_days_5yr_tenure",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "multi_hop-03",
+  "question": "Maximum reimbursable amount for a 3-night domestic conference trip, in USD?",
+  "expected_value": "885",
+  "expected_chunk_id": "finance_travel_per_diem_usd-c01+finance_conference_lodging_cap_usd_per_night-c01",
+  "category": "multi_hop",
+  "trap_subtype": "2hop",
+  "entity_key": "derived.max_travel_reimbursement_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "near_dup-04",
+  "question": "Below what dollar amount is a purchase order automatically approved?",
+  "expected_value": "1000",
+  "expected_chunk_id": "finance_po_auto_approve_usd-c01",
+  "category": "near_dup",
+  "trap_subtype": "none",
+  "entity_key": "finance.po_auto_approve_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "near_dup-05",
+  "question": "Within how many minutes must an escalated (P1) ticket be acknowledged?",
+  "expected_value": "30",
+  "expected_chunk_id": "support_escalation_response_minutes-c01",
+  "category": "near_dup",
+  "trap_subtype": "none",
+  "entity_key": "support.escalation_response_minutes",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "near_dup-06",
+  "question": "What commission rate applies to revenue above 100% of quota?",
+  "expected_value": "12",
+  "expected_chunk_id": "sales_commission_accelerator_pct-c01",
+  "category": "near_dup",
+  "trap_subtype": "none",
+  "entity_key": "sales.commission_accelerator_pct",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "near_dup-07",
+  "question": "Within how many business days is a postmortem due after a SEV1/SEV2 incident?",
+  "expected_value": "5",
+  "expected_chunk_id": "eng_incident_postmortem_days-c01",
+  "category": "near_dup",
+  "trap_subtype": "none",
+  "entity_key": "eng.incident_postmortem_days",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "near_dup-08",
+  "question": "Within how many business days is a standard vendor contract reviewed?",
+  "expected_value": "10",
+  "expected_chunk_id": "legal_vendor_contract_review_days-c01",
+  "category": "near_dup",
+  "trap_subtype": "none",
+  "entity_key": "legal.vendor_contract_review_days",
+  "construction_seed": 42
+ }
+]

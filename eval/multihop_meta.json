@@ -1,0 +1,43 @@
+[
+ {
+  "result_entity_key": "derived.total_onboarding_budget_usd",
+  "context": "New senior engineer onboarding budget",
+  "component_chunk_ids": [
+   "onboarding_base_equipment_budget_usd-c01",
+   "onboarding_senior_tier_bonus_usd-c01"
+  ],
+  "computed_value": "2500",
+  "n_hops": 2
+ },
+ {
+  "result_entity_key": "derived.total_pto_days_5yr_tenure",
+  "context": "Total annual PTO for an employee with 5 years of tenure",
+  "component_chunk_ids": [
+   "hr_base_pto_days-c01",
+   "hr_tenure_bonus_pto_days_per_5yr-c01"
+  ],
+  "computed_value": "18",
+  "n_hops": 2
+ },
+ {
+  "result_entity_key": "derived.max_travel_reimbursement_usd",
+  "context": "Maximum reimbursable amount for a 3-night domestic conference trip",
+  "component_chunk_ids": [
+   "finance_travel_per_diem_usd-c01",
+   "finance_conference_lodging_cap_usd_per_night-c01"
+  ],
+  "computed_value": "885",
+  "n_hops": 2
+ },
+ {
+  "result_entity_key": "derived.total_relocation_package_usd",
+  "context": "Total relocation package for an out-of-state new hire (3-hop)",
+  "component_chunk_ids": [
+   "relocation_moving_stipend_usd-c01",
+   "relocation_temp_housing_weeks-c01",
+   "relocation_travel_reimbursement_usd-c01"
+  ],
+  "computed_value": "5100",
+  "n_hops": 3
+ }
+]

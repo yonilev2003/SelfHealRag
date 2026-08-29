@@ -1,0 +1,162 @@
+[
+ {
+  "probe_id": "atomic-01",
+  "question": "How many days of paid bereavement leave can an employee take?",
+  "expected_value": "5",
+  "expected_chunk_id": "hr_bereavement_leave-c01",
+  "category": "atomic",
+  "trap_subtype": "none",
+  "entity_key": "hr.bereavement_leave_days",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "atomic-02",
+  "question": "Within how many hours of an employee's last day does IT revoke system access?",
+  "expected_value": "4",
+  "expected_chunk_id": "it_offboarding_sla-c01",
+  "category": "atomic",
+  "trap_subtype": "none",
+  "entity_key": "it.offboarding_access_revoke_hours",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "atomic-03",
+  "question": "What is the daily per diem for domestic business travel?",
+  "expected_value": "75",
+  "expected_chunk_id": "finance_per_diem-c01",
+  "category": "atomic",
+  "trap_subtype": "none",
+  "entity_key": "finance.travel_per_diem_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-01",
+  "question": "What is the current VPN session timeout, in hours?",
+  "expected_value": "4",
+  "expected_chunk_id": "it_vpn_session_timeout_hours_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "it.vpn_session_timeout_hours",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-02",
+  "question": "How many PTO days does an employee currently accrue per month?",
+  "expected_value": "1.5",
+  "expected_chunk_id": "hr_pto_accrual_days_per_month_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "hr.pto_accrual_days_per_month",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-03",
+  "question": "How many days does an employee currently have to submit an expense report?",
+  "expected_value": "14",
+  "expected_chunk_id": "finance_expense_report_deadline_days_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "finance.expense_report_deadline_days",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-04",
+  "question": "How many days is the current password rotation requirement?",
+  "expected_value": "180",
+  "expected_chunk_id": "it_password_rotation_days_v2-c01",
+  "category": "contradiction",
+  "trap_subtype": "explicit_supersession",
+  "entity_key": "it.password_rotation_days",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "contradiction-09",
+  "question": "What is the current customer refund cap that a rep can approve without manager sign-off, in USD?",
+  "expected_value": "900",
+  "expected_chunk_id": "finance_refund_cap_usd_v3-c01",
+  "category": "contradiction",
+  "trap_subtype": "3hop_chain",
+  "entity_key": "finance.refund_cap_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "memory_correction-01",
+  "question": "What is the current weekly on-call stipend for engineers, in USD?",
+  "expected_value": "250",
+  "expected_chunk_id": "MEMORY",
+  "category": "memory_correction",
+  "trap_subtype": "stale_no_memory",
+  "entity_key": "eng.oncall_stipend_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "memory_correction-02",
+  "question": "What is the current weekend shift differential for support agents, in percent?",
+  "expected_value": "15",
+  "expected_chunk_id": "MEMORY",
+  "category": "memory_correction",
+  "trap_subtype": "stale_no_memory",
+  "entity_key": "support.weekend_shift_diff_pct",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "memory_correction-03",
+  "question": "What is the current monthly parking reimbursement cap, in USD?",
+  "expected_value": "120",
+  "expected_chunk_id": "MEMORY",
+  "category": "memory_correction",
+  "trap_subtype": "stale_no_memory",
+  "entity_key": "facilities.parking_reimbursement_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "multi_hop-01",
+  "question": "New senior engineer onboarding budget, in USD?",
+  "expected_value": "2500",
+  "expected_chunk_id": "onboarding_base_equipment_budget_usd-c01+onboarding_senior_tier_bonus_usd-c01",
+  "category": "multi_hop",
+  "trap_subtype": "2hop",
+  "entity_key": "derived.total_onboarding_budget_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "multi_hop-04",
+  "question": "Total relocation package for an out-of-state new hire (3-hop), in USD?",
+  "expected_value": "5100",
+  "expected_chunk_id": "relocation_moving_stipend_usd-c01+relocation_temp_housing_weeks-c01+relocation_travel_reimbursement_usd-c01",
+  "category": "multi_hop",
+  "trap_subtype": "3hop",
+  "entity_key": "derived.total_relocation_package_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "near_dup-01",
+  "question": "What is the Sales team's expense cap for a client dinner, in USD?",
+  "expected_value": "200",
+  "expected_chunk_id": "sales_client_dinner_cap_usd-c01",
+  "category": "near_dup",
+  "trap_subtype": "none",
+  "entity_key": "sales.client_dinner_cap_usd",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "near_dup-02",
+  "question": "How many weeks of paid leave does a new parent receive?",
+  "expected_value": "12",
+  "expected_chunk_id": "hr_new_parent_leave_weeks-c01",
+  "category": "near_dup",
+  "trap_subtype": "none",
+  "entity_key": "hr.new_parent_leave_weeks",
+  "construction_seed": 42
+ },
+ {
+  "probe_id": "near_dup-03",
+  "question": "How many hours per day does a standard employee badge grant building access?",
+  "expected_value": "16",
+  "expected_chunk_id": "it_badge_access_hours_standard-c01",
+  "category": "near_dup",
+  "trap_subtype": "none",
+  "entity_key": "it.badge_access_hours_standard",
+  "construction_seed": 42
+ }
+]

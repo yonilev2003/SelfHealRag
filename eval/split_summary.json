@@ -1,0 +1,32 @@
+{
+ "n_dev": 24,
+ "n_test": 16,
+ "dev_split_sha256": "f0ed240d6c870177459d519361b759d187f1ef677d80f8770f85f122fcc05c02",
+ "test_split_locked_sha256": "a420693954f0ecba9cdfb07d25c98845dd04ca343a31c4092d4d7a995e358dd9",
+ "fact_registry_sha256": "1c0d1f8cafd6f5f1329207c4f7c67e1e195c8ef4bcd6634f666393f7643f4477",
+ "by_category": {
+  "dev": {
+   "atomic": 5,
+   "contradiction": 7,
+   "memory_correction": 5,
+   "multi_hop": 2,
+   "near_dup": 5
+  },
+  "test": {
+   "atomic": 3,
+   "contradiction": 5,
+   "memory_correction": 3,
+   "multi_hop": 2,
+   "near_dup": 3
+  }
+ },
+ "test_trap_subtypes": [
+  "2hop",
+  "3hop",
+  "3hop_chain",
+  "explicit_supersession",
+  "none",
+  "stale_no_memory"
+ ],
+ "hero_case_probe_id": "memory_correction-01"
+}

@@ -1,0 +1,71 @@
+{
+ "case_id": "case_m800_s101",
+ "generator_version": "1.0",
+ "seed": 101,
+ "n_orders": 800,
+ "month": "2026-07",
+ "true_total_usd": 223300.4,
+ "n_countable_charges": 746,
+ "n_countable_refunds": 41,
+ "corruption_log": [
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0101-00010",
+   "payment_ids": [
+    "PAY-0101-000014",
+    "PAY-0101-000841"
+   ],
+   "naive_overstatement_usd": 169.84
+  },
+  {
+   "type": "duplicate_charge",
+   "order_id": "ORD-0101-00007",
+   "payment_ids": [
+    "PAY-0101-000009",
+    "PAY-0101-000842"
+   ],
+   "naive_overstatement_usd": 112.15
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0101-00031",
+   "payment_id": "PAY-0101-000039",
+   "naive_understatement_usd_if_orphans_excluded": 431.11
+  },
+  {
+   "type": "order_row_dropped",
+   "order_id": "ORD-0101-00734",
+   "payment_id": "PAY-0101-000770",
+   "naive_understatement_usd_if_orphans_excluded": 458.13
+  },
+  {
+   "type": "test_transactions",
+   "count": 5,
+   "naive_overstatement_usd": 1252.43
+  },
+  {
+   "type": "noncaptured_rows_present",
+   "count": 48,
+   "naive_overstatement_usd": 12856.58
+  },
+  {
+   "type": "refund_sign_trap",
+   "note": "refunds appear as positive gross_amount and must be subtracted",
+   "count": 41
+  },
+  {
+   "type": "orders_without_payment_timing",
+   "count": 8,
+   "order_ids": [
+    "ORD-0101-00049",
+    "ORD-0101-00220",
+    "ORD-0101-00228",
+    "ORD-0101-00296",
+    "ORD-0101-00500",
+    "ORD-0101-00518",
+    "ORD-0101-00621",
+    "ORD-0101-00684"
+   ]
+  }
+ ]
+}
