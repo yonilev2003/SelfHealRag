@@ -213,4 +213,4 @@ itself had already been fixed — beat 9's closer, beat 5's verifier label,
 and beat 6's scope qualifier — fixed all three so what's shown matches
 what's said.
 
-**Hosted video: https://claude.ai/code/artifact/f2121890-60e5-4e0d-bf48-d11d08268d08**
+**Hosted video: https://github.com/user-attachments/assets/af85d5fd-8e7d-4ea8-8a30-2c0806af9c2c**
