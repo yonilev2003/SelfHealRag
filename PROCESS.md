@@ -148,6 +148,56 @@ only entity) now self-heals to the correct $250 on a single call, citing
 as the pre-fix receipt, not deleted — invariant #8's "pre-fix and post-fix
 numbers side by side."
 
+### 2026-08-29 — Phase 5 complete: frozen test run + ablations
+
+**Official one-time frozen run, all 5 arms, 16-case test split** (receipts
+in `results/test_run_log.md`, git SHAs included):
+
+| Arm | Accuracy | Cost | Wall-clock | atomic | contradiction | near_dup | multi_hop | **memory_correction** |
+|---|---|---|---|---|---|---|---|---|
+| A0 (full context) | 13/16 (81.25%) | $0.688 | 45.3s | 3/3 | 5/5 | 3/3 | 2/2 | **0/3** |
+| A (static RAG k=3) | 8/16 (50%) | $0.063 | 45.1s | 2/3 | 3/5 | 3/3 | 0/2 | **0/3** |
+| A2 (+1 re-query) | 10/16 (62.5%) | $0.109 | 90.2s | 2/3 | 5/5 | 3/3 | 0/2 | **0/3** |
+| B (generalist agent) | 12/16 (75%) | $0.796 | 122.8s | 2/3 | 5/5 | 3/3 | 2/2 | **0/3** |
+| **C (SelfHeal RAG)** | 11/16 (68.75%) | $0.070 | 46.2s | 2/3 | 3/5 | 3/3 | 0/2 | **3/3** |
+
+**Honest headline: on raw aggregate, C does NOT beat every baseline** — A0
+(81.25%) and B (75%) both score higher. C's retrieval config (k=3) never
+improved past round-0 in Phase 4 (the k-bump ablations didn't clear the
++2 keep threshold), so on retrieval-bound categories C performs like the
+static baseline it shares that config with (A), not better.
+
+**PRIMARY ablation — memory ON vs OFF, `memory_correction` category only:**
+memory ON (official run) = **3/3**; memory OFF (same config, one flag) =
+**0/3**. A full, clean, binary categorical swing — reproducing
+`results/pretest-selfheal/memory_experiment.json`'s finding on the frozen,
+never-touched test split with independently-authored corpus/signals, not
+the same toy example.
+
+**3-way structural proof** (A0/A/A2 vs C, cases where every baseline fails
+identically and only C succeeds): `memory_correction` = **3/3**;
+`contradiction` = 0/5 (reported honestly, not hidden — A0/A2/B already
+solve most contradiction cases via full context or a lucky re-query, so
+the "all-baselines-fail" bar isn't cleared there; the categorical proof
+lives entirely in `memory_correction`, exactly as designed).
+
+**Secondary ablations — all show NO measurable difference on this test
+slice** (also reported honestly, not chased): verifier ON vs OFF on
+`contradiction` = 3/5 both; tuned-vs-round0 config = 11/16 both (Phase 4
+kept only the memory action; every k-bump was reverted, so "tuned" and
+"round-0" are retrieval-identical); hybrid_date_boost ON vs OFF = 11/16
+both. **The honest conclusion:** on this build, exactly ONE capability —
+persistent, signal-sourced memory — explains the entire measured gain on
+held-out data; verification and retrieval-config tuning, while
+architecturally real (and load-bearing in the Phase-4 *dev* story), didn't
+move the needle on the frozen test cases. This is the material for the
+Hot Take (Phase 6).
+
+**Architecture note:** Phase 5's own first run is what SURFACED the
+dev/test entity-disjointness gap (see the correction above) — this is
+exactly the kind of thing a frozen, held-out test split is supposed to
+catch, and it worked as designed.
+
 **Artifacts + hashes (independently re-verifiable, per `eval/split_summary.json`):**
 - `data/fact_registry.json` — sha256 `1c0d1f8cafd6f5f1329207c4f7c67e1e195c8ef4bcd6634f666393f7643f4477`
 - `data/probes/dev_split.json` (24 cases) — sha256 `f0ed240d6c870177459d519361b759d187f1ef677d80f8770f85f122fcc05c02`
