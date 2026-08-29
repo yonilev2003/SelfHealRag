@@ -1,0 +1,50 @@
+[
+ {
+  "signal_id": "TICKET-4521",
+  "entity_key": "eng.oncall_stipend_usd",
+  "true_value": "250",
+  "text": "Ticket #4521 (Finance, resolved): Approved raising the Engineering on-call weekly stipend from $200 to $250, effective this pay period, per the Q3 comp review. Please route future on-call pay questions to this ticket until the handbook is updated."
+ },
+ {
+  "signal_id": "AUDIT-0912",
+  "entity_key": "support.weekend_shift_diff_pct",
+  "true_value": "15",
+  "text": "HR audit note (AUDIT-0912): Weekend shift differential for support agents was increased from 10% to 15% following the union-adjacent pay parity review; payroll has already implemented this, handbook update pending."
+ },
+ {
+  "signal_id": "TICKET-3390",
+  "entity_key": "facilities.parking_reimbursement_usd",
+  "true_value": "120",
+  "text": "Ticket #3390 (Facilities, resolved): Downtown garage rates increased; monthly parking reimbursement cap raised from $80 to $120 to match, approved by Facilities lead. Handbook page still shows the old figure."
+ },
+ {
+  "signal_id": "TICKET-5108",
+  "entity_key": "benefits.gym_stipend_usd",
+  "true_value": "100",
+  "text": "Ticket #5108 (Benefits vendor change): Switching wellness vendors; new monthly stipend cap is $100 (up from $60) starting next cycle, per the signed vendor agreement. Docs team notified but not yet updated."
+ },
+ {
+  "signal_id": "AUDIT-1147",
+  "entity_key": "it.hardware_request_sla_days",
+  "true_value": "2",
+  "text": "IT ops audit (AUDIT-1147): After the new hardware vendor contract, fulfillment SLA improved from 5 business days to 2. Support macros already updated; employee handbook page is stale."
+ },
+ {
+  "signal_id": "TICKET-2287",
+  "entity_key": "sales.deal_approval_threshold_usd",
+  "true_value": "75000",
+  "text": "Ticket #2287 (Sales Ops, resolved): VP Sales approved raising the director-approval threshold from $50,000 to $75,000 ACV to reduce approval bottlenecks, effective immediately. Handbook not yet updated."
+ },
+ {
+  "signal_id": "AUDIT-0764",
+  "entity_key": "legal.nda_duration_years",
+  "true_value": "5",
+  "text": "Legal template audit (AUDIT-0764): Standard NDA confidentiality term extended from 3 to 5 years in the latest template revision (v4), approved by General Counsel. Old handbook reference to 3 years is outdated."
+ },
+ {
+  "signal_id": "TICKET-4890",
+  "entity_key": "eng.oncall_rotation_pay_multiplier",
+  "true_value": "2.0",
+  "text": "Ticket #4890 (Comp review): Holiday on-call multiplier increased from 1.5x to 2.0x following the engineering retention review, approved by the CTO. Payroll updated; handbook page still says 1.5x."
+ }
+]

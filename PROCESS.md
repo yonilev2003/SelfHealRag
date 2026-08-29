@@ -36,5 +36,63 @@ path logic; this finding is about the SDK's tool-gating semantics, which no
 unit test of the hook alone would have caught — logged here as the reason
 `disallowed_tools` is load-bearing, not redundant, in the final Arm-B config.
 
-*(Phase 1 gate verdict, Phase 2 freeze digests, and all subsequent entries
-are appended here as each phase completes — never backfilled from memory.)*
+### 2026-08-28 — Phase 2: corpus/probes/split FROZEN
+
+**What a good result looks like for the intended user (E2 — written BEFORE
+any scored run):** an SMB data/analytics team lead should be able to trust
+that when a policy fact changes — whether the handbook was updated
+(supersession) or not yet (a diagnosed-but-undocumented correction) — the
+system's answer reflects the CURRENT truth, with a citation the lead can
+verify in one click. A good result means: (a) on `contradiction`/`near_dup`/
+`multi_hop`/`atomic` cases, at least matching what a careful single agent
+with basic tools already achieves (per Phase 1, that bar is high — near
+6/6); (b) on `memory_correction` cases, categorically beating every
+baseline, since no baseline can access the correction signal at all — this
+is the category the whole rev-4 retarget is built to win, and where the
+primary metric's real signal lives.
+
+**Realized corpus (vs. PLAN.md rev-4 estimates, deviations documented, not
+hidden):** 81 docs / 153 chunks (vs. the ~34/248 estimate — smaller,
+deliberately: the memory-correction proof is categorical, not scale-
+dependent, per the Phase-1 finding, so a leaner corpus keeps the budget
+comfortable without weakening the claim). 8 explicit-supersession entities
+(not 9) + 3 implicit + 1 three-hop chain = 12 contradiction entities,
+matching the total even though the explicit/implicit split differs by one
+from the original estimate. Probe authoring was hand-crafted, not
+Claude-paraphrased (PLAN.md's original wording) — a disclosed, deliberate
+choice for determinism and precision under the event's time budget.
+
+**Artifacts + hashes (independently re-verifiable, per `eval/split_summary.json`):**
+- `data/fact_registry.json` — sha256 `1bcba7da822d099558eaae5f15471e22422d344d6c6eb99151f9435d629e5624`
+- `data/probes/dev_split.json` (24 cases) — sha256 `f0ed240d6c870177459d519361b759d187f1ef677d80f8770f85f122fcc05c02`
+- `data/probes/test_split.locked.json` (16 cases) — sha256 `a420693954f0ecba9cdfb07d25c98845dd04ca343a31c4092d4d7a995e358dd9`
+- `data/correction_signals.json` — 8 entries, one per `memory_correction` entity, never read by any baseline arm.
+
+**Split by category (dev/test):** atomic 5/3, contradiction 7/5 (3 implicit
++ the 3-hop chain forced into test, per invariant #3), near_dup 5/3,
+multi_hop 2/2 (the 3-hop forced into test), memory_correction 5/3.
+dev ∩ test = ∅ and dev ∪ test = all 40 probes, asserted in
+`eval/split_and_lock.py` and re-verified above.
+
+**Hero case (pre-registered by construction, per invariant #2):**
+`memory_correction-01` (`eng.oncall_stipend_usd`) — the Engineering
+on-call weekly stipend, corpus states $200 (stale), true current value
+$250 per `TICKET-4521`, discoverable only in `correction_signals.json`.
+
+**Structural novelty note:** every probe targets a distinct entity (no
+paraphrase-pairs per entity in this design) — so every category held out
+to test (implicit supersession, both 3-hop mechanics, the entire
+memory_correction category) is, by construction, an entity the Phase-4
+tuning loop never touches in dev. This satisfies invariant #3's intent
+(structurally novel test cases) via entity-level held-out-ness rather than
+paraphrase-level held-out-ness — noted as a deviation from PLAN.md's exact
+wording, not silently substituted.
+
+**`all_probes.json`** was never committed to git — written only to the
+session scratchpad by `generate_probes.py`, per invariant #1's rev-3 fix.
+
+**No solution code exists at this commit** (`advanced/`, `baseline/` are
+still empty aside from the Phase-1 pretest scaffolding already archived).
+
+*(Phase 3+ entries are appended here as each phase completes — never
+backfilled from memory.)*
