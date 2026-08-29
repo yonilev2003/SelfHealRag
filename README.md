@@ -3,7 +3,7 @@
 Correction-aware, stateful retrieval-augmented generation for enterprise
 knowledge that changes faster than the documents describing it.
 
-[Demo (4:11)](https://claude.ai/code/artifact/f2121890-60e5-4e0d-bf48-d11d08268d08) ·
+[Demo](#demo) ·
 [Architecture](#2-system-architecture) ·
 [Quick start](#8-reproducing-this)
 
@@ -32,6 +32,10 @@ SelfHeal RAG scores **3/3**, reproduced by a single-flag memory ON/OFF
 ablation. Full numbers, including where SelfHeal does *not* win (raw
 aggregate), in [Section 6](#6-results).
 
+### Demo
+
+The native GitHub video attachment will go here.
+
 ## 2. System architecture
 
 ```mermaid
@@ -43,8 +47,9 @@ flowchart LR
     MW <-->|"read / write"| M[("memory.json<br/>persistent")]
     RE --> G["generator.py<br/>LLM generation"]
     M -->|"MEMORY-cited override,<br/>if a correction exists"| G
-    G --> V{"verifier.py<br/>deterministic, LLM-free<br/>(off in shipped config —<br/>see §4)"}
-    V --> A[Answer + citation]
+    G --> A[Answer + citation]
+    G -.->|"optional if use_verifier"| V{"verifier.py<br/>deterministic, LLM-free<br/>(off in shipped config —<br/>see §4)"}
+    V -.-> A
 
     classDef oracle fill:#3a2a1a,stroke:#c9822a,color:#f3d9b1;
     classDef store fill:#1a2a3a,stroke:#4a90c2,color:#c9e3f5;
@@ -332,8 +337,11 @@ satisfies it: `COMPLIANCE.md`.
 
 ## 8. Reproducing this
 
-**Versions:** Python 3.11, `claude-agent-sdk` 0.2.147, `rank_bm25`
-(latest), `claude-sonnet-5` for every API call.
+**Versions:** Python 3.11, `claude-agent-sdk` 0.2.147 (recorded),
+`claude-sonnet-5` for every API call. `rank_bm25`'s version was never
+pinned or recorded at build time — a reproducibility limitation, disclosed
+rather than guessed; `pip install rank_bm25` resolves to whatever is
+current at install time.
 
 ```bash
 git clone https://github.com/yonilev2003/SelfHealRag.git && cd SelfHealRag
@@ -406,7 +414,7 @@ set as a repo secret, and are skipped with an explicit notice otherwise.
 | `data/` | Corpus, fact registry (oracle), correction signals, frozen dev/test splits |
 | `eval/` | Corpus/probe generation, grading, ablations, the shared match rule, taxonomy classifier |
 | `results/` | Every number in this README, as committed JSON/CSV |
-| `trajectories/` | Per-arm/per-case eval logs (`{A0,A,A2,B,C}_test/`, one file per case, 16 cases each), `pretest*/`; `raw/` holds interactive build-session logs (currently one session + `MANIFEST.md`) — see `trajectories/README.md` |
+| `trajectories/` | Per-arm/per-case eval logs (`{A0,A,A2,B,C}_test/`, one file per case, 16 cases each — A2 has 32, two turn traces per case), `pretest*/`; `raw/` holds interactive build-session logs (currently two sessions + `MANIFEST.md`) — see `trajectories/README.md` |
 | `scripts/` | `setup` / `run_baseline` / `run_advanced` / oracle-isolation audits |
 | `archive/` | The abandoned LedgerGuard concept, kept with its real numbers |
 | `video/` | Demo video source (`beats.html`), narration, build/QA scripts |
@@ -422,8 +430,8 @@ set as a repo secret, and are skipped with an explicit notice otherwise.
 ## 11. Production direction
 
 Path to a real deployment, in order: multi-format ingestion connectors →
-ACL/permission-aware indexing → automatic entity/version resolution (the
-actual unbuilt IP, not the retrieval or self-heal loop) → confidence-gated
+ACL/permission-aware indexing → automatic entity/version resolution (a key
+unbuilt production capability, not the retrieval or self-heal loop) → confidence-gated
 autonomy with a human-exception queue → observability/QA sampling → a
 larger, continuously-updated eval set. Full gap analysis, tied to exact
 code locations: `PRODUCTION_ROADMAP.md`.
