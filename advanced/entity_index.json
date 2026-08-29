@@ -1,0 +1,289 @@
+{
+ "benefits.gym_stipend_usd": [
+  "benefits_gym_stipend_usd-c01",
+  "benefits_gym_stipend_usd-c02"
+ ],
+ "compliance.vendor_security_review_note": [
+  "compliance.vendor_security_review_note-c01",
+  "compliance.vendor_security_review_note-c02"
+ ],
+ "compliance.data_retention_months": [
+  "compliance_data_retention_months_v1-c01",
+  "compliance_data_retention_months_v1-c02",
+  "compliance_data_retention_months_v2-c01",
+  "compliance_data_retention_months_v2-c02"
+ ],
+ "eng.design_doc_review_note": [
+  "eng.design_doc_review_note-c01",
+  "eng.design_doc_review_note-c02"
+ ],
+ "eng.code_review_min_approvals": [
+  "eng_code_review_min-c01",
+  "eng_code_review_min-c02"
+ ],
+ "eng.incident_page_response_minutes": [
+  "eng_incident_page_response_minutes-c01",
+  "eng_incident_page_response_minutes-c02"
+ ],
+ "eng.incident_postmortem_days": [
+  "eng_incident_postmortem_days-c01",
+  "eng_incident_postmortem_days-c02"
+ ],
+ "eng.oncall_rotation_days": [
+  "eng_oncall_rotation_days_v1-c01",
+  "eng_oncall_rotation_days_v1-c02",
+  "eng_oncall_rotation_days_v2-c01",
+  "eng_oncall_rotation_days_v2-c02"
+ ],
+ "eng.oncall_rotation_pay_multiplier": [
+  "eng_oncall_rotation_pay_multiplier-c01",
+  "eng_oncall_rotation_pay_multiplier-c02"
+ ],
+ "eng.oncall_stipend_usd": [
+  "eng_oncall_stipend_usd-c01",
+  "eng_oncall_stipend_usd-c02"
+ ],
+ "eng.team_lunch_cap_usd": [
+  "eng_team_lunch_cap_usd-c01",
+  "eng_team_lunch_cap_usd-c02"
+ ],
+ "facilities.bike_storage_spots": [
+  "facilities.bike_storage_spots-c01",
+  "facilities.bike_storage_spots-c02"
+ ],
+ "facilities.mail_room_hours": [
+  "facilities.mail_room_hours-c01",
+  "facilities.mail_room_hours-c02"
+ ],
+ "facilities.desk_booking_ratio": [
+  "facilities_desk_ratio-c01",
+  "facilities_desk_ratio-c02"
+ ],
+ "facilities.parking_reimbursement_usd": [
+  "facilities_parking_reimbursement_usd-c01",
+  "facilities_parking_reimbursement_usd-c02"
+ ],
+ "finance.invoice_payment_terms_days": [
+  "finance.invoice_payment_terms_days-c01",
+  "finance.invoice_payment_terms_days-c02"
+ ],
+ "finance.conference_lodging_cap_usd_per_night": [
+  "finance_conference_lodging_cap_usd_per_night-c01"
+ ],
+ "finance.expense_auto_approve_usd": [
+  "finance_expense_auto_approve_usd-c01",
+  "finance_expense_auto_approve_usd-c02"
+ ],
+ "finance.expense_report_deadline_days": [
+  "finance_expense_report_deadline_days_v1-c01",
+  "finance_expense_report_deadline_days_v1-c02",
+  "finance_expense_report_deadline_days_v2-c01",
+  "finance_expense_report_deadline_days_v2-c02"
+ ],
+ "finance.travel_per_diem_usd": [
+  "finance_per_diem-c01",
+  "finance_per_diem-c02",
+  "finance_travel_per_diem_usd-c01"
+ ],
+ "finance.po_auto_approve_usd": [
+  "finance_po_auto_approve_usd-c01",
+  "finance_po_auto_approve_usd-c02"
+ ],
+ "finance.refund_cap_usd": [
+  "finance_refund_cap_usd_v1-c01",
+  "finance_refund_cap_usd_v1-c02",
+  "finance_refund_cap_usd_v2-c01",
+  "finance_refund_cap_usd_v2-c02",
+  "finance_refund_cap_usd_v3-c01",
+  "finance_refund_cap_usd_v3-c02"
+ ],
+ "hr.employee_referral_bonus_usd": [
+  "hr.employee_referral_bonus_usd-c01",
+  "hr.employee_referral_bonus_usd-c02"
+ ],
+ "hr.performance_review_cadence": [
+  "hr.performance_review_cadence-c01",
+  "hr.performance_review_cadence-c02"
+ ],
+ "hr.base_pto_days": [
+  "hr_base_pto_days-c01"
+ ],
+ "hr.bereavement_leave_days": [
+  "hr_bereavement_leave-c01",
+  "hr_bereavement_leave-c02"
+ ],
+ "hr.caregiver_leave_weeks": [
+  "hr_caregiver_leave_weeks-c01",
+  "hr_caregiver_leave_weeks-c02"
+ ],
+ "hr.new_parent_leave_weeks": [
+  "hr_new_parent_leave_weeks-c01",
+  "hr_new_parent_leave_weeks-c02"
+ ],
+ "hr.pto_accrual_days_per_month": [
+  "hr_pto_accrual_days_per_month_v1-c01",
+  "hr_pto_accrual_days_per_month_v1-c02",
+  "hr_pto_accrual_days_per_month_v2-c01",
+  "hr_pto_accrual_days_per_month_v2-c02"
+ ],
+ "hr.remote_work_days_per_week": [
+  "hr_remote_work_days_per_week_v1-c01",
+  "hr_remote_work_days_per_week_v1-c02",
+  "hr_remote_work_days_per_week_v2-c01",
+  "hr_remote_work_days_per_week_v2-c02"
+ ],
+ "hr.tenure_bonus_pto_days_per_5yr": [
+  "hr_tenure_bonus_pto_days_per_5yr-c01"
+ ],
+ "it.incident_status_page_note": [
+  "it.incident_status_page_note-c01",
+  "it.incident_status_page_note-c02"
+ ],
+ "it.software_request_process_note": [
+  "it.software_request_process_note-c01",
+  "it.software_request_process_note-c02"
+ ],
+ "it.badge_access_hours_contractor": [
+  "it_badge_access_hours_contractor-c01",
+  "it_badge_access_hours_contractor-c02"
+ ],
+ "it.badge_access_hours_standard": [
+  "it_badge_access_hours_standard-c01",
+  "it_badge_access_hours_standard-c02"
+ ],
+ "it.hardware_request_sla_days": [
+  "it_hardware_request_sla_days-c01",
+  "it_hardware_request_sla_days-c02"
+ ],
+ "it.laptop_refresh_years": [
+  "it_laptop_refresh_years_v1-c01",
+  "it_laptop_refresh_years_v1-c02",
+  "it_laptop_refresh_years_v2-c01",
+  "it_laptop_refresh_years_v2-c02"
+ ],
+ "it.offboarding_access_revoke_hours": [
+  "it_offboarding_sla-c01",
+  "it_offboarding_sla-c02"
+ ],
+ "it.password_rotation_days": [
+  "it_password_rotation_days_v1-c01",
+  "it_password_rotation_days_v1-c02",
+  "it_password_rotation_days_v2-c01",
+  "it_password_rotation_days_v2-c02"
+ ],
+ "it.vpn_session_timeout_hours": [
+  "it_vpn_session_timeout_hours_v1-c01",
+  "it_vpn_session_timeout_hours_v1-c02",
+  "it_vpn_session_timeout_hours_v2-c01",
+  "it_vpn_session_timeout_hours_v2-c02"
+ ],
+ "legal.data_processing_agreement_note": [
+  "legal.data_processing_agreement_note-c01",
+  "legal.data_processing_agreement_note-c02"
+ ],
+ "legal.trademark_renewal_note": [
+  "legal.trademark_renewal_note-c01",
+  "legal.trademark_renewal_note-c02"
+ ],
+ "legal.contractor_nda_years": [
+  "legal_contractor_nda_years_v1-c01",
+  "legal_contractor_nda_years_v1-c02",
+  "legal_contractor_nda_years_v2-c01",
+  "legal_contractor_nda_years_v2-c02"
+ ],
+ "legal.customer_contract_review_days": [
+  "legal_customer_contract_review_days-c01",
+  "legal_customer_contract_review_days-c02"
+ ],
+ "legal.ip_assignment_scope": [
+  "legal_ip_assignment-c01",
+  "legal_ip_assignment-c02"
+ ],
+ "legal.nda_duration_years": [
+  "legal_nda_duration_years-c01",
+  "legal_nda_duration_years-c02"
+ ],
+ "legal.vendor_contract_review_days": [
+  "legal_vendor_contract_review_days-c01",
+  "legal_vendor_contract_review_days-c02"
+ ],
+ "marketing.brand_review_cadence": [
+  "marketing.brand_review_cadence-c01",
+  "marketing.brand_review_cadence-c02"
+ ],
+ "onboarding.base_equipment_budget_usd": [
+  "onboarding_base_equipment_budget_usd-c01"
+ ],
+ "onboarding.senior_tier_bonus_usd": [
+  "onboarding_senior_tier_bonus_usd-c01"
+ ],
+ "relocation.moving_stipend_usd": [
+  "relocation_moving_stipend_usd-c01"
+ ],
+ "relocation.temp_housing_weeks": [
+  "relocation_temp_housing_weeks-c01"
+ ],
+ "relocation.travel_reimbursement_usd": [
+  "relocation_travel_reimbursement_usd-c01"
+ ],
+ "sales.demo_environment_note": [
+  "sales.demo_environment_note-c01",
+  "sales.demo_environment_note-c02"
+ ],
+ "sales.territory_assignment_note": [
+  "sales.territory_assignment_note-c01",
+  "sales.territory_assignment_note-c02"
+ ],
+ "sales.client_dinner_cap_usd": [
+  "sales_client_dinner_cap_usd-c01",
+  "sales_client_dinner_cap_usd-c02"
+ ],
+ "sales.commission_accelerator_pct": [
+  "sales_commission_accelerator_pct-c01",
+  "sales_commission_accelerator_pct-c02"
+ ],
+ "sales.commission_base_pct": [
+  "sales_commission_base_pct-c01",
+  "sales_commission_base_pct-c02"
+ ],
+ "sales.deal_approval_threshold_usd": [
+  "sales_deal_approval_threshold_usd-c01",
+  "sales_deal_approval_threshold_usd-c02"
+ ],
+ "sales.deal_discount_max_pct": [
+  "sales_deal_discount_max_pct_v1-c01",
+  "sales_deal_discount_max_pct_v1-c02",
+  "sales_deal_discount_max_pct_v2-c01",
+  "sales_deal_discount_max_pct_v2-c02"
+ ],
+ "sales.quota_reset_cadence": [
+  "sales_quota_reset-c01",
+  "sales_quota_reset-c02"
+ ],
+ "support.knowledge_base_owner_note": [
+  "support.knowledge_base_owner_note-c01",
+  "support.knowledge_base_owner_note-c02"
+ ],
+ "support.csat_target_pct": [
+  "support_csat_target-c01",
+  "support_csat_target-c02"
+ ],
+ "support.escalation_response_minutes": [
+  "support_escalation_response_minutes-c01",
+  "support_escalation_response_minutes-c02"
+ ],
+ "support.first_response_sla_hours": [
+  "support_first_response_sla_hours_v1-c01",
+  "support_first_response_sla_hours_v1-c02",
+  "support_first_response_sla_hours_v2-c01",
+  "support_first_response_sla_hours_v2-c02"
+ ],
+ "support.standard_response_minutes": [
+  "support_standard_response_minutes-c01",
+  "support_standard_response_minutes-c02"
+ ],
+ "support.weekend_shift_diff_pct": [
+  "support_weekend_shift_diff_pct-c01",
+  "support_weekend_shift_diff_pct-c02"
+ ]
+}
