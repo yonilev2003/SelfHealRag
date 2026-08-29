@@ -108,11 +108,15 @@ async def apply_memory_action(case_ids: list, dev_split_by_id: dict, changelog_l
     return n_new
 
 
-def next_k(current_k: int) -> int:
+def next_k(current_k: int, tried_k: set) -> int | None:
+    """Next untried rung of the ladder, regardless of whether earlier
+    attempts were kept or reverted -- a reverted k=5 must not be retried
+    forever; the ladder should advance to k=7 next. Returns None once
+    every rung {5,7,10} has been tried."""
     for k in K_LADDER:
-        if k > current_k:
+        if k not in tried_k and k != current_k:
             return k
-    return current_k  # exhausted
+    return None
 
 
 async def main():
@@ -127,7 +131,7 @@ async def main():
     config = dict(DEFAULT_CONFIG)
     audit_memory = []
     changelog = ["# SelfHeal RAG — self-improvement changelog (written by the loop itself)\n"]
-    tried_hybrid, tried_verifier_for = False, set()
+    tried_hybrid, tried_verifier_for, tried_k = False, set(), {DEFAULT_CONFIG["k"]}
     no_improve_streak = 0
     round_num = 0
 
@@ -156,12 +160,12 @@ async def main():
             memory_written = await apply_memory_action(case_ids, dev_split_by_id, changelog)
             action_desc = f"consulted the correction-signal feed for {len(case_ids)} case(s), wrote {memory_written} new memory entries"
         elif plurality == "retrieval_miss":
-            nk = next_k(config["k"])
-            if nk == config["k"]:
+            nk = next_k(config["k"], tried_k)
+            if nk is None:
                 changelog.append(f"## Round {round_num}\n- plurality={plurality} but k-ladder exhausted; no-improvement.\n")
                 no_improve_streak += 1
-                diag = diagnose_round(dev_split, await run_dev_round(chunks, entity_index, dev_split, config, cache))
                 continue
+            tried_k.add(nk)
             trial_config["k"] = nk
             action_desc = f"k {config['k']} -> {nk}"
         elif plurality in ("stale_value_uncaught", "hallucinated_citation"):
