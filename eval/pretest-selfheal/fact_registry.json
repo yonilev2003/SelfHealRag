@@ -82,5 +82,341 @@
   "value": "150",
   "effective_date": "2026-01-01",
   "supersedes_id": null
+ },
+ {
+  "chunk_id": "support-sla-v1-c01",
+  "entity_key": "support.sla_response_hours",
+  "value": "24",
+  "effective_date": "2026-01-20",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "support-sla-v1-c02",
+  "entity_key": "support.sla_response_hours",
+  "value": "24",
+  "effective_date": "2026-01-20",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "support-sla-v2-c01",
+  "entity_key": "support.sla_response_hours",
+  "value": "12",
+  "effective_date": "2026-04-10",
+  "supersedes_id": "support-sla-v1-c01"
+ },
+ {
+  "chunk_id": "support-sla-v2-c02",
+  "entity_key": "support.sla_response_hours",
+  "value": "12",
+  "effective_date": "2026-04-10",
+  "supersedes_id": "support-sla-v1-c01"
+ },
+ {
+  "chunk_id": "compliance-retention-v1-c01",
+  "entity_key": "compliance.data_retention_months",
+  "value": "24",
+  "effective_date": "2026-02-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "compliance-retention-v1-c02",
+  "entity_key": "compliance.data_retention_months",
+  "value": "24",
+  "effective_date": "2026-02-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "compliance-retention-v2-c01",
+  "entity_key": "compliance.data_retention_months",
+  "value": "36",
+  "effective_date": "2026-07-20",
+  "supersedes_id": "compliance-retention-v1-c01"
+ },
+ {
+  "chunk_id": "compliance-retention-v2-c02",
+  "entity_key": "compliance.data_retention_months",
+  "value": "36",
+  "effective_date": "2026-07-20",
+  "supersedes_id": "compliance-retention-v1-c01"
+ },
+ {
+  "chunk_id": "security_badge-c01",
+  "entity_key": "sec.badge_access_hours",
+  "value": "6am-10pm weekdays",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "security_badge-c02",
+  "entity_key": "sec.badge_access_hours",
+  "value": "6am-10pm weekdays",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "facilities_parking-c01",
+  "entity_key": "facilities.reserved_parking_spots",
+  "value": "12",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "facilities_parking-c02",
+  "entity_key": "facilities.reserved_parking_spots",
+  "value": "12",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "benefits_gym-c01",
+  "entity_key": "benefits.gym_stipend_usd",
+  "value": "60",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "benefits_gym-c02",
+  "entity_key": "benefits.gym_stipend_usd",
+  "value": "60",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "travel_mileage-c01",
+  "entity_key": "travel.mileage_rate_cents",
+  "value": "58",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "travel_mileage-c02",
+  "entity_key": "travel.mileage_rate_cents",
+  "value": "58",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "onboarding_laptop-c01",
+  "entity_key": "it.onboarding_laptop_model",
+  "value": "14-inch model",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "onboarding_laptop-c02",
+  "entity_key": "it.onboarding_laptop_model",
+  "value": "14-inch model",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "ops_oncall-c01",
+  "entity_key": "eng.oncall_rotation_weeks",
+  "value": "1",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "ops_oncall-c02",
+  "entity_key": "eng.oncall_rotation_weeks",
+  "value": "1",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal_nda-c01",
+  "entity_key": "legal.nda_duration_years",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal_nda-c02",
+  "entity_key": "legal.nda_duration_years",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "marketing_brand-c01",
+  "entity_key": "marketing.brand_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "marketing_brand-c02",
+  "entity_key": "marketing.brand_note",
+  "value": "n/a",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_pto_buyout-c01",
+  "entity_key": "hr.pto_buyout_days_max",
+  "value": "5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_pto_buyout-c02",
+  "entity_key": "hr.pto_buyout_days_max",
+  "value": "5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_password_policy-c01",
+  "entity_key": "it.password_min_length",
+  "value": "12",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_password_policy-c02",
+  "entity_key": "it.password_min_length",
+  "value": "12",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_expense_approval-c01",
+  "entity_key": "finance.expense_auto_approve_usd",
+  "value": "50",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_expense_approval-c02",
+  "entity_key": "finance.expense_auto_approve_usd",
+  "value": "50",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales_commission-c01",
+  "entity_key": "sales.commission_rate_pct",
+  "value": "8",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales_commission-c02",
+  "entity_key": "sales.commission_rate_pct",
+  "value": "8",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng_oncall_pay-c01",
+  "entity_key": "eng.oncall_stipend_usd",
+  "value": "200",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "eng_oncall_pay-c02",
+  "entity_key": "eng.oncall_stipend_usd",
+  "value": "200",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_holiday_calendar-c01",
+  "entity_key": "hr.company_holidays_count",
+  "value": "10",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_holiday_calendar-c02",
+  "entity_key": "hr.company_holidays_count",
+  "value": "10",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_hardware_request-c01",
+  "entity_key": "it.hardware_request_sla_days",
+  "value": "5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_hardware_request-c02",
+  "entity_key": "it.hardware_request_sla_days",
+  "value": "5",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_budget_cycle-c01",
+  "entity_key": "finance.budget_review_cycle_months",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "finance_budget_cycle-c02",
+  "entity_key": "finance.budget_review_cycle_months",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal_contract_review-c01",
+  "entity_key": "legal.contract_review_sla_days",
+  "value": "7",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "legal_contract_review-c02",
+  "entity_key": "legal.contract_review_sla_days",
+  "value": "7",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_probation_period-c01",
+  "entity_key": "hr.probation_period_months",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "hr_probation_period-c02",
+  "entity_key": "hr.probation_period_months",
+  "value": "3",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_vpn_client_version-c01",
+  "entity_key": "it.vpn_client_min_version",
+  "value": "4.2",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "it_vpn_client_version-c02",
+  "entity_key": "it.vpn_client_min_version",
+  "value": "4.2",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales_deal_size_threshold-c01",
+  "entity_key": "sales.deal_approval_threshold_usd",
+  "value": "50000",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
+ },
+ {
+  "chunk_id": "sales_deal_size_threshold-c02",
+  "entity_key": "sales.deal_approval_threshold_usd",
+  "value": "50000",
+  "effective_date": "2026-01-01",
+  "supersedes_id": null
  }
 ]
