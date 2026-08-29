@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# If the stack ends up needing API keys/secrets (external model APIs, etc.),
-# load them from a local .env (see .env.example, gitignored) so the same
-# script works locally and in CI (where the equivalent vars come in as
-# GitHub Actions secrets, already present in the environment -- no .env
-# needed there):
-#   if [ -f .env ]; then set -a; source .env; set +a; fi
-# Then fail fast with a clear message if something required is missing, e.g.:
-#   : "${SOME_API_KEY:?Set SOME_API_KEY (see .env.example) before running setup}"
+# Local dev: load ANTHROPIC_API_KEY from .env if present (gitignored; see
+# .env.example). In CI the equivalent comes in as a GitHub Actions secret,
+# already present in the environment -- no .env needed there.
+if [ -f .env ]; then set -a; source .env; set +a; fi
 
-# TODO once the problem + stack are known: pin exact versions here
-# (requirements.txt / package.json / go.mod / Cargo.toml — whatever applies)
-# so `make setup` reproduces the same environment on a clean machine.
-echo "Add environment setup here (dependency install, env vars, service checks)."
+echo "Installing Python dependencies (rank_bm25, claude-agent-sdk)..."
+pip install --quiet rank_bm25 claude-agent-sdk
+
+echo "Setup complete. Python: $(python3 --version). rank_bm25 + claude-agent-sdk installed."
+echo "Note: make baseline / make advanced / make eval require ANTHROPIC_API_KEY."

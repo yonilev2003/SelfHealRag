@@ -324,15 +324,19 @@ def main():
             n_chunks += 1
         docs.append((filename, "\n\n".join(parts)))
 
-    # -- 1. ATOMIC --
+    # -- 1. ATOMIC -- ONE chunk per entity (context + value together; a
+    # split context/value chunk pair was a real bug found live: BM25 favors
+    # the lexically-relevant context chunk over the lexically-generic
+    # boilerplate value chunk, so retrieval routinely missed the number
+    # even when it found the right topic -- see PROCESS.md).
     for slug, entity_key, value, eff_date, dept, title, body in ATOMIC:
         add_doc(f"{slug}.md", [
-            (f"{slug}-c01", entity_key, value, eff_date, None, f"## {title}\n\n{body}"),
-            (f"{slug}-c02", entity_key, value, eff_date, None,
-             f"Documented under the {dept} section of the employee handbook. Current value: {value}."),
+            (f"{slug}-c01", entity_key, value, eff_date, None,
+             f"## {title}\n\n{body} Documented under the {dept} section of the "
+             f"employee handbook. Current value: {value}."),
         ])
 
-    # -- 2. CONTRADICTION --
+    # -- 2. CONTRADICTION -- ONE chunk per version.
     explicit_entity_keys, implicit_entity_keys = [], []
     threehop_entity_key = None
     for entity_key, dept, title, versions in CONTRADICTION:
@@ -350,19 +354,19 @@ def main():
             heading = f"## {title}" + (" (Updated)" if i > 0 else "")
             intro = supersede_text if supersede_text else f"Current {title.lower()} for all eligible employees."
             add_doc(f"{vslug}.md", [
-                (f"{vslug}-c01", entity_key, value, eff_date, supersedes_id, f"{heading}\n\n{intro}"),
-                (f"{vslug}-c02", entity_key, value, eff_date, supersedes_id,
-                 f"Current value: {value}. Documented under the {dept} section of the employee handbook."),
+                (f"{vslug}-c01", entity_key, value, eff_date, supersedes_id,
+                 f"{heading}\n\n{intro} Current value: {value}. Documented under "
+                 f"the {dept} section of the employee handbook."),
             ])
 
-    # -- 3. NEAR_DUP --
+    # -- 3. NEAR_DUP -- ONE chunk per entity.
     for (ek1, v1, d1, t1, b1, ek2, v2, d2, t2, b2) in NEAR_DUP:
         for ek, v, d, t, b in [(ek1, v1, d1, t1, b1), (ek2, v2, d2, t2, b2)]:
             slug = ek.replace(".", "_")
             add_doc(f"{slug}.md", [
-                (f"{slug}-c01", ek, v, "2026-01-01", None, f"## {t}\n\n{b}"),
-                (f"{slug}-c02", ek, v, "2026-01-01", None,
-                 f"Documented under the {d} section of the employee handbook. Current value: {v}."),
+                (f"{slug}-c01", ek, v, "2026-01-01", None,
+                 f"## {t}\n\n{b} Documented under the {d} section of the employee "
+                 f"handbook. Current value: {v}."),
             ])
 
     # -- 4. MULTI_HOP -- component facts, each a standalone 1-chunk doc
@@ -381,29 +385,30 @@ def main():
             "n_hops": len(components),
         })
 
-    # -- 5. MEMORY_CORRECTION -- stale corpus doc + registry holds BOTH values
+    # -- 5. MEMORY_CORRECTION -- stale corpus doc (ONE chunk) + registry
+    # holds BOTH values.
     for entity_key, dept, title, stale_value, stale_date, corpus_body, true_value, signal_id, signal_text in MEMORY_CORRECTION:
         slug = entity_key.replace(".", "_")
-        cid1, cid2 = f"{slug}-c01", f"{slug}-c02"
+        cid1 = f"{slug}-c01"
         add_doc(f"{slug}.md", [
-            (cid1, entity_key, stale_value, stale_date, None, f"## {title}\n\n{corpus_body}"),
-            (cid2, entity_key, stale_value, stale_date, None,
-             f"Documented under the {dept} section of the employee handbook. Current value: {stale_value}."),
+            (cid1, entity_key, stale_value, stale_date, None,
+             f"## {title}\n\n{corpus_body} Documented under the {dept} section of "
+             f"the employee handbook. Current value: {stale_value}."),
         ])
-        # overwrite registry entries for this entity with BOTH values (stale + true)
+        # overwrite registry entry for this entity with BOTH values (stale + true)
         for r in registry:
-            if r["chunk_id"] in (cid1, cid2):
+            if r["chunk_id"] == cid1:
                 r["stale_documented_value"] = stale_value
                 r["value"] = true_value  # oracle: the TRUE current value
         signals.append({"signal_id": signal_id, "entity_key": entity_key, "true_value": true_value,
                         "text": signal_text})
 
-    # -- 6. Noise --
+    # -- 6. Noise -- ONE chunk per entity.
     for slug, dept, title, value, body in NOISE:
         add_doc(f"{slug}.md", [
-            (f"{slug}-c01", slug, value, "2026-01-01", None, f"## {title}\n\n{body}"),
-            (f"{slug}-c02", slug, value, "2026-01-01", None,
-             f"Documented under the {dept} section of the employee handbook. Current value: {value}."),
+            (f"{slug}-c01", slug, value, "2026-01-01", None,
+             f"## {title}\n\n{body} Documented under the {dept} section of the "
+             f"employee handbook. Current value: {value}."),
         ])
 
     for filename, content in docs:

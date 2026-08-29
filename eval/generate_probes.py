@@ -86,12 +86,13 @@ def main():
         return max(rows, key=lambda r: r["effective_date"])
 
     def is_explicit(entity_key):
-        # explicit iff >1 version AND corpus text for the latest chunk's doc contains "supersedes"
+        # explicit iff >1 version AND corpus text for the latest version's doc contains "supersedes"
+        # (one chunk per version now, so len(rows) == the version count directly)
         slug = entity_key.replace(".", "_")
         rows = sorted([r for r in registry if r["entity_key"] == entity_key], key=lambda r: r["effective_date"])
         if len(rows) < 2:
             return None
-        latest_doc_idx = len(rows) // 2  # each version has 2 chunks
+        latest_doc_idx = len(rows)
         vfile = REPO / "data" / "corpus" / f"{slug}_v{latest_doc_idx}.md"
         return vfile.exists() and "supersedes" in vfile.read_text().lower()
 

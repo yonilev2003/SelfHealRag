@@ -25,7 +25,9 @@ MEMORY_PATH = REPO / "advanced" / "memory.json"
 MEMORY_ADDENDUM = """
 A persisted correction from a prior diagnosis round is also available (it
 may or may not be relevant to this question -- use it only if it applies to
-the same entity as your answer):
+the same entity as your answer). If it applies, its value OVERRIDES
+whatever the document excerpts say (the excerpts may be stale), and you
+must cite "chunk_id": "MEMORY" instead of a document excerpt id:
 {memory_notes}
 """
 

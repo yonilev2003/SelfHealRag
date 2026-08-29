@@ -1,41 +1,67 @@
 #!/usr/bin/env python3
-"""Rubric-based scoring: baseline vs advanced.
+"""Rubric-based scoring: baseline vs advanced, on the frozen test split.
 
-Fill in CRITERIA once the problem is known. Each check_fn takes the captured
-stdout of a run and returns a 0-1 score; the weighted sum gives one comparable
-number instead of an eyeballed "looks better." This is the file that turns
-"Measured Improvement" from a claim into a number in CHANGELOG.md.
+Reads results/{A0,A,A2,B,C}_test.json (written by scripts/run_baseline.sh /
+run_advanced.sh via eval/run_eval.py) and grades each with eval/grade_test.py
+(the single, independent, oracle-free grader). Primary metric: Grounded
+Answer Accuracy. "baseline" = Arm B (the kickoff doc's own fair baseline:
+"one general purpose agent with basic tools"); "advanced" = Arm C
+(SelfHeal RAG, final tuned config). All arms are reported for the full
+comparison table; this {baseline, advanced, delta} shape is what
+CHANGELOG.md / the Makefile / CI expect.
 """
+
 import json
 import subprocess
+from pathlib import Path
 
-# TODO: define once the problem is known. Keep each criterion independently
-# testable — e.g. {"correctness": (0.5, check_correctness), "latency": (0.2, check_latency)}
-CRITERIA = {
-    # "correctness": (0.5, lambda output: 1.0 if "expected_marker" in output else 0.0),
-}
+REPO = Path(__file__).resolve().parent.parent
+RESULTS_DIR = REPO / "results"
+
+ARMS = ["A0", "A", "A2", "B", "C"]
+BASELINE_ARM = "B"
+ADVANCED_ARM = "C"
 
 
 def run_and_capture(script_path: str) -> str:
-    result = subprocess.run(["bash", script_path], capture_output=True, text=True)
-    return result.stdout
+    result = subprocess.run(["bash", script_path], capture_output=True, text=True, cwd=REPO)
+    return result.stdout + result.stderr
 
 
-def score(output: str) -> dict:
-    scores = {name: {"weight": w, "value": fn(output)} for name, (w, fn) in CRITERIA.items()}
-    total = sum(s["weight"] * s["value"] for s in scores.values())
-    return {"criteria": scores, "total": total}
+def grade_arm(arm: str) -> dict:
+    results_path = RESULTS_DIR / f"{arm}_test.json"
+    if not results_path.exists():
+        return {"error": f"{results_path} not found -- run scripts/run_baseline.sh / run_advanced.sh first"}
+    out = subprocess.run(
+        ["python3", str(REPO / "eval" / "grade_test.py"), str(results_path)],
+        capture_output=True, text=True, cwd=REPO,
+    )
+    return json.loads(out.stdout)
+
+
+def score(arm: str) -> dict:
+    graded = grade_arm(arm)
+    if "error" in graded:
+        return graded
+    return {"total": graded["accuracy"], "n_correct": graded["n_correct"], "n_total": graded["n_total"],
+            "rows": graded["rows"]}
 
 
 def main():
-    baseline_out = run_and_capture("scripts/run_baseline.sh")
-    advanced_out = run_and_capture("scripts/run_advanced.sh")
-    baseline_score = score(baseline_out)
-    advanced_score = score(advanced_out)
+    all_scores = {arm: score(arm) for arm in ARMS}
+    baseline_score = all_scores[BASELINE_ARM]
+    advanced_score = all_scores[ADVANCED_ARM]
+    delta = None
+    if "total" in baseline_score and "total" in advanced_score:
+        delta = round(advanced_score["total"] - baseline_score["total"], 4)
+
     result = {
-        "baseline": baseline_score,
-        "advanced": advanced_score,
-        "delta": advanced_score["total"] - baseline_score["total"],
+        "primary_metric": "Grounded Answer Accuracy (joint value + citation exact-match, frozen 16-case test split)",
+        "baseline_arm": BASELINE_ARM, "advanced_arm": ADVANCED_ARM,
+        "baseline": {k: v for k, v in baseline_score.items() if k != "rows"},
+        "advanced": {k: v for k, v in advanced_score.items() if k != "rows"},
+        "delta": delta,
+        "all_arms": {arm: {k: v for k, v in s.items() if k != "rows"} for arm, s in all_scores.items()},
     }
     print(json.dumps(result, indent=2))
 

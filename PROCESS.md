@@ -52,7 +52,7 @@ is the category the whole rev-4 retarget is built to win, and where the
 primary metric's real signal lives.
 
 **Realized corpus (vs. PLAN.md rev-4 estimates, deviations documented, not
-hidden):** 81 docs / 153 chunks (vs. the ~34/248 estimate — smaller,
+hidden):** 81 docs / 81 chunks (post chunk-merge correction below; vs. the ~34/248 estimate — smaller,
 deliberately: the memory-correction proof is categorical, not scale-
 dependent, per the Phase-1 finding, so a leaner corpus keeps the budget
 comfortable without weakening the claim). 8 explicit-supersession entities
@@ -62,8 +62,35 @@ from the original estimate. Probe authoring was hand-crafted, not
 Claude-paraphrased (PLAN.md's original wording) — a disclosed, deliberate
 choice for determinism and precision under the event's time budget.
 
+### 2026-08-28 — Phase 2 CORRECTION: merged split context/value chunks
+
+**Bug found live, during Phase 3/4 build (before any frozen-test run —
+legitimate to fix, per invariant #8's bug-fix definition):** the original
+Phase-2 corpus gave each entity-version TWO sibling chunks — a `-c01`
+"context" chunk and a `-c02` "boilerplate value" chunk holding the actual
+number/phrase. Round-0 of the Phase-4 dev loop scored 1/24 — real per-case
+inspection showed the generator correctly citing `-c01` (topically right)
+but answering "unknown"/"n/a", because `-c01`'s prose never contained the
+value at all. Two compounding causes: (1) BM25 systematically prefers the
+lexically-relevant `-c01` context chunk over the lexically-generic `-c02`
+boilerplate sentence, so retrieval routinely missed the value chunk even
+when it found the right entity; (2) `generate_probes.py`'s tie-break on
+same-`effective_date` chunks happened to pick `-c01` as `expected_chunk_id`
+regardless, so even a `-c02` citation with the right answer would have
+graded wrong. Fix: `eval/generate_corpus.py` now emits ONE merged chunk per
+entity-version (context + "Current value: X." in the same chunk) across
+ATOMIC/CONTRADICTION/NEAR_DUP/MEMORY_CORRECTION/NOISE — this is a
+control-flow fix to corpus generation, not a config change, made before
+any test-split content was ever scored. Corpus went from 153 to 81 chunks
+(1:1 doc:chunk now, MULTI_HOP components already were 1 chunk each).
+`dev_split.json`/`test_split.locked.json` are BYTE-IDENTICAL post-fix
+(their `expected_chunk_id`s already pointed at `-c01` due to the same
+tie-break, which is now simply correct instead of accidentally so) — only
+`fact_registry.json` changed. Re-verified live on 2 previously-broken
+cases: both now answer correctly.
+
 **Artifacts + hashes (independently re-verifiable, per `eval/split_summary.json`):**
-- `data/fact_registry.json` — sha256 `1bcba7da822d099558eaae5f15471e22422d344d6c6eb99151f9435d629e5624`
+- `data/fact_registry.json` — sha256 `1c0d1f8cafd6f5f1329207c4f7c67e1e195c8ef4bcd6634f666393f7643f4477`
 - `data/probes/dev_split.json` (24 cases) — sha256 `f0ed240d6c870177459d519361b759d187f1ef677d80f8770f85f122fcc05c02`
 - `data/probes/test_split.locked.json` (16 cases) — sha256 `a420693954f0ecba9cdfb07d25c98845dd04ca343a31c4092d4d7a995e358dd9`
 - `data/correction_signals.json` — 8 entries, one per `memory_correction` entity, never read by any baseline arm.
